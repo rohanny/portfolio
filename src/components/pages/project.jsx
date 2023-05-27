@@ -19,7 +19,8 @@ const Project = () => {
               alt="Fine Dine"
               src={project3}
               className="border border-white cursor-pointer"
-              whileHover={{ scale: 1.5, type: "spring" }}
+              loading="lazy"
+              whileHover={{ scale: 1.1, type: "spring" }}
               transition={{
                 type: "spring",
                 damping: 10,
@@ -54,8 +55,8 @@ const Project = () => {
             <motion.img
               alt="Article Summarizer"
               src={project2}
-              className="border border-white cursor-pointer"
-              whileHover={{ scale: 1.5, type: "spring" }}
+              loading="lazy"
+              whileHover={{ scale: 1.1, type: "spring" }}
               transition={{
                 type: "spring",
                 damping: 10,
@@ -93,8 +94,8 @@ const Project = () => {
             <motion.img
               alt="Preeti Bhojan"
               src={project1}
-              className="border border-white cursor-pointer"
-              whileHover={{ scale: 1.5, type: "spring" }}
+              loading="lazy"
+              whileHover={{ scale: 1.1, type: "spring" }}
               transition={{
                 type: "spring",
                 damping: 10,
@@ -131,8 +132,8 @@ const Project = () => {
             <motion.img
               alt="Netfix"
               src={project4}
-              className="border border-white cursor-pointer"
-              whileHover={{ scale: 1.5, type: "spring" }}
+              loading="lazy"
+              whileHover={{ scale: 1.1, type: "spring" }}
               transition={{
                 type: "spring",
                 damping: 10,
