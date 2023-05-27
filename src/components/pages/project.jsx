@@ -11,7 +11,7 @@ const Project = () => {
   return (
     <div className="mx-4 sm:mx-28" id="project">
       <div className="container mx-auto px-4 sm:px-20 py-10 my-10 h-auto border-l border-r border-lightGrey">
-        <p className="font-satoshi text-start text-4xl sm:text-5xl">Projects</p>
+        <p className="font-satoshi text-start text-3xl sm:text-4xl">Projects</p>
 
         <div className="mx-auto py-5  w-full sm:grid sm:grid-cols-8">
           <div className="col-span-2 py-10 px-4 sm:px-0">

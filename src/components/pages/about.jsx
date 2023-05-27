@@ -10,7 +10,7 @@ const About = () => {
   return (
     <div className="mx-4 sm:mx-28" id="about">
       <div className="container mx-auto px-4 sm:px-20 pt-20 pb-28 my-10 h-auto border-b border-t border-lightGrey">
-        <p className="font-satoshi text-4xl sm:text-5xl">About</p>
+        <p className="font-satoshi text-3xl sm:text-4xl">About</p>
         <div className="text-lightGrey font-figtree text-lg sm:text-md font-light space-y-4 my-10 sm:w-3/5">
           <Reveal>
             <p>Hello there! I’m Rohan, a web dev.</p>

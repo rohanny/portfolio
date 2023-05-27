@@ -63,11 +63,11 @@ const Navbar = () => {
       animate={isOpen ? "open" : "closed"}
       ref={containerRef}
     >
-      <div className="container mx-auto py-4 sm:py-4 px-4 sm:px-20 border border-lightGrey flex justify-between">
-        <div className="">
-          <img alt="logo" src={logo} className="h-10 w-10" />
+      <div className="container mx-auto py-2 sm:py-4 px-4 sm:px-20 border border-lightGrey flex justify-between">
+        <div className="pt-2 sm:pt-0">
+          <img alt="logo" src={logo} className="h-7 w-7 sm:h-10 sm:w-10" />
         </div>
-        <div className="font-figtree hidden sm:flex space-x-12 text-sm sm:text-2xl font-light">
+        <div className="font-figtree hidden sm:flex space-x-6 text-sm sm:text-xl font-light pt-1 text-[#d5eaeb]">
           <motion.a
             transition={{ duration: 0.5, delay: 0.1 }}
             onClick={() => {
