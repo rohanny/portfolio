@@ -114,15 +114,45 @@ const Navbar = () => {
         </div>
       </div>
       <motion.ul
-        className="px-10 mt-4 py-4 space-y-2 text-xl border border-lightGrey"
+        className="px-10 mt-4 py-4 space-y-2 text-xl border border-lightGrey font-satoshi"
         style={{ display: isClick ? "block" : "none" }}
         variants={variantsUl}
       >
-        <motion.li variants={variants} whileTap={{ scale: 0.95 }}>
+        <motion.li
+          variants={variants}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            scrollToComponent("home");
+          }}
+        >
           home
         </motion.li>
-        <motion.li variants={variants} whileTap={{ scale: 0.95 }}>
-          home
+        <motion.li
+          variants={variants}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            scrollToComponent("about");
+          }}
+        >
+          about
+        </motion.li>
+        <motion.li
+          variants={variants}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            scrollToComponent("project");
+          }}
+        >
+          project
+        </motion.li>
+        <motion.li
+          variants={variants}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            scrollToComponent("contact");
+          }}
+        >
+          contact
         </motion.li>
       </motion.ul>
     </motion.nav>

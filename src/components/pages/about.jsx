@@ -39,7 +39,7 @@ const About = () => {
                   Node JS
                 </p>
               </div>
-              <div className="flex w-full lg:w-1/5 space-x-6 border border-lightGrey p-3">
+              <div className="flex w-full lg:w-1/5 space-x-4 border border-lightGrey p-3">
                 <img alt="Tailwind Css" src={tailwind} className="h-6 pl-2" />
                 <p className="text-lg text-lightGrey font-light font-satoshi pr-4">
                   Tailwind Css
@@ -59,7 +59,7 @@ const About = () => {
                   Figma
                 </p>
               </div>
-              <div className="flex w-full lg:w-1/5 space-x-6 border border-lightGrey p-3">
+              <div className="flex w-full lg:w-1/5 space-x-4 border border-lightGrey p-3">
                 <img alt="Framer" src={framer} className="h-8 pl-2" />
                 <p className="text-lg text-lightGrey font-light font-satoshi pr-4">
                   Framer
