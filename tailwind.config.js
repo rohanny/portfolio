@@ -9,6 +9,7 @@ module.exports = {
       lightBlue : "#72A6D5",
       background: "#090C0D",
       lightGrey:"#A6A6A6",
+      borderColor:"#494F52",
       white:"#FFFFFF",
       black:"#000000",
       inputBg:"#181A1B"

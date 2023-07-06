@@ -58,12 +58,12 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className="sticky top-0 z-10 bg-background mx-4 sm:mx-28 pt-5"
+      className="bg-background mx-4 sm:mx-28 pt-5"
       initial={false}
       animate={isOpen ? "open" : "closed"}
       ref={containerRef}
     >
-      <div className="container mx-auto py-2 sm:py-4 px-4 sm:px-20 border border-lightGrey flex justify-between">
+      <div className="container mx-auto py-2 sm:py-4 px-4 sm:px-20 border-t border-b border-borderColor flex justify-between">
         <div className="pt-2 sm:pt-0">
           <img alt="logo" src={logo} className="h-7 w-7 sm:h-10 sm:w-10" />
         </div>

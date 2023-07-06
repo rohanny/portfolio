@@ -5,6 +5,7 @@ import About from "./components/pages/about";
 import Project from "./components/pages/project";
 import Contact from "./components/pages/contact";
 import ProgressBar from "./components/utils/ProgressBar";
+import Footer from "./components/utils/footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <About />
         <Project />
         <Contact />
+        <Footer/>
       </div>
     </>
   );

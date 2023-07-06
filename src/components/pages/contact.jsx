@@ -46,9 +46,9 @@ const Contact = () => {
 
   return (
     <div className="mx-4 sm:mx-28 pb-5" id="contact">
-      <div className="container mx-auto h-auto px-4 sm:px-20 py-10 border-t border-b border-lightGrey">
+      <div className="container mx-auto h-auto px-4 sm:px-20 py-10 border-t border-b border-borderColor">
         <p className="font-satoshi text-3xl sm:text-4xl">Contact Me</p>
-        <div className="mx-auto w-auto py-20 flex justify-center">
+        <div className="mx-auto w-auto py-10 flex justify-center">
           <form
             ref={form}
             onSubmit={sendEmail}
