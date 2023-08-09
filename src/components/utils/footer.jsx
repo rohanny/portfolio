@@ -1,4 +1,3 @@
-import git from "../../assets/svg/git.svg";
 import insta from "../../assets/svg/instagram.svg";
 import tweet from "../../assets/svg/twitter.svg";
 import inn from "../../assets/svg/linkedin.svg";
