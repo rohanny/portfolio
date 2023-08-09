@@ -5,7 +5,7 @@ const Contact = () => {
   const form = useRef();
   const [error, setError] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
-  const publicKey = process.env.REACT_APP_PUBLIC_KEY;
+  const publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
 
   const sendEmail = (e) => {
     e.preventDefault();

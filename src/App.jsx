@@ -18,10 +18,11 @@ function App() {
         <About />
         <Project />
         <Contact />
-        <Footer/>
-        <Analytics />
+        <Footer />
+        <Analytics /> 
       </div>
     </>
   );
 }
+
 export default App;
