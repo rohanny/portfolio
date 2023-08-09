@@ -1,3 +1,4 @@
+
 import insta from "../../assets/svg/instagram.svg";
 import tweet from "../../assets/svg/twitter.svg";
 import inn from "../../assets/svg/linkedin.svg";
@@ -6,7 +7,7 @@ import lc from "../../assets/svg/leetcode.svg";
 const Footer = () => {
   return (
     <>
-      <div className="container pb-4 sm:px-20 h-auto">
+      <div className="container mx-auto pb-4 sm:px-20 h-auto">
         <footer className="px-4 flex justify-center space-x-8">
           <a href="https://github.com/rohannY">
             <svg
