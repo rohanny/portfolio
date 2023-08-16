@@ -1,10 +1,11 @@
 import { useState, useRef } from "react";
 import emailjs from "emailjs-com";
 
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 const Contact = () => {
   const form = useRef();
-  const [error, setError] = useState(false);
-  const [isSuccess, setSuccess] = useState(false);
   const publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
 
   const sendEmail = (e) => {
@@ -14,13 +15,16 @@ const Contact = () => {
       form.current.message.value === "" ||
       form.current.user_email.value === ""
     ) {
-      console.log(form.current.user_email.value);
-      setError(true);
-
-      setTimeout(() => {
-        setError(false);
-      }, 3000);
-
+      toast.error('Empty Value', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     } else {
       emailjs
         .sendForm(
@@ -31,14 +35,28 @@ const Contact = () => {
         )
         .then(
           (result) => {
-            setSuccess(true);
-
-            setTimeout(() => {
-              setSuccess(false);
-            }, 3000);
+            toast.success('Message Sent', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
           },
           (error) => {
-            console.log(error.text);
+            toast.error('Error', {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+              });
           }
         );
     }
@@ -46,6 +64,7 @@ const Contact = () => {
 
   return (
     <div className="mx-4 sm:mx-28 pb-5" id="contact">
+      <ToastContainer/>
       <div className="container mx-auto h-auto px-4 sm:px-20 py-10 border-t border-b border-borderColor">
         <p className="font-satoshi text-3xl sm:text-4xl">Contact Me</p>
         <div className="mx-auto w-auto py-10 flex justify-center">
@@ -81,19 +100,11 @@ const Contact = () => {
                 placeholder="This is where the fun begins"
               ></textarea>
             </div>
-            {error && (
-              <p className="font-figtree text-[#f85d5d] text-center">
-                Empty Value
-              </p>
-            )}
-            {isSuccess && (
-              <p className="font-figtree text-[#39f039] text-center">Sent</p>
-            )}
             <div className="px-24">
               <input
                 type="submit"
-                value={isSuccess?"Sent":"Send"}
-                className={` ${isSuccess ? "text-[#4dd870]" : "text-white"} ${error ? "text-[#f95755]" : "text-white"}   cursor-pointer px-10 py-4 text-center border border-lightGrey hover:border-lightBlue hover:border-2 hover:text-lightBlue`}
+                value="Send"
+                className="cursor-pointer px-10 py-4 text-center border border-lightGrey hover:border-lightBlue hover:border-2 hover:text-lightBlue"
               />
             </div>
           </form>

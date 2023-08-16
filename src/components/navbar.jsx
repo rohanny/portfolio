@@ -1,4 +1,4 @@
-import logo from "../../assets/svg/logo.svg";
+import logo from "../assets/svg/logo.svg";
 import { useState, useEffect, useRef } from "react";
 import { motion, useCycle } from "framer-motion";
 import { MenuToggle } from "../utils/MenuToggle";

@@ -1,9 +1,9 @@
-import react from "../../assets/svg/react.svg";
-import tailwind from "../../assets/svg/Tailwind.svg";
-import node from "../../assets/svg/node.svg";
-import figma from "../../assets/svg/Figma.svg";
-import scss from "../../assets/svg/Scss.svg";
-import next from "../../assets/svg/next.svg";
+import react from "../assets/svg/react.svg";
+import tailwind from "../assets/svg/Tailwind.svg";
+import node from "../assets/svg/node.svg";
+import figma from "../assets/svg/Figma.svg";
+import scss from "../assets/svg/Scss.svg";
+import next from "../assets/svg/next.svg";
 import { Reveal } from "../utils/Reveal";
 
 const About = () => {

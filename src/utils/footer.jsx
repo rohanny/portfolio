@@ -1,8 +1,8 @@
 
-import insta from "../../assets/svg/instagram.svg";
-import tweet from "../../assets/svg/twitter.svg";
-import inn from "../../assets/svg/linkedin.svg";
-import lc from "../../assets/svg/leetcode.svg";
+import insta from "../assets/svg/instagram.svg";
+import tweet from "../assets/svg/twitter.svg";
+import inn from "../assets/svg/linkedin.svg";
+import lc from "../assets/svg/leetcode.svg";
 
 const Footer = () => {
   return (

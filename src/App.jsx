@@ -1,11 +1,11 @@
 import "./index.css";
-import Navbar from "./components/pages/navbar";
-import Home from "./components/pages/home";
-import About from "./components/pages/about";
-import Project from "./components/pages/project";
-import Contact from "./components/pages/contact";
-import ProgressBar from "./components/utils/ProgressBar";
-import Footer from "./components/utils/footer";
+import Navbar from "./components/navbar";
+import Home from "./components/home";
+import About from "./components/about";
+import Project from "./components/project";
+import Contact from "./components/contact";
+import ProgressBar from "./utils/ProgressBar";
+import Footer from "./utils/footer";
 import { Analytics } from '@vercel/analytics/react';
 
 function App() {
