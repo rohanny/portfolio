@@ -3,7 +3,7 @@
 
 Source code for my personal website, built with  [React+Vite](https://github.com/vitejs/vite).
 
-**Hosted on Vercel** [Visit](http://rohanny.me/)
+**Hosted on Vercel** [Visit](http://rohanny.vercel.app/)
 
 ####  Libraries Used
 
