@@ -2,10 +2,6 @@ import project1 from "../assets/images/Main.png";
 import project2 from "../assets/images/article.jpg";
 import project3 from "../assets/images/fineDine.png";
 import project4 from "../assets/images/netflix.png";
-import git from "../assets/svg/git.svg";
-import live from "../assets/svg/live.svg";
-import { Reveal } from "../utils/Reveal";
-import { motion } from "framer-motion";
 
 import ProjectCard from "./projectCard";
 
