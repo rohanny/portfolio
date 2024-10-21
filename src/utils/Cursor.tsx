@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import React, { useEffect } from "react";
 
 const Cursor = () => {
-  const [cursorXY, setCursorXY] = useState({ x: -100, y: -100 });
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -11,7 +10,7 @@ const Cursor = () => {
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    const moveCursor = (e) => {
+    const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX - 16);
       cursorY.set(e.clientY - 16);
     };
@@ -20,18 +19,16 @@ const Cursor = () => {
     return () => {
       window.removeEventListener("mousemove", moveCursor);
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   return (
-    <>
-      <motion.div
-        className="cursor"
-        style={{
-          translateX: cursorXSpring,
-          translateY: cursorYSpring,
-        }}
-      />
-    </>
+    <motion.div
+      className="cursor"
+      style={{
+        translateX: cursorXSpring,
+        translateY: cursorYSpring,
+      }}
+    />
   );
 };
 

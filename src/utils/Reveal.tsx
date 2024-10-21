@@ -1,11 +1,19 @@
+import { motion, useAnimation, useInView } from "framer-motion";
 import React, { useEffect, useRef } from "react";
-import { motion, useInView, useAnimation } from "framer-motion";
 
-export const Reveal = ({ children, width = "fit-content" }) => {
+interface RevealProps {
+  width?: string;
+  children: React.ReactNode;
+}
+
+export const Reveal: React.FC<RevealProps> = ({
+  children,
+  width = "fit-content",
+}) => {
   const mainControls = useAnimation();
   const slideControls = useAnimation();
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
@@ -41,12 +49,14 @@ export const Reveal = ({ children, width = "fit-content" }) => {
         transition={{ duration: 0.5, ease: "easeIn" }}
         style={{
           position: "absolute",
-          top: 4,
-          bottom: 4,
+          top: 0,
+          bottom: 0,
           left: 0,
           right: 0,
           zIndex: 20,
+          backgroundColor: "#000",
         }}
+        aria-hidden="true"
       />
     </div>
   );

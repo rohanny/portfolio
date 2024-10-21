@@ -1,15 +1,15 @@
-import logo from "../assets/svg/logo.svg";
-import { useState, useEffect, useRef } from "react";
 import { motion, useCycle } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import logo from "../assets/svg/logo.svg";
 import { MenuToggle } from "../utils/MenuToggle";
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const [isClick, setisClicked] = useState(false);
+  const [isClick, setIsClicked] = useState(false);
 
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const scrollToComponent = (cmpnt) => {
+  const scrollToComponent = (cmpnt: string) => {
     const component = document.getElementById(cmpnt);
     if (component) {
       component.scrollIntoView({ behavior: "smooth" });
@@ -45,16 +45,17 @@ const Navbar = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) {
-        setisClicked(false);
+        setIsClicked(false);
         toggleOpen();
       }
     };
-    handleResize();
+
+    handleResize(); // Call once to set initial state
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [toggleOpen]);
 
   return (
     <motion.nav
@@ -70,34 +71,26 @@ const Navbar = () => {
         <div className="font-figtree hidden sm:flex space-x-6 text-sm sm:text-xl font-light pt-1 text-[#d5eaeb]">
           <motion.a
             transition={{ duration: 0.5, delay: 0.1 }}
-            onClick={() => {
-              scrollToComponent("home");
-            }}
+            onClick={() => scrollToComponent("home")}
             className="cursor-pointer"
           >
             home
           </motion.a>
           <motion.a
             transition={{ duration: 0.5, delay: 0.1 }}
-            onClick={() => {
-              scrollToComponent("about");
-            }}
+            onClick={() => scrollToComponent("about")}
             className="cursor-pointer"
           >
             about
           </motion.a>
           <motion.a
-            onClick={() => {
-              scrollToComponent("project");
-            }}
+            onClick={() => scrollToComponent("project")}
             className="cursor-pointer"
           >
             project
           </motion.a>
           <motion.a
-            onClick={() => {
-              scrollToComponent("contact");
-            }}
+            onClick={() => scrollToComponent("contact")}
             className="cursor-pointer"
           >
             contact
@@ -108,7 +101,7 @@ const Navbar = () => {
           <MenuToggle
             toggle={() => {
               toggleOpen();
-              setisClicked(!isClick);
+              setIsClicked(!isClick);
             }}
           />
         </div>
@@ -121,36 +114,28 @@ const Navbar = () => {
         <motion.li
           variants={variants}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            scrollToComponent("home");
-          }}
+          onClick={() => scrollToComponent("home")}
         >
           home
         </motion.li>
         <motion.li
           variants={variants}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            scrollToComponent("about");
-          }}
+          onClick={() => scrollToComponent("about")}
         >
           about
         </motion.li>
         <motion.li
           variants={variants}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            scrollToComponent("project");
-          }}
+          onClick={() => scrollToComponent("project")}
         >
           project
         </motion.li>
         <motion.li
           variants={variants}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            scrollToComponent("contact");
-          }}
+          onClick={() => scrollToComponent("contact")}
         >
           contact
         </motion.li>

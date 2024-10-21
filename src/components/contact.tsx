@@ -1,21 +1,20 @@
-import { useState, useRef } from "react";
 import emailjs from "emailjs-com";
-
-import { toast, ToastContainer } from 'react-toastify';
+import React, { FormEvent, useRef } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Contact = () => {
-  const form = useRef();
+const Contact: React.FC = () => {
+  const form = useRef<HTMLFormElement>(null);
   const publicKey = import.meta.env.VITE_APP_PUBLIC_KEY;
 
-  const sendEmail = (e) => {
+  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
-      form.current.from_name.value === "" ||
-      form.current.message.value === "" ||
-      form.current.user_email.value === ""
+      form.current?.from_name.value === "" ||
+      form.current?.message.value === "" ||
+      form.current?.user_email.value === ""
     ) {
-      toast.error('Empty Value', {
+      toast.error("Empty Value", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -24,18 +23,18 @@ const Contact = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        });
+      });
     } else {
       emailjs
         .sendForm(
           "service_10vthmj",
           "template_x78n0mh",
-          form.current,
+          form.current!, // Use non-null assertion here
           publicKey
         )
         .then(
           (result) => {
-            toast.success('Message Sent', {
+            toast.success("Message Sent", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -44,10 +43,10 @@ const Contact = () => {
               draggable: true,
               progress: undefined,
               theme: "dark",
-              });
+            });
           },
           (error) => {
-            toast.error('Error', {
+            toast.error("Error", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -56,7 +55,7 @@ const Contact = () => {
               draggable: true,
               progress: undefined,
               theme: "dark",
-              });
+            });
           }
         );
     }
@@ -64,7 +63,7 @@ const Contact = () => {
 
   return (
     <div className="mx-4 sm:mx-28 pb-5" id="contact">
-      <ToastContainer/>
+      <ToastContainer />
       <div className="container mx-auto h-auto px-4 sm:px-20 py-10 border-t border-b border-borderColor">
         <p className="font-satoshi text-3xl sm:text-4xl">Contact Me</p>
         <div className="mx-auto w-auto py-10 flex justify-center">
@@ -76,11 +75,11 @@ const Contact = () => {
             <div className="flex flex-col space-y-4 mx-6 sm:mx-0">
               <label className="text-xl sm:text-2xl">Name</label>
               <input
-                type="name"
+                type="text"
                 name="from_name"
                 className="px-6 sm:px-10 py-4 font-light outline-none border border-gray-50 text-sm sm:text-lg bg-inputBg border-lightGrey"
                 placeholder="Anakin Skywalker"
-              ></input>
+              />
             </div>
             <div className="flex flex-col space-y-4 mx-6 sm:mx-0">
               <label className="text-xl sm:text-2xl">Email</label>
@@ -89,16 +88,15 @@ const Contact = () => {
                 name="user_email"
                 className="px-6 sm:px-10 py-4 font-light outline-none border border-gray-50 text-sm sm:text-lg bg-inputBg border-lightGrey"
                 placeholder="chosenone@skywalker.com"
-              ></input>
+              />
             </div>
             <div className="flex flex-col space-y-4 mx-6 sm:mx-0">
               <label className="text-xl sm:text-2xl">Message</label>
               <textarea
-                type="message"
                 name="message"
                 className="px-6 sm:px-10 py-4 font-light outline-none border border-gray-50 text-sm sm:text-lg bg-inputBg border-lightGrey"
                 placeholder="This is where the fun begins"
-              ></textarea>
+              />
             </div>
             <div className="px-24">
               <input

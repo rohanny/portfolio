@@ -1,14 +1,15 @@
-import "./index.css";
-import Navbar from "./components/navbar";
-import Home from "./components/home";
+import { Analytics } from "@vercel/analytics/react";
+import React from "react";
 import About from "./components/about";
-import Project from "./components/project";
 import Contact from "./components/contact";
+import Home from "./components/home";
+import Navbar from "./components/navbar";
+import Project from "./components/project";
+import "./index.css";
 import ProgressBar from "./utils/ProgressBar";
 import Footer from "./utils/footer";
-import { Analytics } from '@vercel/analytics/react';
 
-function App() {
+const App: React.FC = () => {
   return (
     <>
       <ProgressBar />
@@ -19,10 +20,10 @@ function App() {
         <Project />
         <Contact />
         <Footer />
-        <Analytics /> 
+        <Analytics />
       </div>
     </>
   );
-}
+};
 
 export default App;
