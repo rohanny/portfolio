@@ -2,7 +2,7 @@ import React from "react";
 import { Reveal } from "../utils/Reveal";
 import "../utils/scroll.css";
 
-const Home = () => {
+const Home: React.FC = () => {
   const scrollToComponent = () => {
     const component = document.getElementById("about");
     if (component) {
@@ -16,7 +16,7 @@ const Home = () => {
         <div className="space-y-3 sm:space-y-5">
           <Reveal>
             <p className="font-satoshi font-light text-xl py-2 md:text-2xl sm:text-4xl tracking-wide">
-              Hi,I'm
+              Hi, I'm
             </p>
           </Reveal>
           <Reveal>
@@ -39,11 +39,11 @@ const Home = () => {
             </p>
           </Reveal>
         </div>
-        <div className="w-full">
+        <div className="w-full relative py-14">
           <div
             className="h-10 sm:h-20 absolute bottom-0 left-1/2 cursor-pointer mouse"
             onClick={scrollToComponent}
-          ></div>
+          />
         </div>
       </div>
     </div>

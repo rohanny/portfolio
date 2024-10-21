@@ -1,12 +1,12 @@
-import react from "../assets/svg/react.svg";
-import tailwind from "../assets/svg/Tailwind.svg";
-import node from "../assets/svg/node.svg";
+import React from "react";
 import figma from "../assets/svg/Figma.svg";
 import scss from "../assets/svg/Scss.svg";
+import tailwind from "../assets/svg/Tailwind.svg";
 import next from "../assets/svg/next.svg";
+import node from "../assets/svg/node.svg";
+import react from "../assets/svg/react.svg";
 import { Reveal } from "../utils/Reveal";
-
-const About = () => {
+const About: React.FC = () => {
   return (
     <div className="mx-4 sm:mx-28" id="about">
       <div className="container mx-auto px-4 sm:px-20 pt-20 pb-28 my-10 h-auto border-b border-t border-borderColor">
@@ -18,10 +18,10 @@ const About = () => {
               I passionately combine good design, technology, and innovation in
               all my projects, which I like to accompany from the first idea to
               release. Currently, I'm focused on the development of responsive
-              user interfaces with React and I'm interested in JavaScript, Web
-              Technologies.
+              user interfaces with React and I'm interested in JavaScript and
+              Web Technologies.
             </p>
-            <br/>
+            <br />
             <p>Here’s my current tech stack</p>
           </Reveal>
         </div>
