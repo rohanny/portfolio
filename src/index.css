@@ -1,31 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("assets/fonts/Satoshi-Regular.woff");
-}
-
-.switch[data-isOn="true"] {
-  justify-content: flex-end;
-}
-
-.progress {
-  transform: rotate(-90deg);
-}
-
-.cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  background-color: rgba(203, 203, 203, 0.495);
+@layer base {
+  :root {
+    --radius: 0.5rem
+  }
 }

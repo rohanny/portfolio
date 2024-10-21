@@ -1,29 +1,20 @@
-import { Analytics } from "@vercel/analytics/react";
-import React from "react";
-import About from "./components/about";
-import Contact from "./components/contact";
-import Home from "./components/home";
-import Navbar from "./components/navbar";
-import Project from "./components/project";
-import "./index.css";
-import ProgressBar from "./utils/ProgressBar";
-import Footer from "./utils/footer";
-
-const App: React.FC = () => {
+function App() {
   return (
-    <>
-      <ProgressBar />
-      <div className="bg-background text-white">
-        <Navbar />
-        <Home />
-        <About />
-        <Project />
-        <Contact />
-        <Footer />
-        <Analytics />
+    <div className="w-screen h-screen bg-gradient-to-r from-gray-600 to-gray-800 relative">
+      <div className="flex text-center flex-col font-satoshi flex-wrap text-gray-50 items-center justify-center h-screen relative z-10">
+        <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-10 shadow-lg border border-white border-opacity-30 relative z-20">
+          <p className="text-3xl tracking-wide mb-4">👋 Hey there, stalker!</p>
+          <p className="text-2xl font-extralight">
+            🚀 I'm working on an exciting new redesign for my portfolio.
+          </p>
+          <p className="text-lg mt-2">
+            ✨ Stay tuned, amazing things are coming soon!
+          </p>
+          <p className="text-sm mt-4">🔧 Currently under construction 🛠️</p>
+        </div>
       </div>
-    </>
+    </div>
   );
-};
+}
 
 export default App;
