@@ -1,6 +1,17 @@
+import { Globe, Home, User } from "lucide-react"; // Import icons as needed
+import { useState } from "react";
 import Sidebar from "./components/ui/sidebar";
 
+const items = [
+  { label: "Home", icon: <Home className="w-full h-full text-[#666666]" /> },
+  { label: "Items", icon: <Globe className="w-full h-full text-[#666666]" /> },
+  { label: "Profile", icon: <User className="w-full h-full text-[#666666]" /> },
+];
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
   return (
     // <div className="w-screen h-screen bg-gradient-to-r from-gray-600 to-gray-800 relative">
     //   <div className="flex text-center flex-col font-satoshi flex-wrap text-gray-50 items-center justify-center h-screen relative z-10">
@@ -17,7 +28,13 @@ function App() {
     //   </div>
     // </div>
 
-    <Sidebar />
+    <div>
+      <Sidebar
+        items={items}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={() => {}} // No longer needed, but required for props
+      />
+    </div>
   );
 }
 

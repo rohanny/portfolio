@@ -1,65 +1,128 @@
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Globe } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // Import only the icons you need
 import { useState } from "react";
 
-export default function Sidebar() {
+interface SidebarItem {
+  label: string;
+  icon: JSX.Element;
+}
+
+interface SidebarProps {
+  items: SidebarItem[];
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  items,
+  isDarkMode,
+  toggleDarkMode,
+}) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
 
+  const sidebarStyles = isDarkMode
+    ? "bg-[#2b2b2b] text-[#f5f5f0] border-[#444444]"
+    : "bg-[#fafaf7] text-[#454545] border-[#e0e0d8]";
+
   return (
-    <div className="p-10 font-satoshi">
+    <div
+      className={`px-10 font-satoshi ${
+        isDarkMode ? "bg-[#1a1a1a]" : "bg-[#f5f5f0]"
+      }`}
+    >
       <motion.div
-        initial={{ width: isExpanded ? "16.66%" : "4rem" }}
-        animate={{ width: isExpanded ? "16.66%" : "4rem" }}
+        initial={{ width: isExpanded ? "16.66%" : "4.4rem" }}
+        animate={{ width: isExpanded ? "16.66%" : "4.4rem" }}
         transition={{
-          duration: 10,
-          type: "spring",
-          stiffness: 400,
-          damping: 40,
+          duration: 1.2,
+          ease: [0.16, 1, 0.3, 1],
         }}
-        className="h-[80vh] bg-zinc-800 rounded-2xl relative flex flex-col px-2 py-10 transition-all shadow-lg mx-auto"
+        className={`h-[80vh] rounded-2xl relative flex flex-col px-2 py-10 transition-all shadow-md mx-auto border-[1px] ${sidebarStyles}`}
         style={{
           position: "absolute",
           top: "50%",
           transform: "translateY(-50%)",
         }}
       >
-        <div className="text-[#eee] font-medium space-y-2">
-          {[...Array(2)].map((_, index) => (
+        <div className="font-medium space-y-2">
+          {items.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{
-                delay: isExpanded ? 0.3 * (index + 1) : 0,
-                duration: 0.6,
-                ease: "easeInOut",
+              initial={{
+                opacity: 0,
+                x: -30,
+                backgroundColor: isDarkMode ? "#2b2b2b" : "#fafaf7",
               }}
-              whileHover={{ backgroundColor: "#3b3b3b" }}
-              className="w-full p-3 flex gap-4 items-center rounded-xl cursor-pointer"
+              animate={{
+                opacity: 1,
+                x: 0,
+                backgroundColor: isDarkMode ? "#2b2b2b" : "#fafaf7",
+              }}
+              whileHover={{
+                backgroundColor: isDarkMode ? "#444444" : "#f2eee3",
+                color: isDarkMode ? "#ffffff" : "#000000", // Change text color on hover
+              }}
+              transition={{
+                backgroundColor: { duration: 0.2, ease: "easeInOut" },
+                default: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+              }}
+              className={`w-full p-3 flex gap-4 items-center rounded-xl cursor-pointer border-[1px] ${
+                isDarkMode ? "border-[#444444]" : "border-[#e5e5dd]"
+              }`}
             >
               <div className="w-6 h-6 flex items-center justify-center">
-                <Globe className="w-full h-full" />
+                <motion.div
+                  className={`w-full h-full ${
+                    isDarkMode ? "text-[#666666]" : "text-[#666666]"
+                  }`}
+                  whileHover={{
+                    color: isDarkMode ? "#ffffff" : "#000000", // Change icon color on hover
+                  }}
+                >
+                  {item.icon}
+                </motion.div>
               </div>
-              {isExpanded && <p>sdds</p>}
+              {isExpanded && <p>{item.label}</p>}
             </motion.div>
           ))}
         </div>
 
         <motion.button
           onClick={toggleSidebar}
-          initial={{ opacity: 0, rotate: 0 }}
-          animate={{ opacity: 1, rotate: isExpanded ? 0 : 180 }} // Rotate icon on toggle
-          transition={{ delay: 0.4, duration: 0.4, ease: "easeInOut" }}
-          whileHover={{ scale: 1.1, transition: { duration: 0.2 } }} // Scale effect on hover
-          className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-zinc-800 text-white p-2 rounded-full shadow-md hover:bg-zinc-700"
+          initial={{
+            opacity: 0,
+            rotate: 0,
+            backgroundColor: isDarkMode ? "#2b2b2b" : "#fafaf7",
+          }}
+          animate={{
+            opacity: 1,
+            rotate: isExpanded ? 0 : 180,
+            backgroundColor: isDarkMode ? "#2b2b2b" : "#fafaf7",
+          }}
+          whileHover={{
+            scale: 1.1,
+            backgroundColor: isDarkMode ? "#444444" : "#f2eee3",
+            transition: { duration: 0.2 },
+          }}
+          transition={{
+            backgroundColor: { duration: 0.2, ease: "easeInOut" },
+            default: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+          }}
+          className={`border-[1px] ${
+            isDarkMode ? "border-[#444444]" : "border-[#d4d4cc]"
+          } absolute top-1/2 -right-4 transform -translate-y-1/2 ${
+            isDarkMode ? "text-[#f5f5f0]" : "text-[#666666]"
+          } p-2 rounded-full shadow-sm`}
         >
           {isExpanded ? <ChevronLeft /> : <ChevronRight />}
         </motion.button>
       </motion.div>
     </div>
   );
-}
+};
+
+export default Sidebar;
