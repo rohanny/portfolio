@@ -1,38 +1,29 @@
-import { Globe, Home, User } from "lucide-react"; // Import icons as needed
+import { FileText, Home, Link, User } from "lucide-react"; // Importing relevant icons
 import { useState } from "react";
 import Sidebar from "./components/ui/sidebar";
 
 const items = [
-  { label: "Home", icon: <Home className="w-full h-full text-[#666666]" /> },
-  { label: "Items", icon: <Globe className="w-full h-full text-[#666666]" /> },
-  { label: "Profile", icon: <User className="w-full h-full text-[#666666]" /> },
+  { label: "Home", icon: <Home className="w-full h-full" /> },
+  { label: "About Me", icon: <User className="w-full h-full" /> }, // Combined About and Me
+  { label: "Projects", icon: <FileText className="w-full h-full" /> }, // Projects
+  { label: "Blogs", icon: <User className="w-full h-full" /> }, // Blogs
+  { label: "Links", icon: <Link className="w-full h-full" /> }, // Added Links
 ];
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode((prev) => !prev);
   };
-  return (
-    // <div className="w-screen h-screen bg-gradient-to-r from-gray-600 to-gray-800 relative">
-    //   <div className="flex text-center flex-col font-satoshi flex-wrap text-gray-50 items-center justify-center h-screen relative z-10">
-    //     <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-10 shadow-lg border border-white border-opacity-30 relative z-20">
-    //       <p className="text-3xl tracking-wide mb-4">👋 Hey there, stalker!</p>
-    //       <p className="text-2xl font-extralight">
-    //         🚀 I'm working on an exciting new redesign for my portfolio.
-    //       </p>
-    //       <p className="text-lg mt-2">
-    //         ✨ Stay tuned, amazing things are coming soon!
-    //       </p>
-    //       <p className="text-sm mt-4">🔧 Currently under construction 🛠️</p>
-    //     </div>
-    //   </div>
-    // </div>
 
-    <div>
+  return (
+    <div
+      className={`w-screen h-screen ${isDarkMode ? "bg-gray-900" : "bg-white"}`}
+    >
       <Sidebar
         items={items}
         isDarkMode={isDarkMode}
-        toggleDarkMode={() => {}} // No longer needed, but required for props
+        toggleDarkMode={toggleDarkMode}
       />
     </div>
   );
