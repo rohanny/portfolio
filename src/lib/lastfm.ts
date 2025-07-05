@@ -176,14 +176,9 @@ class LastFmService {
         limit: limit.toString()
       });
 
-      console.log('Last.fm API response:', data); // Debug log
-
       const tracks = data.recenttracks.track || [];
       
-      console.log('Tracks found:', tracks.length); // Debug log
-      
       if (tracks.length === 0) {
-        console.log('No tracks found, returning fallback data');
         return [{
           id: 'fallback-1',
           name: 'No recent tracks found',
@@ -199,8 +194,6 @@ class LastFmService {
         // Handle both single track and array of tracks
         const trackData = Array.isArray(track) ? track[0] : track;
         
-        console.log('Processing track:', trackData); // Debug log
-        
         return {
           id: trackData.mbid || `track-${index}`,
           name: this.cleanTrackName(trackData.name),
@@ -213,7 +206,6 @@ class LastFmService {
         };
       });
     } catch (error) {
-      console.error('Failed to get recent tracks:', error);
       return [];
     }
   }
@@ -225,7 +217,6 @@ class LastFmService {
       
       return nowPlaying || null;
     } catch (error) {
-      console.error('Failed to get now playing:', error);
       return null;
     }
   }
@@ -254,7 +245,6 @@ class LastFmService {
         playCount: parseInt(track.playcount)
       }));
     } catch (error) {
-      console.error('Failed to get top tracks:', error);
       return [];
     }
   }
@@ -276,7 +266,6 @@ class LastFmService {
         url: track.url
       }));
     } catch (error) {
-      console.error('Failed to search tracks:', error);
       return [];
     }
   }
@@ -299,7 +288,6 @@ class LastFmService {
         playCount: parseInt(track.playcount)
       }));
     } catch (error) {
-      console.error('Failed to get artist top tracks:', error);
       return [];
     }
   }
@@ -327,7 +315,6 @@ class LastFmService {
         playCount: parseInt(track.playcount)
       }));
     } catch (error) {
-      console.error('Failed to get weekly chart:', error);
       return [];
     }
   }
