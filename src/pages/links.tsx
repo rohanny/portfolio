@@ -95,7 +95,7 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
       </motion.div>
 
       {/* Links */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {links.map((link, index) => (
           <motion.button
             key={link.name}
@@ -110,10 +110,10 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
           >
             <div className="flex items-center gap-2">
               <div
-                className={`p-1.5 rounded ${
+                className={`${
                   isDarkMode
-                    ? "bg-zinc-800 text-zinc-300"
-                    : "bg-gray-100 text-gray-600"
+                    ? "text-zinc-300"
+                    : "text-gray-600"
                 }`}
               >
                 {link.icon}
@@ -127,7 +127,7 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
               </div>
             </div>
             <div
-              className={`text-sm ml-9 ${
+              className={`text-sm ml-6 ${
                 isDarkMode ? "text-zinc-400" : "text-gray-500"
               }`}
             >

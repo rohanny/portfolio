@@ -33,9 +33,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
             <motion.img
               src="https://avatars.githubusercontent.com/u/51793979?v=4&size=64"
               alt="Rohan Yadav"
-              className="w-16 h-16 rounded-full border-2 border-stone-400 shadow-lg"
+              className="w-16 h-16 rounded-full border-2 border-stone-400 shadow-lg cursor-pointer"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ 
+                rotate: 15,
+                scale: 1.05,
+                transition: { duration: 0.3, ease: "easeOut" }
+              }}
               transition={{ duration: 0.4, delay: 0.2 }}
             />
           </motion.div>
@@ -48,8 +53,10 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
             <div className="flex items-center gap-3 font-['Satoshi'] font-normal tracking-wide">
               <span
                 className={`text-lg font-bold italic font-['Playfair_Display'] ${
-                   isDarkMode ? "text-gray-100" : "text-stone-900"
-                 }`}
+                  isDarkMode
+                    ? "bg-gradient-to-r from-blue-300 to-indigo-300 bg-clip-text text-transparent"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+                }`}
               >
                 Hello There!
               </span>
@@ -73,13 +80,21 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
             transition={{ duration: 0.4, delay: 0.3 }}
           >
             I'm a{" "}
-            <span className="font-medium text-blue-600 dark:text-blue-400">
+            <span
+              className={`font-medium ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+                  : "bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent"
+              }`}
+            >
               UI Designer & Developer
             </span>{" "}
             who bridges the gap between beautiful design and functional code. I
             craft digital experiences that not only look stunning but solve real
             problems—taking projects from initial concept sketches to polished,
-            user-centered products.
+            user-centered products. Beyond design, I'm passionate about{" "}
+            <span className="italic">Data Structures & Algorithms</span> and{" "}
+            <span className="italic">Competitive Programming</span>.
           </motion.p>
 
           <motion.p
@@ -90,12 +105,10 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.5 }}
           >
-            Beyond the screen, I'm constantly exploring emerging design
-            patterns, contributing to open-source projects, and sharing insights
-            with the design community. I'm particularly fascinated by the
-            intersection of{" "}
-            <span className="italic">AI-driven design tools</span> and{" "}
-            <span className="italic">sustainable web practices</span>.
+            When not coding, I'm <span className="italic">gaming</span>,
+            listening to <span className="italic">music</span>, or watching{" "}
+            <span className="italic">movies</span> — because even{" "}
+            <span className="italic">Aragorn</span> took time from the throne.
           </motion.p>
 
           <motion.div
@@ -106,7 +119,13 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.6 }}
           >
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span
+              className={`w-2 h-2 rounded-full animate-pulse ${
+                isDarkMode
+                  ? "bg-gradient-to-r from-green-400 to-emerald-400"
+                  : "bg-gradient-to-r from-green-500 to-emerald-500"
+              }`}
+            ></span>
             Currently crafting delightful user experiences and pushing pixels
             with purpose.
           </motion.div>

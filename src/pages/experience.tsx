@@ -60,18 +60,18 @@ const WorkExperience: React.FC<WorkExperienceProps> = ({ isDarkMode }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
             >
-              <div className="w-full sm:w-32 text-left text-gray-600 dark:text-zinc-100 text-sm sm:text-base font-light mb-1 sm:mb-0">
+              <div className="w-full sm:w-32 text-left text-gray-600 dark:text-zinc-100 text-sm sm:text-base font-light pt-1 mb-1 sm:mb-0">
                 {exp.date}
               </div>
-              <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2 sm:gap-4 flex-1 w-full text-sm sm:text-base text-gray-700 dark:text-zinc-200 font-normal">
-                <span className={isDarkMode ? "text-zinc-100" : "text-gray-700"}>{exp.role}</span>
-                <button
+              <div className="flex align-middle items-start lg:items-center gap-2 sm:gap-4 flex-1 w-full text-sm sm:text-base text-gray-700 dark:text-zinc-200 font-normal">
+              <span className={`pt-2 ${isDarkMode ? "text-zinc-100" : "text-gray-700"}`}>{exp.role}</span>
+                              <button
                   onClick={() => handleCompanyClick(exp.company)}
-                  className={`flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-sm sm:text-base font-medium shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 ${isDarkMode ? 'bg-zinc-700 text-zinc-100' : 'bg-gray-100 text-gray-900 border border-gray-300'}`}
+                  className={`flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-sm sm:text-base font-medium shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 ${isDarkMode ? 'bg-zinc-700 text-zinc-100' : 'bg-amber-800/10 text-white border border-amber-800/20'}`}
                   style={{ cursor: 'pointer' }}
                 >
                   <span className="w-6 h-6 mr-2 flex items-center justify-center">{exp.logo}</span>
-                  <span className="hover:text-blue-500">{exp.company}</span>
+                  <span className="text-stone-300 hover:text-blue-100">{exp.company}</span>
                   {exp.product && <span className="ml-2 text-gray-400 dark:text-zinc-300 font-normal">{exp.product}</span>}
                 </button>
               </div>

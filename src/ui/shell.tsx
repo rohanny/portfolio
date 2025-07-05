@@ -21,6 +21,11 @@ const Shell: React.FC<ShellProps> = ({
       className={`w-full min-h-screen relative ${
         isDarkMode ? "bg-zinc-900" : "bg-stone-400"
       }`}
+      style={!isDarkMode ? {
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E")`,
+        backgroundBlendMode: 'overlay',
+        backgroundSize: '200px 200px'
+      } : {}}
     >
       {/* Gradient Blobs */}
       <div className="absolute inset-0 overflow-hidden hidden lg:block">
@@ -127,6 +132,25 @@ const Shell: React.FC<ShellProps> = ({
       >
         <div className="w-full max-w-4xl mx-auto h-full px-4 lg:px-0 lg:pt-32">
           {children}
+        </div>
+        
+        <div className="block w-full lg:w-1/3 absolute bottom-20 left-1/2 -translate-x-1/2 lg:left-[45%] lg:translate-x-0 text-center">
+          <p className={`text-xs font-light ${
+            isDarkMode ? "text-zinc-500" : "text-stone-600"
+          }`}>
+            made with passion by{" "}
+            <a 
+              href="https://x.com/rohanny" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={`hover:underline ${
+                isDarkMode ? "text-zinc-400 hover:text-zinc-300" : "text-stone-700 hover:text-stone-800"
+              }`}
+            >
+              @rohanny
+            </a>{" "}
+            © {new Date().getFullYear()}
+          </p>
         </div>
       </div>
 

@@ -87,8 +87,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [isToggleHovered, setIsToggleHovered] = useState(false);
 
   const sidebarStyles = isDarkMode
-    ? "bg-gradient-to-b from-zinc-900/90 to-zinc-800/90 text-zinc-100 border-zinc-700/40"
-    : "bg-stone-300/70 text-stone-900 border-stone-500/20";
+    ? "bg-zinc-900/20 text-zinc-100 border-zinc-700/30"
+    : "bg-stone-900/10 text-stone-900 border-stone-800/20";
 
   // Mobile version: compact, pill-shaped, floating
   const mobileSidebar = (
@@ -116,8 +116,8 @@ const Sidebar: React.FC<SidebarProps> = ({
         whileTap={{ scale: 0.95 }}
         className={`ml-1 w-8 h-8 flex items-center justify-center rounded-full border-[1px] transition-colors duration-200 ${
           isDarkMode
-            ? "border-zinc-700/40 bg-zinc-800/60 text-zinc-100 hover:border-zinc-500 hover:bg-zinc-700/80"
-            : "border-stone-500/30 bg-stone-200/60 text-stone-800 hover:border-stone-500 hover:bg-stone-200/80"
+            ? "border-zinc-700/30 bg-zinc-800/20 text-zinc-100 hover:border-zinc-600 hover:bg-zinc-800/40"
+            : "border-stone-800/20 bg-stone-900/10 text-stone-900 hover:border-stone-700 hover:bg-stone-900/20"
         }`}
       >
         {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -127,114 +127,114 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Desktop version: vertical sidebar
   const desktopSidebar = (
-    <motion.div
-      className={`
+      <motion.div
+        className={`
         flex-col items-stretch justify-start w-16 h-[70vh] rounded-2xl px-2 py-2
         shadow-xl border-[1px] ${sidebarStyles} backdrop-blur-sm bg-opacity-90
         hidden lg:flex
-      `}
-    >
-      <div className="font-medium flex flex-col gap-2 items-stretch justify-start flex-1">
-        {items.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{
-              opacity: 0,
-              x: -30,
-              backgroundColor: isDarkMode ? "rgba(39, 39, 42, 0.6)" : "rgba(214, 211, 209, 0.6)",
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-              backgroundColor: isDarkMode ? "rgba(39, 39, 42, 0.6)" : "rgba(214, 211, 209, 0.6)",
-            }}
-            onHoverStart={() => setHoveredIndex(index)}
-            onHoverEnd={() => setHoveredIndex(null)}
-            whileHover={{
-              backgroundColor: isDarkMode ? "rgba(63, 63, 70, 0.8)" : "rgba(168, 162, 158, 0.8)",
-              x: 2,
-              scale: 1.02,
-            }}
-            transition={{
-              backgroundColor: { duration: 0.2, ease: "easeInOut" },
-              x: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-              scale: { duration: 0.2, ease: "easeOut" },
-            }}
-            style={{ cursor: "pointer" }}
-            className={`cursor-pointer relative group w-12 h-12 p-3 flex gap-4 items-center rounded-xl border-[1px] ${
-              isDarkMode ? "border-zinc-700/40" : "border-stone-500/30"
-            } hover:shadow-sm`}
-            onClick={() => onItemClick?.(item.label)}
-          >
-            <motion.div
-              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
-              style={{
-                background: isDarkMode
-                  ? "radial-gradient(circle at 40% 50%, rgba(147, 197, 253, 0.1) 0%, transparent 60%)"
-                  : "radial-gradient(circle at 40% 50%, rgba(0,0,0,0.05) 0%, transparent 60%)",
-              }}
-              animate={{
-                scale: hoveredIndex === index ? [0.95, 1.05, 1] : 1,
-              }}
-              transition={{
-                duration: 0.8,
-                repeat: Infinity,
-                repeatType: "mirror",
-              }}
-            />
-            <motion.div
-              className="w-8 h-8 flex items-center justify-center relative rounded-lg"
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div 
-                className={`transition-all duration-200 ${
-                  isDarkMode 
-                    ? "[&>svg]:text-zinc-300 group-hover:[&>svg]:text-zinc-100" 
-                    : "[&>svg]:text-stone-800 group-hover:[&>svg]:text-stone-900"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              >
-                {item.icon}
-              </motion.div>
-              {hoveredIndex === index && (
-                <Tooltip text={item.label} isDarkMode={isDarkMode} />
-              )}
-            </motion.div>
-          </motion.div>
-        ))}
-      </div>
-      <motion.button
-        onClick={toggleDarkMode}
-        whileHover={{ scale: 1.05, y: -1 }}
-        whileTap={{ scale: 0.95 }}
-        onHoverStart={() => setIsToggleHovered(true)}
-        onHoverEnd={() => setIsToggleHovered(false)}
-        transition={{ duration: 0.2, ease: "easeOut" }}
-        style={{ cursor: "pointer" }}
-        className={`relative w-12 h-12 p-3 flex items-center justify-center rounded-xl border-[1px] transition-colors duration-200
-          ${isDarkMode
-            ? "border-zinc-700/40 bg-zinc-800/60 text-zinc-100 hover:border-zinc-500 hover:bg-zinc-700/80"
-            : "border-stone-500/30 bg-stone-200/60 text-stone-800 hover:border-stone-500 hover:bg-stone-200/80"}
-          lg:mt-4
         `}
       >
-        <motion.div className="w-6 h-6 flex items-center justify-center">
-          {isDarkMode ? (
-            <Sun className="w-5 h-5" />
-          ) : (
-            <Moon className="w-5 h-5" />
+      <div className="font-medium flex flex-col gap-2 items-stretch justify-start flex-1">
+          {items.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{
+                opacity: 0,
+                x: -30,
+                backgroundColor: isDarkMode ? "rgba(39, 39, 42, 0.2)" : "rgba(28, 25, 23, 0.1)",
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                backgroundColor: isDarkMode ? "rgba(39, 39, 42, 0.2)" : "rgba(28, 25, 23, 0.1)",
+              }}
+              onHoverStart={() => setHoveredIndex(index)}
+              onHoverEnd={() => setHoveredIndex(null)}
+              whileHover={{
+                backgroundColor: isDarkMode ? "rgba(63, 63, 70, 0.3)" : "rgba(28, 25, 23, 0.2)",
+                x: 2,
+                scale: 1.02,
+              }}
+              transition={{
+                backgroundColor: { duration: 0.2, ease: "easeInOut" },
+                x: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+                scale: { duration: 0.2, ease: "easeOut" },
+              }}
+              style={{ cursor: "pointer" }}
+              className={`cursor-pointer relative group w-12 h-12 p-3 flex gap-4 items-center rounded-xl border-[1px] ${
+                isDarkMode ? "border-zinc-700/30" : "border-stone-800/20"
+              } hover:shadow-sm`}
+              onClick={() => onItemClick?.(item.label)}
+            >
+              <motion.div
+                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
+                style={{
+                  background: isDarkMode
+                    ? "radial-gradient(circle at 40% 50%, rgba(147, 197, 253, 0.1) 0%, transparent 60%)"
+                    : "radial-gradient(circle at 40% 50%, rgba(0,0,0,0.05) 0%, transparent 60%)",
+                }}
+                animate={{
+                  scale: hoveredIndex === index ? [0.95, 1.05, 1] : 1,
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                }}
+              />
+              <motion.div
+                className="w-8 h-8 flex items-center justify-center relative rounded-lg"
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div 
+                  className={`transition-all duration-200 ${
+                    isDarkMode 
+                      ? "[&>svg]:text-zinc-300 group-hover:[&>svg]:text-zinc-100" 
+                      : "[&>svg]:text-stone-800 group-hover:[&>svg]:text-stone-900"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                >
+                  {item.icon}
+                </motion.div>
+                {hoveredIndex === index && (
+                  <Tooltip text={item.label} isDarkMode={isDarkMode} />
+                )}
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+        <motion.button
+          onClick={toggleDarkMode}
+        whileHover={{ scale: 1.05, y: -1 }}
+          whileTap={{ scale: 0.95 }}
+          onHoverStart={() => setIsToggleHovered(true)}
+          onHoverEnd={() => setIsToggleHovered(false)}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          style={{ cursor: "pointer" }}
+          className={`relative w-12 h-12 p-3 flex items-center justify-center rounded-xl border-[1px] transition-colors duration-200
+            ${isDarkMode
+              ? "border-zinc-700/30 bg-zinc-800/20 text-zinc-100 hover:border-zinc-600 hover:bg-zinc-800/40"
+              : "border-stone-800/20 bg-stone-900/10 text-stone-900 hover:border-stone-700 hover:bg-stone-900/20"}
+            lg:mt-4
+          `}
+        >
+          <motion.div className="w-6 h-6 flex items-center justify-center">
+            {isDarkMode ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </motion.div>
+          {isToggleHovered && (
+            <Tooltip
+              direction="top"
+              text={isDarkMode ? "Light" : "Dark"}
+              isDarkMode={isDarkMode}
+            />
           )}
-        </motion.div>
-        {isToggleHovered && (
-          <Tooltip
-            direction="top"
-            text={isDarkMode ? "Light" : "Dark"}
-            isDarkMode={isDarkMode}
-          />
-        )}
-      </motion.button>
-    </motion.div>
+        </motion.button>
+      </motion.div>
   );
 
   return (

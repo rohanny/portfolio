@@ -11,7 +11,7 @@ interface CompanyDetailsProps {
 const companyData = {
   "Softlink Global": {
     logo: "/softlink.png",
-    description: "Leading technology company specializing in innovative software solutions, digital transformation, and enterprise applications. Focuses on creating scalable, modern applications with cutting-edge technologies.",
+    description: "Leading software provider in freight forwarding, logistics, and supply chain industry since 2005. Delivers end-to-end digital solutions through cloud-native ERP platforms, customs clearance software, and blockchain-powered data exchange systems.",
     role: "Software Engineer L1",
     duration: "2024 - Present",
     technologies: ["Dotnet", "React", "Node.js", "OpenTelemetry", "CI/CD", "Keycloak"],
@@ -48,7 +48,7 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
             className={`px-3 py-1.5 text-sm rounded ${
               isDarkMode 
                 ? "bg-zinc-800 text-white hover:bg-zinc-700" 
-                : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                : "bg-amber-800 text-white hover:bg-amber-700"
             } transition-colors`}
           >
             Go Back
@@ -77,7 +77,7 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
           className={`p-1.5 rounded transition-colors ${
             isDarkMode 
               ? "text-zinc-400 hover:text-white hover:bg-zinc-800" 
-              : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+              : "text-amber-700 hover:text-amber-900 hover:bg-amber-100"
           }`}
         >
           <ArrowLeft className="w-4 h-4" />
@@ -107,19 +107,55 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
             }`}>
               Role & Duration
             </h3>
-            <div className="space-y-1">
-              <p className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
-                <span className="font-medium">Position:</span> {data.role}
-              </p>
-              <p className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
-                <span className="font-medium">Duration:</span> {data.duration}
-              </p>
-              <p className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
-                <span className="font-medium">Location:</span> {data.location}
-              </p>
-              <p className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
-                <span className="font-medium">Industry:</span> {data.industry}
-              </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
+                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+                }`}>
+                  Position
+                </span>
+                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                  {data.role}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
+                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+                }`}>
+                  Duration
+                </span>
+                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                  {data.duration}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
+                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+                }`}>
+                  Location
+                </span>
+                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                  {data.location}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
+                  isDarkMode 
+                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
+                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+                }`}>
+                  Industry
+                </span>
+                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                  {data.industry}
+                </span>
+              </div>
             </div>
           </div>
 
