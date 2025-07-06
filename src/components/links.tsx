@@ -65,14 +65,14 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="h-full flex flex-col font-['Geist']"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
       {/* Header */}
-      <motion.div 
+      <motion.div
         className="mb-8"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -80,7 +80,7 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
       >
         <h1
           className={`text-2xl font-bold font-['Playfair_Display'] mb-2 ${
-          isDarkMode ? "text-white" : "text-gray-900"
+            isDarkMode ? "text-white" : "text-gray-900"
           }`}
         >
           Links
@@ -103,8 +103,8 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
             className="w-full text-left space-y-1 p-2 -m-2 rounded"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ 
-              duration: 0.3, 
+            transition={{
+              duration: 0.3,
               delay: 0.2 + index * 0.05,
             }}
           >
@@ -120,7 +120,7 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
               </div>
               <div
                 className={`text-sm font-medium ${
-                isDarkMode ? "text-zinc-300" : "text-gray-700"
+                  isDarkMode ? "text-zinc-300" : "text-gray-700"
                 }`}
               >
                 {link.name}
@@ -128,7 +128,7 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
             </div>
             <div
               className={`text-sm ml-6 ${
-              isDarkMode ? "text-zinc-400" : "text-gray-500"
+                isDarkMode ? "text-zinc-400" : "text-gray-500"
               }`}
             >
               {link.username}
@@ -140,4 +140,4 @@ const Links: React.FC<LinksProps> = ({ isDarkMode }) => {
   );
 };
 
-export default Links; 
+export default Links;

@@ -73,14 +73,14 @@ const techCategories = [
 
 const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
   return (
-    <motion.div 
+    <motion.div
       className="h-full flex flex-col font-['Geist'] max-w-3xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
       {/* Header */}
-      <motion.div 
+      <motion.div
         className="mb-8"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -88,7 +88,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
       >
         <h1
           className={`text-2xl font-bold font-['Playfair_Display'] mb-2 ${
-          isDarkMode ? "text-white" : "text-gray-900"
+            isDarkMode ? "text-white" : "text-gray-900"
           }`}
         >
           Tech Stack
@@ -115,7 +115,7 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
             {/* Category Header */}
             <h3
               className={`text-sm font-medium uppercase tracking-wide ${
-              isDarkMode ? "text-zinc-400" : "text-gray-500"
+                isDarkMode ? "text-zinc-400" : "text-gray-500"
               }`}
             >
               {category.name}
@@ -124,25 +124,25 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
             {/* Technologies */}
             <div className="pt-2">
               <div className="flex flex-wrap gap-2">
-              {category.technologies.map((tech, techIndex) => (
+                {category.technologies.map((tech, techIndex) => (
                   <motion.span
-                  key={tech.name}
+                    key={tech.name}
                     className={`text-xs font-medium transition-all duration-200 ${
                       isDarkMode 
                         ? "text-zinc-300 hover:text-zinc-100" 
                         : "text-stone-700 hover:text-stone-900"
                     }`}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ 
-                    duration: 0.3, 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.3,
                       delay: 0.3 + index * 0.1 + techIndex * 0.05,
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                >
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                  >
                     {tech.name}
                   </motion.span>
-              ))}
+                ))}
               </div>
             </div>
           </motion.div>
@@ -152,4 +152,4 @@ const TechStack: React.FC<TechStackProps> = ({ isDarkMode }) => {
   );
 };
 
-export default TechStack; 
+export default TechStack;

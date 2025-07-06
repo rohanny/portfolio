@@ -95,11 +95,12 @@ export interface MusicTrack {
 class LastFmService {
   private apiKey: string;
   private username: string;
-  private baseUrl = 'https://ws.audioscrobbler.com/2.0/';
+  private baseUrl = '/api/lastfm.json';
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_LASTFM_API_KEY || '';
-    this.username = import.meta.env.VITE_LASTFM_USERNAME || '';
+    // For client-side, we'll use the API endpoint instead of direct API calls
+    this.apiKey = ''; // Not needed on client-side
+    this.username = ''; // Not needed on client-side
   }
 
   // Clean up track names by removing parentheses and extra info
@@ -145,34 +146,27 @@ class LastFmService {
   }
 
   private async makeRequest(method: string, params: Record<string, string> = {}): Promise<any> {
-    if (!this.apiKey) {
-      throw new Error('Last.fm API key not configured');
-    }
-
     const searchParams = new URLSearchParams({
       method,
-      api_key: this.apiKey,
-      format: 'json',
       ...params
     });
 
-    const response = await fetch(`${this.baseUrl}?${searchParams}`);
+    const url = `${this.baseUrl}?${searchParams}`;
+
+    const response = await fetch(url);
     
     if (!response.ok) {
+      console.error('LastFM API error:', response.status, response.statusText);
       throw new Error(`Last.fm API error: ${response.status}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    return data;
   }
 
   async getRecentTracks(limit: number = 10): Promise<MusicTrack[]> {
     try {
-      if (!this.username) {
-        throw new Error('Last.fm username not configured');
-      }
-
       const data = await this.makeRequest('user.getrecenttracks', {
-        user: this.username,
         limit: limit.toString()
       });
 
