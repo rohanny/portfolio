@@ -139,7 +139,7 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
 
         {/* Cards Container */}
         <motion.div
-          className={`mt-8 p-4 rounded-lg border backdrop-blur-md shadow-lg relative overflow-hidden w-full flex flex-col md:flex-row gap-4 md:gap-6
+          className={`mt-8 p-4 rounded-lg border backdrop-blur-md shadow-lg relative overflow-hidden w-full flex flex-col md:flex-row md:gap-6
             ${isDarkMode 
               ? "bg-zinc-800/20 border-zinc-500/40 shadow-zinc-900/20" 
               : "bg-amber-900/20 border-amber-700/10 shadow-amber-900/20"

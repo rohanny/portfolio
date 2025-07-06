@@ -177,7 +177,7 @@ function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
     // Main content
     return (
       <div className="relative z-10 h-full flex flex-col justify-center">
-        <div className="flex items-center justify-between w-full mb-4">
+        <div className="flex items-center justify-between w-full mb-2">
           {/* Album Art */}
           <motion.div
             className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mr-3"

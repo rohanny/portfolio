@@ -61,7 +61,7 @@ const LoadingTipsCard: React.FC<LoadingTipsCardProps> = memo(
 
     return (
       <motion.div
-        className={`relative overflow-hidden h-full flex flex-col justify-center items-center text-center
+        className={`relative overflow-hidden h-full hidden md:flex flex-col justify-center items-center text-center
       }`}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
