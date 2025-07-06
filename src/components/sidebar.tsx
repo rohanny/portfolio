@@ -18,11 +18,13 @@ interface TooltipProps {
   text: string;
   isDarkMode: boolean;
   direction?: "left" | "right" | "top" | "bottom";
+  customClass?: string;
 }
 const Tooltip: React.FC<TooltipProps> = ({
   text,
   isDarkMode,
   direction = "left",
+  customClass = "",
 }) => {
   let positionStyles = "";
   let motionTransforms = {};
@@ -71,7 +73,7 @@ const Tooltip: React.FC<TooltipProps> = ({
     <motion.div
       {...motionTransforms}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`${baseStyles} shadow-lg`}
+      className={`${baseStyles} shadow-lg ${customClass}`}
     >
       {text}
     </motion.div>
@@ -232,6 +234,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 text={isDarkMode ? "Light Mode" : "Dark Mode"} 
                 isDarkMode={isDarkMode} 
                 direction="left" 
+                customClass="!left-[130%]"
               />
             )}
           </motion.button>

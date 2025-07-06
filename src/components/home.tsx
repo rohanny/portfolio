@@ -1,4 +1,5 @@
 import MusicCard from "./spotify";
+import LoadingTipsCard from "./loading-tips";
 import { motion } from "framer-motion";
 import { memo } from "react";
 
@@ -138,19 +139,37 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
 
         {/* Cards Container */}
         <motion.div
-          className="mt-8 flex flex-col md:flex-row gap-4 md:gap-6"
+          className={`mt-8 p-4 rounded-lg border backdrop-blur-md shadow-lg relative overflow-hidden w-full flex flex-col md:flex-row gap-4 md:gap-6
+            ${isDarkMode 
+              ? "bg-zinc-800/20 border-zinc-500/40 shadow-zinc-900/20" 
+              : "bg-amber-900/20 border-amber-700/10 shadow-amber-900/20"
+            }`
+          }
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.6 }}
         >
-          {/* Music Card */}
+          {/* Music Card Section */}
           <motion.div
-            className="w-full"
+            className="w-full md:w-1/2"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.8 }}
           >
             <MusicCard isDarkMode={isDarkMode} />
+          </motion.div>
+
+          {/* Divider */}
+          <div className={`hidden md:block w-px self-stretch ${isDarkMode ? 'bg-zinc-700/50' : 'bg-stone-300/50'}`} />
+
+          {/* Loading Tips Section */}
+          <motion.div
+            className="w-full md:w-1/2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.8 }}
+          >
+            <LoadingTipsCard isDarkMode={isDarkMode} />
           </motion.div>
         </motion.div>
       </div>
