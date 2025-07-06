@@ -1,12 +1,34 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { lastFmService, MusicTrack } from '../lib/lastfm';
+import React, { Suspense } from 'react';
 
-interface MusicCardProps {
-  isDarkMode: boolean;
+// Error Boundary for Spotify Card
+class SpotifyErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(_error: any, _info: any) {
+    // Optionally log error
+    // console.error('Spotify Card Error:', error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex items-center justify-center h-full text-xs text-red-500">
+          Failed to load Spotify card.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
 }
 
-const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
+function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
   const [nowPlaying, setNowPlaying] = useState<MusicTrack | null>(null);
   const [recentTracks, setRecentTracks] = useState<MusicTrack[]>([]);
   const [loading, setLoading] = useState(true);
@@ -17,47 +39,34 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Fetch currently playing track
         const currentTrack = await lastFmService.getNowPlaying();
         setNowPlaying(currentTrack);
-        
-        // Fetch recently played tracks as fallback
         const recentTracksData = await lastFmService.getRecentTracks(5);
         setRecentTracks(recentTracksData);
-        
       } catch (err) {
-        console.error('Failed to fetch Last.fm data:', err);
         setError('Failed to load music data');
       } finally {
         setLoading(false);
       }
     };
-
     fetchMusicData();
-
-    // Refresh data every 30 seconds
     const interval = setInterval(fetchMusicData, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  // Determine what to display
   const displayTrack = nowPlaying || recentTracks[0];
   const isPlaying = nowPlaying !== null;
   const songName = displayTrack?.name || "No track playing";
   const artistName = displayTrack?.artist || "Unknown Artist";
   const albumName = displayTrack?.album || "Unknown Album";
   const albumArtUrl = displayTrack?.albumArtUrl;
-  
-  // Format the played time for recently played tracks
+
   const formatPlayedTime = (playedAt: string | undefined) => {
     if (!playedAt) return '';
-    
     try {
       const date = new Date(playedAt);
       const now = new Date();
       const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-      
       if (diffInMinutes < 1) return 'Just now';
       if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
       if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
@@ -66,15 +75,11 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
       return '';
     }
   };
-  
   const playedTime = formatPlayedTime(displayTrack?.playedAt);
-
-  // Create Spotify search URL
   const createSpotifyUrl = (trackName: string, artistName: string) => {
     const searchQuery = encodeURIComponent(`${trackName} ${artistName}`);
     return `https://open.spotify.com/search/${searchQuery}`;
   };
-
   const spotifyUrl = displayTrack ? createSpotifyUrl(songName, artistName) : '#';
 
   // Render content based on state
@@ -107,7 +112,6 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
                 <div className="animate-pulse bg-gray-300 dark:bg-gray-600 h-3 rounded w-24"></div>
               </div>
             </div>
-            
             <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center ml-3">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
             </div>
@@ -115,7 +119,6 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
         </div>
       );
     }
-
     if (error) {
       return (
         <div className="relative z-10 h-full flex items-center">
@@ -144,7 +147,6 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
                 Check your connection
               </div>
             </div>
-            
             <div className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center ml-3">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -154,9 +156,8 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
         </div>
       );
     }
-
     // Main content
-  return (
+    return (
       <div className="relative z-10 h-full flex items-center">
         <div className="flex items-center justify-between w-full">
           {/* Song Info */}
@@ -187,7 +188,6 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
               )}
             </div>
           </div>
-          
           {/* Album Art */}
           <motion.div 
             className="w-16 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center ml-3"
@@ -224,26 +224,28 @@ const MusicCard: React.FC<MusicCardProps> = ({ isDarkMode }) => {
   };
 
   return (
-    <motion.div 
-      className={`p-4 rounded-lg border backdrop-blur-md shadow-lg relative overflow-hidden w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg ${
-        isDarkMode 
-          ? "bg-zinc-800/20 border-zinc-500/40 shadow-zinc-900/20" 
-          : "bg-amber-900/20 border-amber-700/10 shadow-amber-900/20"
-      } ${!loading && !error ? 'cursor-pointer' : ''}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.8 }}
-      whileHover={!loading && !error ? { 
-        scale: 1.02,
-        transition: { duration: 0.2 }
-      } : undefined}
+    <div className={`p-4 rounded-lg border backdrop-blur-md shadow-lg relative overflow-hidden w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg ${
+      isDarkMode 
+        ? "bg-zinc-800/20 border-zinc-500/40 shadow-zinc-900/20" 
+        : "bg-amber-900/20 border-amber-700/10 shadow-amber-900/20"
+    } ${!loading && !error ? 'cursor-pointer' : ''}`}
       onClick={!loading && !error ? () => window.open(spotifyUrl, '_blank') : undefined}
     >
-      {/* Gray Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#00000008] to-[#f9f9f900]" />
       {renderContent()}
-    </motion.div>
+    </div>
   );
-};
+}
+
+// Lazy load the SpotifyCardContent
+const LazySpotifyCardContent = React.lazy(() => Promise.resolve({ default: SpotifyCardContent }));
+
+const MusicCard = ({ isDarkMode }: { isDarkMode: boolean }) => (
+  <SpotifyErrorBoundary>
+    <Suspense fallback={<div className="flex items-center justify-center h-24 text-xs text-gray-400">Loading music...</div>}>
+      <LazySpotifyCardContent isDarkMode={isDarkMode} />
+    </Suspense>
+  </SpotifyErrorBoundary>
+);
 
 export default MusicCard; 

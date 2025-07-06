@@ -1,13 +1,22 @@
 import { FileText, Home, Link, Code, Briefcase } from "lucide-react";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Shell from "./ui/shell";
-import HomePage from "./pages/home";
-import Projects from "./pages/projects";
-import WorkExperience from "./pages/experience";
-import TechStack from "./pages/tech";
-import Links from "./pages/links";
+
+// Lazy load all page components
+const HomePage = lazy(() => import("./pages/home"));
+const Projects = lazy(() => import("./pages/projects"));
+const WorkExperience = lazy(() => import("./pages/experience"));
+const TechStack = lazy(() => import("./pages/tech"));
+const Links = lazy(() => import("./pages/links"));
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center h-full">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-400"></div>
+  </div>
+);
 
 const items = [
   { label: "Home", icon: <Home className="w-full h-full" />, path: "/" },
@@ -39,68 +48,70 @@ function AppContent() {
       toggleDarkMode={toggleDarkMode}
       onItemClick={handlePageChange}
     >
-      <Routes>
-        <Route path="/" element={
-          <motion.div
-            key="home"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="h-full"
-          >
-            <HomePage isDarkMode={isDarkMode} />
-          </motion.div>
-        } />
-        <Route path="/work-experience" element={
-          <motion.div
-            key="work-experience"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="h-full"
-          >
-            <WorkExperience isDarkMode={isDarkMode} />
-          </motion.div>
-        } />
-        <Route path="/projects" element={
-          <motion.div
-            key="projects"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="h-full"
-          >
-            <Projects isDarkMode={isDarkMode} />
-          </motion.div>
-        } />
-        <Route path="/tech-stack" element={
-          <motion.div
-            key="tech-stack"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="h-full"
-          >
-            <TechStack isDarkMode={isDarkMode} />
-          </motion.div>
-        } />
-        <Route path="/links" element={
-          <motion.div
-            key="links"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -8 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="h-full"
-          >
-            <Links isDarkMode={isDarkMode} />
-          </motion.div>
-        } />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={
+            <motion.div
+              key="home"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-full"
+            >
+              <HomePage isDarkMode={isDarkMode} />
+            </motion.div>
+          } />
+          <Route path="/work-experience" element={
+            <motion.div
+              key="work-experience"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-full"
+            >
+              <WorkExperience isDarkMode={isDarkMode} />
+            </motion.div>
+          } />
+          <Route path="/projects" element={
+            <motion.div
+              key="projects"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-full"
+            >
+              <Projects isDarkMode={isDarkMode} />
+            </motion.div>
+          } />
+          <Route path="/tech-stack" element={
+            <motion.div
+              key="tech-stack"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-full"
+            >
+              <TechStack isDarkMode={isDarkMode} />
+            </motion.div>
+          } />
+          <Route path="/links" element={
+            <motion.div
+              key="links"
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-full"
+            >
+              <Links isDarkMode={isDarkMode} />
+            </motion.div>
+          } />
+        </Routes>
+      </Suspense>
     </Shell>
   );
 }

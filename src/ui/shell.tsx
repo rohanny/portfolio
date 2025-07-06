@@ -140,7 +140,7 @@ const Shell: React.FC<ShellProps> = ({
           }`}>
             made with passion by{" "}
             <a 
-              href="https://x.com/rohanny" 
+              href="https://x.com/rohannny" 
               target="_blank" 
               rel="noopener noreferrer"
               className={`hover:underline ${

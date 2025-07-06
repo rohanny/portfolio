@@ -1,11 +1,13 @@
 import MusicCard from "../ui/spotify";
+import OptimizedImage from "../ui/optimized";
 import { motion } from "framer-motion";
+import { memo } from "react";
 
 interface HomePageProps {
   isDarkMode: boolean;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
+const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
   return (
     <motion.div
       className="h-full flex flex-col justify-start font-['Geist']"
@@ -30,10 +32,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
               Rohan Yadav
             </h1>
 
-            <motion.img
-              src="https://avatars.githubusercontent.com/u/51793979?v=4&size=64"
-              alt="Rohan Yadav"
-              className="w-16 h-16 rounded-full border-2 border-stone-400 shadow-lg cursor-pointer"
+            <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ 
@@ -42,7 +41,15 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
                 transition: { duration: 0.3, ease: "easeOut" }
               }}
               transition={{ duration: 0.4, delay: 0.2 }}
-            />
+            >
+              <OptimizedImage
+                src="https://avatars.githubusercontent.com/u/51793979?v=4&size=64"
+                alt="Rohan Yadav"
+                className="w-16 h-16 rounded-full border-2 border-stone-400 shadow-lg cursor-pointer"
+                loading="eager"
+                fallbackSrc="/placeholder.svg"
+              />
+            </motion.div>
           </motion.div>
           <motion.div
             className="mb-3 text-left"
@@ -151,6 +158,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode }) => {
       </div>
     </motion.div>
   );
-};
+});
+
+HomePage.displayName = 'HomePage';
 
 export default HomePage;
