@@ -230,7 +230,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDarkMode }) => {
             >
               View more projects on{" "}
               <span className="underline underline-offset-2 transition-all duration-300 group-hover:scale-110 group-hover:text-blue-500">GitHub</span>
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <span className={`inline-block transition-transform duration-300 group-hover:translate-x-1 ${isDarkMode ? '' : 'text-stone-700'}`}>→</span>
             </a>
           </div>
         </motion.div>

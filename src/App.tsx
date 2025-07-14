@@ -1,7 +1,7 @@
 import { FileText, Home, Link, Code, Briefcase } from "lucide-react";
 import { useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Shell from "./ui/shell";
 
 // Lazy load all page components
@@ -29,6 +29,7 @@ const items = [
 function AppContent() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
@@ -41,12 +42,16 @@ function AppContent() {
     }
   };
 
+  // Find the active label based on the current path
+  const activeLabel = items.find(item => item.path === location.pathname)?.label;
+
   return (
     <Shell
       items={items}
       isDarkMode={isDarkMode}
       toggleDarkMode={toggleDarkMode}
       onItemClick={handlePageChange}
+      activeLabel={activeLabel}
     >
       <Suspense fallback={<PageLoader />}>
         <Routes>

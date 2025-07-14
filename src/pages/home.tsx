@@ -59,11 +59,7 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
           >
             <div className="flex items-center gap-3 font-['Satoshi'] font-normal tracking-wide">
               <span
-                className={`text-lg font-bold italic font-['Playfair_Display'] ${
-                  isDarkMode
-                    ? "bg-gradient-to-r from-blue-300 to-indigo-300 bg-clip-text text-transparent"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
-                }`}
+                className={`text-lg font-bold italic font-['Playfair_Display'] bg-gradient-to-r ${isDarkMode ? 'from-[#a1c4fd] via-[#c2e9fb] to-[#fbc2eb]' : 'from-[#004e92] to-[#000428]'} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(161,196,253,0.15)]`}
               >
                 Hello There!
               </span>
@@ -88,11 +84,7 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
           >
             I'm a{" "}
             <span
-              className={`font-medium ${
-                isDarkMode
-                  ? "bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
-                  : "bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent"
-              }`}
+              className={`font-medium bg-gradient-to-r ${isDarkMode ? 'from-[#ffecd2] via-[#fcb69f] to-[#ff6e7f]' : 'from-[#3fada8] to-[#808080]'} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(252,182,159,0.12)]`}
             >
               UI Designer & Developer
             </span>{" "}
@@ -117,25 +109,6 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
             <span className="italic">movies</span> — because even{" "}
             <span className="italic">Aragorn</span> took time from the throne.
           </motion.p>
-
-          <motion.div
-            className={`text-xs font-light flex items-center gap-2 ${
-              isDarkMode ? "text-gray-400" : "text-stone-600"
-            }`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.6 }}
-          >
-            <span
-              className={`w-2 h-2 rounded-full animate-pulse ${
-                isDarkMode
-                  ? "bg-gradient-to-r from-green-400 to-emerald-400"
-                  : "bg-gradient-to-r from-green-500 to-emerald-500"
-              }`}
-            ></span>
-            Currently crafting delightful user experiences and pushing pixels
-            with purpose.
-          </motion.div>
         </div>
 
         {/* Cards Container */}

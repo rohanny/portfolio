@@ -12,6 +12,7 @@ interface SidebarProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   onItemClick?: (label: string) => void;
+  activeLabel?: string;
 }
 interface TooltipProps {
   text: string;
@@ -82,30 +83,34 @@ const Sidebar: React.FC<SidebarProps> = ({
   isDarkMode,
   toggleDarkMode,
   onItemClick,
+  activeLabel,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isToggleHovered, setIsToggleHovered] = useState(false);
 
   const sidebarStyles = isDarkMode
-    ? "bg-zinc-900/20 text-zinc-100 border-zinc-700/30"
-    : "bg-stone-900/10 text-stone-900 border-stone-800/20";
+    ? "bg-zinc-900/60 text-zinc-100 border-zinc-700/30"
+    : "bg-white/60 text-stone-900 border-stone-200";
 
   // Mobile version: compact, pill-shaped, floating
   const mobileSidebar = (
     <motion.div
-      className={`flex flex-row items-center justify-center gap-1 w-fit px-2 py-1 rounded-full shadow-lg border-[1px] ${sidebarStyles} bg-opacity-90 backdrop-blur-md`}
+      className={`flex flex-row items-center justify-center gap-1 w-fit px-2 py-1 rounded-full shadow-lg border-[1px] ${sidebarStyles} bg-opacity-90 backdrop-blur-lg`}
       style={{ minHeight: 48 }}
     >
       {items.map((item, index) => (
         <motion.div
           key={index}
           whileHover={{ scale: 1.1 }}
-          className={`cursor-pointer flex items-center justify-center w-8 h-8 p-1 rounded-full ${
+          className={`cursor-pointer flex items-center justify-center w-8 h-8 p-1 rounded-full relative ${
             isDarkMode ? "border-zinc-700/40" : "border-stone-500/30"
           }`}
           onClick={() => onItemClick?.(item.label)}
         >
-          <span className="w-5 h-5 flex items-center justify-center">
+          {activeLabel === item.label && (
+            <span className={`absolute inset-0 m-auto w-8 h-8 rounded-full z-0 border ${isDarkMode ? 'border-stone-800' : 'border-zinc-300'}`}></span>
+          )}
+          <span className="w-5 h-5 flex items-center justify-center z-10">
             {item.icon}
           </span>
         </motion.div>

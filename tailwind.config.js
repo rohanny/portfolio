@@ -5,6 +5,7 @@ export default {
   theme: {
     fontFamily: {
       satoshi: ["Satoshi", "sans-serif"],
+      shadows: ['"Shadows Into Light"', 'cursive'],
     },
     extend: {
       borderRadius: {
