@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, ReactElement } from "react";
 import Sidebar from "./sidebar";
 
 interface ShellProps {
   children: ReactNode;
-  items: Array<{ label: string; icon: JSX.Element; path?: string }>;
+  items: Array<{ label: string; icon: ReactElement; path?: string }>;
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   onItemClick?: (label: string) => void;

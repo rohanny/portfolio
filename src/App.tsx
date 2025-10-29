@@ -3,6 +3,7 @@ import { useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Shell from "./ui/shell";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Lazy load all page components
 const HomePage = lazy(() => import("./pages/home"));
@@ -124,6 +125,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
+      <SpeedInsights />
       <AppContent />
     </Router>
   );

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface SidebarItem {
   label: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }
 
 interface SidebarProps {
