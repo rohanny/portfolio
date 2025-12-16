@@ -6,6 +6,7 @@ export default {
     fontFamily: {
       satoshi: ["Satoshi", "sans-serif"],
       shadows: ['"Shadows Into Light"', 'cursive'],
+      retro: ['"Press Start 2P"', 'cursive'],
     },
     extend: {
       borderRadius: {

@@ -224,7 +224,7 @@ function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
   };
 
   return (
-    <div className={`p-4 rounded-lg border backdrop-blur-md shadow relative overflow-hidden w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg ${
+    <div className={`p-4 rounded-lg border backdrop-blur-md shadow relative overflow-hidden w-full md:w-1/2 ${
       isDarkMode 
         ? "bg-zinc-800/20 border-zinc-500/40 shadow-zinc-900/20" 
         : "bg-white border-stone-200 shadow-stone-300"

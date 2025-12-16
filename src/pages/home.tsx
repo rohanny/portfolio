@@ -35,10 +35,10 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ 
+              whileHover={{
                 rotate: 15,
                 scale: 1.05,
-                transition: { duration: 0.3, ease: "easeOut" }
+                transition: { duration: 0.3, ease: "easeOut" },
               }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
@@ -59,7 +59,7 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
           >
             <div className="flex items-center gap-3 font-['Satoshi'] font-normal tracking-wide">
               <span
-                className={`text-lg font-bold italic font-['Playfair_Display'] bg-gradient-to-r ${isDarkMode ? 'from-[#a1c4fd] via-[#c2e9fb] to-[#fbc2eb]' : 'from-[#004e92] to-[#000428]'} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(161,196,253,0.15)]`}
+                className={`text-lg font-bold italic font-['Playfair_Display'] bg-gradient-to-r ${isDarkMode ? "from-[#a1c4fd] via-[#c2e9fb] to-[#fbc2eb]" : "from-[#004e92] to-[#000428]"} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(161,196,253,0.15)]`}
               >
                 Hello There!
               </span>
@@ -84,7 +84,7 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
           >
             I'm a{" "}
             <span
-              className={`font-medium bg-gradient-to-r ${isDarkMode ? 'from-[#ffecd2] via-[#fcb69f] to-[#ff6e7f]' : 'from-[#3fada8] to-[#808080]'} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(252,182,159,0.12)]`}
+              className={`font-medium bg-gradient-to-r ${isDarkMode ? "from-[#ffecd2] via-[#fcb69f] to-[#ff6e7f]" : "from-[#3fada8] to-[#808080]"} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(252,182,159,0.12)]`}
             >
               UI Designer & Developer
             </span>{" "}
@@ -133,6 +133,6 @@ const HomePage: React.FC<HomePageProps> = memo(({ isDarkMode }) => {
   );
 });
 
-HomePage.displayName = 'HomePage';
+HomePage.displayName = "HomePage";
 
 export default HomePage;

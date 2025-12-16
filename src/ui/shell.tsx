@@ -99,12 +99,7 @@ const Shell: React.FC<ShellProps> = ({
         />
         
         {/* Content area vertical lines */}
-        <div 
-          className={`absolute top-0 bottom-0 w-px border-l-2 border-dashed ${
-            isDarkMode ? "border-zinc-700/50" : "border-stone-500/20"
-          }`}
-          style={{ left: "calc(4rem + 4rem + 1rem + 20rem)" }} // Right of sidebar + 20rem spacing
-        />
+
         
         <div 
           className={`absolute top-0 bottom-0 w-px border-l-2 border-dashed ${
@@ -127,30 +122,13 @@ const Shell: React.FC<ShellProps> = ({
 
       {/* Main Content Area */}
       <div 
-        className="relative w-full min-h-screen p-4 sm:p-6 pb-20 lg:pb-0 py-8"
+        className="relative w-full min-h-screen p-4 sm:p-6 pb-20 lg:pb-0 py-12 lg:pl-64"
       >
-        <div className="w-full max-w-4xl mx-auto h-full px-4 lg:px-0 lg:pt-32">
+        <div className="w-full max-w-4xl mx-auto h-full px-4 lg:px-0 lg:pt-28">
           {children}
         </div>
         
-        <div className="block w-full lg:w-1/3 absolute bottom-20 left-1/2 -translate-x-1/2 lg:left-[45%] lg:translate-x-0 text-center">
-          <p className={`text-xs font-light ${
-            isDarkMode ? "text-zinc-500" : "text-stone-600"
-          }`}>
-            made with passion by{" "}
-            <a 
-              href="https://x.com/rohannny" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className={`hover:underline ${
-                isDarkMode ? "text-zinc-400 hover:text-zinc-300" : "text-stone-700 hover:text-stone-800"
-              }`}
-            >
-              @rohanny
-            </a>{" "}
-            © {new Date().getFullYear()}
-          </p>
-        </div>
+
       </div>
 
       {/* Sidebar for Mobile (floating, centered) */}

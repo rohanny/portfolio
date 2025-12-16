@@ -13,7 +13,7 @@ const companyData = {
     logo: "/softlink.png",
     description: "Leading software provider in freight forwarding, logistics, and supply chain industry since 2005. Delivers end-to-end digital solutions through cloud-native ERP platforms, customs clearance software, and blockchain-powered data exchange systems.",
     role: "Software Engineer L1",
-    duration: "2024 - Present",
+    duration: "June 2024 - Present",
     technologies: ["Dotnet", "React", "Node.js", "OpenTelemetry", "CI/CD", "Keycloak"],
     projects: [
       {
@@ -60,7 +60,7 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
 
   return (
     <motion.div 
-      className="h-full flex flex-col pt-8 font-['Geist'] max-w-3xl"
+      className="h-full flex flex-col font-['Geist'] max-w-3xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
@@ -107,52 +107,52 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
             }`}>
               Role & Duration
             </h3>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
-                  isDarkMode 
-                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
-                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+            <div className={`font-retro grid grid-cols-1 sm:grid-cols-2 rounded-lg border-2 border-dashed ${
+              isDarkMode ? "border-zinc-700" : "border-zinc-300"
+            }`}>
+              <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 sm:border-r-2 border-dashed ${
+                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+              }`}>
+                <span className={`text-[10px] uppercase tracking-wider ${
+                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
                 }`}>
-                  Position
+                  Position:
                 </span>
-                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
                   {data.role}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
-                  isDarkMode 
-                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
-                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+              <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 border-dashed ${
+                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+              }`}>
+                <span className={`text-[10px] uppercase tracking-wider ${
+                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
                 }`}>
-                  Duration
+                  Duration:
                 </span>
-                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
                   {data.duration}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
-                  isDarkMode 
-                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
-                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+              <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 sm:border-b-0 sm:border-r-2 border-dashed ${
+                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+              }`}>
+                <span className={`text-[10px] uppercase tracking-wider ${
+                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
                 }`}>
-                  Location
+                  Location:
                 </span>
-                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
                   {data.location}
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
-                  isDarkMode 
-                    ? "bg-zinc-800/60 text-zinc-200 border-zinc-700" 
-                    : "bg-zinc-100/80 text-zinc-700 border-zinc-200"
+              <div className="p-3 flex flex-row items-baseline gap-2">
+                <span className={`text-[10px] uppercase tracking-wider ${
+                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
                 }`}>
-                  Industry
+                  Industry:
                 </span>
-                <span className={`text-sm ${isDarkMode ? "text-zinc-200" : "text-gray-700"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
                   {data.industry}
                 </span>
               </div>
