@@ -41,7 +41,7 @@ const links = [
   {
     name: "Resume",
     username: "View Resume",
-    url: "https://docs.google.com/document/d/1yF6cyMetrDfKfJ0stf2PSIpb9aP6ApZFMWkNO8yTDuE/edit?usp=sharing",
+    url: "https://docs.google.com/document/d/1fqed3vpSoKiJa_fRrqk_JIXWDAsHtRwxd0-bDjbDaZ8/edit?tab=t.0",
     icon: <FileText className="w-4 h-4" />,
   },
   {

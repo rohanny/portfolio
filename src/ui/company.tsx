@@ -108,51 +108,51 @@ const CompanyDetails: React.FC<CompanyDetailsProps> = ({ company, isDarkMode, on
               Role & Duration
             </h3>
             <div className={`font-retro grid grid-cols-1 sm:grid-cols-2 rounded-lg border-2 border-dashed ${
-              isDarkMode ? "border-zinc-700" : "border-zinc-300"
+              isDarkMode ? "border-zinc-800" : "border-zinc-300"
             }`}>
               <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 sm:border-r-2 border-dashed ${
-                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+                isDarkMode ? "border-zinc-800" : "border-zinc-300"
               }`}>
                 <span className={`text-[10px] uppercase tracking-wider ${
-                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
+                  isDarkMode ? "text-zinc-500" : "text-zinc-500"
                 }`}>
                   Position:
                 </span>
-                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-300" : "text-gray-900"}`}>
                   {data.role}
                 </span>
               </div>
               <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 border-dashed ${
-                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+                isDarkMode ? "border-zinc-800" : "border-zinc-300"
               }`}>
                 <span className={`text-[10px] uppercase tracking-wider ${
-                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
+                  isDarkMode ? "text-zinc-500" : "text-zinc-500"
                 }`}>
                   Duration:
                 </span>
-                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-300" : "text-gray-900"}`}>
                   {data.duration}
                 </span>
               </div>
               <div className={`p-3 flex flex-row items-baseline gap-2 border-b-2 sm:border-b-0 sm:border-r-2 border-dashed ${
-                isDarkMode ? "border-zinc-700" : "border-zinc-300"
+                isDarkMode ? "border-zinc-800" : "border-zinc-300"
               }`}>
                 <span className={`text-[10px] uppercase tracking-wider ${
-                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
+                  isDarkMode ? "text-zinc-500" : "text-zinc-500"
                 }`}>
                   Location:
                 </span>
-                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-300" : "text-gray-900"}`}>
                   {data.location}
                 </span>
               </div>
               <div className="p-3 flex flex-row items-baseline gap-2">
                 <span className={`text-[10px] uppercase tracking-wider ${
-                  isDarkMode ? "text-zinc-400" : "text-zinc-500"
+                  isDarkMode ? "text-zinc-500" : "text-zinc-500"
                 }`}>
                   Industry:
                 </span>
-                <span className={`text-[10px] ${isDarkMode ? "text-zinc-100" : "text-gray-900"}`}>
+                <span className={`text-[10px] ${isDarkMode ? "text-zinc-300" : "text-gray-900"}`}>
                   {data.industry}
                 </span>
               </div>
