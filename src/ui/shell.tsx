@@ -20,13 +20,13 @@ const Shell: React.FC<ShellProps> = ({
 }) => {
   return (
     <div
-      className={`w-full min-h-screen relative ${
+      className={`w-full h-screen overflow-auto relative ${
         isDarkMode ? "bg-zinc-950" : "bg-white"
       }`}
       style={!isDarkMode ? {} : {}}
     >
       {/* Gradient Blobs */}
-      <div className="absolute inset-0 overflow-hidden hidden lg:block">
+      <div className="absolute inset-0 overflow-hidden hidden lg:block pointer-events-none">
         {/* Blob 1: Top Left */}
         <div className={`absolute -top-32 -left-32 w-80 h-80 rounded-full blur-3xl animate-blob ${
           isDarkMode 
@@ -60,79 +60,48 @@ const Shell: React.FC<ShellProps> = ({
             : "bg-yellow-200/10"
         }`} />
       </div>
-      {/* Border Lines */}
-      <div className="absolute inset-0 pointer-events-none hidden lg:block">
-        {/* Left vertical line */}
-        <div 
-          className={`absolute top-0 bottom-0 w-px border-l-2 border-dashed ${
-            isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
-          }`}
-          style={{ left: "calc(7rem - 1rem)" }} // left-28 - 1rem padding
-        />
-        
-        {/* Right vertical line */}
-        <div 
-          className={`absolute top-0 bottom-0 w-px border-l-2 border-dashed ${
-            isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
-          }`}
-          style={{ left: "calc(7rem + 4rem + 1rem)" }} // left-28 + sidebar width + 1rem padding
-        />
-        
-        {/* Top horizontal line */}
-        <div 
-          className={`absolute left-0 right-0 h-px border-t-2 border-dashed ${
-            isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
-          }`}
-          style={{ 
-            top: "calc(50% - 35vh - 1rem)" // 50% - half of sidebar height - 1rem padding
-          }}
-        />
-        
-        {/* Bottom horizontal line */}
-        <div 
-          className={`absolute left-0 right-0 h-px border-t-2 border-dashed ${
-            isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
-          }`}
-          style={{ 
-            top: "calc(50% + 35vh + 1rem)" // 50% + half of sidebar height + 1rem padding
-          }}
-        />
-        
-        {/* Content area vertical lines */}
 
+      {/* Main Grid Container */}
+      <div className={`relative z-10 w-full max-w-[90rem] mx-auto min-h-screen flex lg:border-x-2 border-dashed ${
+          isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
+      }`}>
         
-        <div 
-          className={`absolute top-0 bottom-0 w-px border-l-2 border-dashed ${
-            isDarkMode ? "border-zinc-800/50" : "border-stone-500/20"
-          }`}
-          style={{ left: "calc(4rem + 6rem + 1rem + 20rem + 50rem)" }} // Content area width of 50rem
-        />
-      </div>
-
-      {/* Floating Sidebar for Desktop */}
-      <div className="hidden lg:block absolute left-28 top-1/2 transform -translate-y-1/2 z-10">
-        <Sidebar
-          items={items}
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
-          onItemClick={onItemClick}
-          activeLabel={activeLabel}
-        />
-      </div>
-
-      {/* Main Content Area */}
-      <div 
-        className="relative w-full min-h-screen p-4 sm:p-6 pb-20 lg:pb-0 py-12 lg:pl-64"
-      >
-        <div className="w-full max-w-4xl mx-auto h-full px-4 lg:px-0 lg:pt-28">
-          {children}
+        {/* Left Sidebar Column */}
+        <div className={`hidden lg:flex w-28 flex-col items-center border-r-2 border-dashed ${
+            isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
+        }`}>
+          <div className="sticky top-0 h-screen flex items-center justify-center">
+            <Sidebar
+              items={items}
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+              onItemClick={onItemClick}
+              activeLabel={activeLabel}
+            />
+          </div>
         </div>
-        
+
+        {/* Main Content Column */}
+        <div className="flex-1 flex flex-col relative">
+           {/* Top Horizontal Line (Decorative) - Positioned relative to content column to move with it 
+               Using absolute here is fine because the parent is now the constrained grid column. 
+           */}
+           <div 
+            className={`absolute left-0 right-0 h-px border-t-2 border-dashed hidden lg:block ${
+              isDarkMode ? "border-zinc-800/60" : "border-stone-500/20"
+            }`}
+            style={{ top: "4rem" }} 
+          />
+           
+           <div className={`w-full max-w-5xl mx-auto flex-1 px-6 pt-4 pb-24 lg:px-6 lg:pt-24 lg:pb-12`}>
+             {children}
+           </div>
+        </div>
 
       </div>
 
       {/* Sidebar for Mobile (floating, centered) */}
-      <div className="block lg:hidden fixed left-1/2 -translate-x-1/2 bottom-4 z-40">
+      <div className="block lg:hidden fixed left-1/2 -translate-x-1/2 bottom-4 z-50 isolate" style={{ backfaceVisibility: 'hidden' }}>
         <Sidebar
           items={items}
           isDarkMode={isDarkMode}

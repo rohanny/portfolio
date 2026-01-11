@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Moon, Sun } from "lucide-react";
 import { useState } from "react";
+import { ThemeToggle } from "./theme-toggle";
 
 interface SidebarItem {
   label: string;
@@ -86,7 +86,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   activeLabel,
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isToggleHovered, setIsToggleHovered] = useState(false);
 
   const sidebarStyles = isDarkMode
     ? "bg-zinc-900/60 text-zinc-100 border-zinc-700/30"
@@ -115,18 +114,15 @@ const Sidebar: React.FC<SidebarProps> = ({
           </span>
         </motion.div>
       ))}
-      <motion.button
-        onClick={toggleDarkMode}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className={`ml-1 w-8 h-8 flex items-center justify-center rounded-full border-[1px] transition-colors duration-200 ${
+      <ThemeToggle 
+        isDarkMode={isDarkMode} 
+        toggleDarkMode={toggleDarkMode}
+        className={`w-8 h-8 flex items-center justify-center rounded-full border-[1px] transition-colors duration-200 p-1.5 ${
           isDarkMode
-            ? "border-zinc-700/30 bg-zinc-800/20 text-zinc-100 hover:border-zinc-600 hover:bg-zinc-800/40"
-            : "border-stone-800/20 bg-stone-900/10 text-stone-900 hover:border-stone-700 hover:bg-stone-900/20"
+            ? "border-zinc-700/30 bg-zinc-800/20"
+            : "border-stone-800/20 bg-stone-900/10"
         }`}
-      >
-        {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-      </motion.button>
+      />
     </motion.div>
   );
 
@@ -192,7 +188,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 transition={{ duration: 0.3 }}
               >
                 <motion.div 
-                  className={`transition-all duration-200 ${
+                  className={`w-full h-full transition-all duration-200 ${
                     isDarkMode 
                       ? "[&>svg]:text-zinc-300 group-hover:[&>svg]:text-zinc-100" 
                       : "[&>svg]:text-stone-800 group-hover:[&>svg]:text-stone-900"
@@ -209,36 +205,17 @@ const Sidebar: React.FC<SidebarProps> = ({
             </motion.div>
           ))}
         </div>
-        <motion.button
-          onClick={toggleDarkMode}
-        whileHover={{ scale: 1.05, y: -1 }}
-          whileTap={{ scale: 0.95 }}
-          onHoverStart={() => setIsToggleHovered(true)}
-          onHoverEnd={() => setIsToggleHovered(false)}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          style={{ cursor: "pointer" }}
-          className={`relative w-12 h-12 p-3 flex items-center justify-center rounded-xl border-[1px] transition-colors duration-200
-            ${isDarkMode
-              ? "border-zinc-700/30 bg-zinc-800/20 text-zinc-100 hover:border-zinc-600 hover:bg-zinc-800/40"
-              : "border-stone-800/20 bg-stone-900/10 text-stone-900 hover:border-stone-700 hover:bg-stone-900/20"}
-            lg:mt-4
-          `}
-        >
-          <motion.div className="w-6 h-6 flex items-center justify-center">
-            {isDarkMode ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
-          </motion.div>
-          {isToggleHovered && (
-            <Tooltip
-              direction="top"
-              text={isDarkMode ? "Light" : "Dark"}
-              isDarkMode={isDarkMode}
-            />
-          )}
-        </motion.button>
+        <div className="lg:mt-4 flex justify-center">
+             <ThemeToggle 
+                isDarkMode={isDarkMode} 
+                toggleDarkMode={toggleDarkMode}
+                className={`w-12 h-12 border-[1px] p-3 ${
+                  isDarkMode 
+                    ? "border-zinc-700/30 bg-zinc-800/20" 
+                    : "border-stone-800/20 bg-stone-900/10"
+                }`}
+             />
+        </div>
       </motion.div>
   );
 
