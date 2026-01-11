@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Shell from "./ui/shell";
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { CustomCursor } from "./components/ui/cursor";
 
 const HomePage = lazy(() => import("./pages/home"));
 const Projects = lazy(() => import("./pages/projects"));
@@ -45,13 +46,15 @@ function AppContent() {
   const activeLabel = items.find(item => item.path === location.pathname)?.label;
 
   return (
-    <Shell
-      items={items}
-      isDarkMode={isDarkMode}
-      toggleDarkMode={toggleDarkMode}
-      onItemClick={handlePageChange}
-      activeLabel={activeLabel}
-    >
+    <>
+      <CustomCursor isDarkMode={isDarkMode} />
+      <Shell
+        items={items}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        onItemClick={handlePageChange}
+        activeLabel={activeLabel}
+      >
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={
@@ -117,6 +120,7 @@ function AppContent() {
         </Routes>
       </Suspense>
     </Shell>
+    </>
   );
 }
 
