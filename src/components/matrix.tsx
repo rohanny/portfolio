@@ -32,7 +32,8 @@ export const Matrix: React.FC<MatrixProps> = ({ isDarkMode }) => {
     const setupDimensions = () => {
       const parent = canvas.parentElement;
       width = parent ? parent.clientWidth : 600;
-      height = 180;
+      // Smaller height on mobile
+      height = width < 500 ? 120 : 180;
 
       cols = Math.floor(width / charWidth);
       rows = Math.floor(height / charHeight);
@@ -64,6 +65,14 @@ export const Matrix: React.FC<MatrixProps> = ({ isDarkMode }) => {
       isHovering = true;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      mouseX = touch.clientX - rect.left;
+      mouseY = touch.clientY - rect.top;
+      isHovering = true;
+    };
+
     const handleMouseLeave = () => {
       mouseX = -1000;
       mouseY = -1000;
@@ -72,6 +81,8 @@ export const Matrix: React.FC<MatrixProps> = ({ isDarkMode }) => {
 
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
+    canvas.addEventListener("touchend", handleMouseLeave);
     window.addEventListener("resize", setupDimensions);
 
     // Pre-initialize character grid to minimize GC overhead and enable persistence
@@ -92,44 +103,47 @@ export const Matrix: React.FC<MatrixProps> = ({ isDarkMode }) => {
 
       const cx = cols / 2;
       const cy = rows / 2;
+      
+      // Smooth scale based on width
+      const scale = Math.min(1, width / 500);
 
       // Draw Pikachu Ears
       offscreenCtx.beginPath();
-      offscreenCtx.moveTo(cx - 24, cy - 15);
-      offscreenCtx.lineTo(cx - 14, cy - 2);
-      offscreenCtx.lineTo(cx - 18, cy + 2);
+      offscreenCtx.moveTo(cx - 24 * scale, cy - 15 * scale);
+      offscreenCtx.lineTo(cx - 14 * scale, cy - 2 * scale);
+      offscreenCtx.lineTo(cx - 18 * scale, cy + 2 * scale);
       offscreenCtx.closePath();
       offscreenCtx.fill();
 
       offscreenCtx.beginPath();
-      offscreenCtx.moveTo(cx + 24, cy - 15);
-      offscreenCtx.lineTo(cx + 14, cy - 2);
-      offscreenCtx.lineTo(cx + 18, cy + 2);
+      offscreenCtx.moveTo(cx + 24 * scale, cy - 15 * scale);
+      offscreenCtx.lineTo(cx + 14 * scale, cy - 2 * scale);
+      offscreenCtx.lineTo(cx + 18 * scale, cy + 2 * scale);
       offscreenCtx.closePath();
       offscreenCtx.fill();
 
       // Eyes
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx - 10, cy - 2, 2.5, 0, Math.PI * 2);
+      offscreenCtx.arc(cx - 10 * scale, cy - 2 * scale, 2.5 * scale, 0, Math.PI * 2);
       offscreenCtx.fill();
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx + 10, cy - 2, 2.5, 0, Math.PI * 2);
+      offscreenCtx.arc(cx + 10 * scale, cy - 2 * scale, 2.5 * scale, 0, Math.PI * 2);
       offscreenCtx.fill();
 
       // Cheeks (blushing circles)
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx - 16, cy + 4, 3.5, 0, Math.PI * 2);
+      offscreenCtx.arc(cx - 16 * scale, cy + 4 * scale, 3.5 * scale, 0, Math.PI * 2);
       offscreenCtx.fill();
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx + 16, cy + 4, 3.5, 0, Math.PI * 2);
+      offscreenCtx.arc(cx + 16 * scale, cy + 4 * scale, 3.5 * scale, 0, Math.PI * 2);
       offscreenCtx.fill();
 
       // Mouth (cute curve)
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx - 2, cy + 3, 2, 0, Math.PI);
+      offscreenCtx.arc(cx - 2 * scale, cy + 3 * scale, 2 * scale, 0, Math.PI);
       offscreenCtx.stroke();
       offscreenCtx.beginPath();
-      offscreenCtx.arc(cx + 2, cy + 3, 2, 0, Math.PI);
+      offscreenCtx.arc(cx + 2 * scale, cy + 3 * scale, 2 * scale, 0, Math.PI);
       offscreenCtx.stroke();
     };
 
@@ -207,6 +221,8 @@ export const Matrix: React.FC<MatrixProps> = ({ isDarkMode }) => {
       window.removeEventListener("resize", setupDimensions);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleMouseLeave);
       cancelAnimationFrame(animationId);
     };
   }, [isDarkMode]);
