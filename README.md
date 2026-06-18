@@ -1,45 +1,6 @@
 # ry.
 
-minimal portfolio built with react, typescript, and tailwind.
-
-## features
-
-- **steam integration** — live gaming status & recently played
-- **letterboxd integration** — latest watched films via rss
-- **spotify/last.fm** — currently playing track
-- **ascii matrix** — interactive pikachu animation
-- **view transitions** — smooth theme switching
-
-## stack
-
-- vite + react + typescript
-- tailwind css
-- framer motion
-- vercel serverless functions
-
-## development
-
-```bash
-npm install
-npm run dev
-```
-
-## environment variables
-
-```env
-VITE_LASTFM_USERNAME=
-VITE_LASTFM_API_KEY=
-VITE_STEAM_API_KEY=
-VITE_STEAM_ID=
-VITE_LETTERBOXD_USERNAME=
-
-# serverless functions
-STEAM_API_KEY=
-```
-
-## deployment
-
-deployed on vercel. push to main to deploy.
+minimal portfolio.
 
 ---
 
