@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useCallback } from "react";
 import { cn } from "../lib/utils";
 import { Sun, Moon } from "lucide-react";
@@ -60,35 +59,33 @@ export const ThemeToggle = ({
   }, [isDarkMode, toggleDarkMode, variant, start, blur, updateStyles]);
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={handleToggle}
       className={cn(
-        "p-2.5 rounded-none border border-zinc-200 dark:border-zinc-900/35 bg-white dark:bg-[#0f1115]/30 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors shadow-sm cursor-pointer flex items-center justify-center",
+        "p-2.5 rounded-none border border-zinc-200 dark:border-zinc-900/35 bg-white dark:bg-[#0f1115]/30 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors shadow-sm cursor-pointer flex items-center justify-center active:scale-95",
         className,
       )}
       aria-label="Toggle theme"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
     >
       <Sun className="w-4 h-4 hidden dark:block" />
       <Moon className="w-4 h-4 block dark:hidden" />
-    </motion.button>
+    </button>
   );
 };
 
 // --- Animation Generation ---
-const createAnimation = (variant: AnimationVariant, start: AnimationStart, blur: boolean): Animation => {
+const createAnimation = (variant: AnimationVariant, start: AnimationStart, _blur: boolean): Animation => {
   if (variant === "circle" && start === "center") {
     return {
       name: "curtain-bottom-up",
       css: `
-        ::view-transition-group(root) { animation-duration: 0.6s; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
-        ::view-transition-new(root) { animation-name: curtain-reveal; ${blur ? "filter: blur(2px);" : ""} }
+        ::view-transition-group(root) { animation-duration: 0.3s; animation-timing-function: ease-out; }
+        ::view-transition-new(root) { animation-name: curtain-reveal; }
         ::view-transition-old(root) { animation: none; z-index: -1; }
         @keyframes curtain-reveal {
-          from { clip-path: inset(0% 0% 100% 0%); ${blur ? "filter: blur(8px);" : ""} }
-          to { clip-path: inset(0% 0% 0% 0%); ${blur ? "filter: blur(0px);" : ""} }
+          from { clip-path: inset(0% 0% 100% 0%); }
+          to { clip-path: inset(0% 0% 0% 0%); }
         }
       `
     };

@@ -14,25 +14,22 @@ type View = 'about' | 'experience' | 'projects' | 'me' | 'contact';
 const pageVariants = {
   initial: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? 40 : direction < 0 ? -40 : 0,
-    y: direction === 0 ? 8 : 0,
+    x: direction > 0 ? 20 : direction < 0 ? -20 : 0,
   }),
   animate: { 
     opacity: 1, 
     x: 0,
-    y: 0,
     transition: {
-      duration: 0.35,
-      ease: [0.215, 0.610, 0.355, 1.000] as const,
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1] as const,
     }
   },
   exit: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? -40 : direction < 0 ? 40 : 0,
-    y: direction === 0 ? -8 : 0,
+    x: direction > 0 ? -20 : direction < 0 ? 20 : 0,
     transition: {
-      duration: 0.25,
-      ease: [0.215, 0.610, 0.355, 1.000] as const,
+      duration: 0.15,
+      ease: [0.42, 0, 1, 1] as const,
     }
   })
 };

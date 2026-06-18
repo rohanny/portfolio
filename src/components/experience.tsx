@@ -1,6 +1,5 @@
 import React from "react";
 import { Briefcase } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface ExperienceItemType {
   company: string;
@@ -39,9 +38,8 @@ interface ExperienceCardProps {
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
   return (
-    <motion.div
-      className="group p-5 rounded-none border bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm w-full transition-all duration-300 space-y-3 cursor-default"
-      whileHover={{ scale: 1.01 }}
+    <div
+      className="group p-5 rounded-none border bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm w-full space-y-3 cursor-default"
     >
       <div className="flex justify-between items-start gap-4 relative z-10">
         <div>
@@ -58,7 +56,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
         {exp.description}
       </p>
       {exp.projects && exp.projects.length > 0 && (
-        <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-300 ease-in-out relative z-10">
+        <div className="grid grid-rows-[1fr] sm:grid-rows-[0fr] sm:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-200 ease-out relative z-10">
           <div className="overflow-hidden">
             <div className="space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800/50">
               <span className="text-[9px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500">key projects</span>
@@ -84,7 +82,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
           </span>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 };
 

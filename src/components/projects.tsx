@@ -1,6 +1,5 @@
 import React from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface ProjectItem {
   name: string;
@@ -49,15 +48,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const mainLink = project.demo || project.github;
 
   return (
-    <motion.a
+    <a
       href={mainLink || "#"}
       target={mainLink ? "_blank" : undefined}
       rel={mainLink ? "noopener noreferrer" : undefined}
-      className={`group p-4 rounded-none border relative overflow-hidden flex flex-col justify-between h-full transition-all duration-300 ${
+      className={`group p-4 rounded-none border relative overflow-hidden flex flex-col justify-between h-full ${
         mainLink ? "cursor-pointer" : "cursor-default"
       } bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm`}
-      whileHover={{ scale: 1.015, y: -2 }}
-      whileTap={mainLink ? { scale: 0.985 } : undefined}
     >
       <div className="space-y-2 relative z-10">
         <div className="flex items-start justify-between">
@@ -65,7 +62,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             {project.name}
           </h3>
           {mainLink && (
-            <ArrowUpRight className="w-4 h-4 text-zinc-400 dark:text-zinc-650 group-hover:text-zinc-600 dark:group-hover:text-zinc-350 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <ArrowUpRight className="w-4 h-4 text-zinc-400 dark:text-zinc-650 group-hover:text-zinc-600 dark:group-hover:text-zinc-350 transition-colors" />
           )}
         </div>
         <p className="text-xs text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
@@ -82,7 +79,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </span>
         ))}
       </div>
-    </motion.a>
+    </a>
   );
 };
 
