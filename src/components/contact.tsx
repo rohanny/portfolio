@@ -18,7 +18,7 @@ const LeetCodeIcon = () => (
   </svg>
 );
 
-export const Contact: React.FC<ContactProps> = ({ isDarkMode: _isDarkMode }) => {
+export const Contact: React.FC<ContactProps> = ({ isDarkMode: _ }) => {
   const contactLinks: ContactLink[] = [
     {
       label: "github",
