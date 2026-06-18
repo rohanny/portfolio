@@ -1,136 +1,217 @@
-import { Home, Briefcase, FileText, Code2, Link } from "lucide-react";
-import { useState, lazy, Suspense } from "react";
-import { motion } from "framer-motion";
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import Shell from "./ui/shell";
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { CustomCursor } from "./components/ui/cursor";
+import { Header } from "./components/header";
+import { Experience } from "./components/experience";
+import { Projects } from "./components/projects";
+import { Contact } from "./components/contact";
+import { Me } from "./components/me";
+// import { Blog } from "./components/blog";
+import { Spotify } from "./components/spotify";
+import { Navbar } from "./components/navbar";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-const HomePage = lazy(() => import("./pages/home"));
-const Projects = lazy(() => import("./pages/projects"));
-const WorkExperience = lazy(() => import("./pages/experience"));
-const TechStack = lazy(() => import("./pages/tech"));
-const Links = lazy(() => import("./pages/links"));
+type View = 'about' | 'experience' | 'projects' | 'me' | 'contact';
 
-const PageLoader = () => (
-  <div className="flex items-center justify-center h-full">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-400"></div>
-  </div>
-);
-
-const items = [
-  { label: "Home", icon: <Home className="w-full h-full" />, path: "/" },
-  { label: "Work Experience", icon: <Briefcase className="w-full h-full" />, path: "/work-experience" },
-  { label: "Projects", icon: <FileText className="w-full h-full" />, path: "/projects" },
-  { label: "Tech Stack", icon: <Code2 className="w-full h-full" />, path: "/tech-stack" },
-  { label: "Links", icon: <Link className="w-full h-full" />, path: "/links" },
-];
-
-function AppContent() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const navigate = useNavigate();
-  const location = useLocation();
-  
-  const toggleDarkMode = () => {
-    setIsDarkMode((prev) => !prev);
-  };
-
-  const handlePageChange = (pageName: string) => {
-    const item = items.find(item => item.label === pageName);
-    if (item) {
-      navigate(item.path);
+const pageVariants = {
+  initial: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? 40 : direction < 0 ? -40 : 0,
+    y: direction === 0 ? 8 : 0,
+  }),
+  animate: { 
+    opacity: 1, 
+    x: 0,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: [0.215, 0.610, 0.355, 1.000] as const,
     }
-  };
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? -40 : direction < 0 ? 40 : 0,
+    y: direction === 0 ? -8 : 0,
+    transition: {
+      duration: 0.25,
+      ease: [0.215, 0.610, 0.355, 1.000] as const,
+    }
+  })
+};
 
-  // Find the active label based on the current path
-  const activeLabel = items.find(item => item.path === location.pathname)?.label;
+export default function App() {
+  const [currentView, setCurrentView] = useState<View>('about');
+  const [direction, setDirection] = useState(0);
+  const currentViewRef = useRef(currentView);
+  currentViewRef.current = currentView;
+
+  const handleViewChange = useCallback((newView: View) => {
+    const views: View[] = ['about', 'experience', 'projects', 'contact', 'me'];
+    const curIdx = views.indexOf(currentViewRef.current);
+    const newIdx = views.indexOf(newView);
+    if (newIdx !== curIdx) {
+      setDirection(newIdx > curIdx ? 1 : -1);
+      setCurrentView(newView);
+    }
+  }, []);
+
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme");
+      if (stored) return stored === "dark";
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement as HTMLElement | null;
+      if (
+        activeEl && 
+        (activeEl.tagName === "INPUT" || 
+         activeEl.tagName === "TEXTAREA" || 
+         activeEl.isContentEditable)
+      ) {
+        return;
+      }
+
+      switch (e.key.toLowerCase()) {
+        case "a":
+          handleViewChange("about");
+          break;
+        case "e":
+          handleViewChange("experience");
+          break;
+        case "p":
+          handleViewChange("projects");
+          break;
+        case "m":
+          handleViewChange("me");
+          break;
+        case "c":
+          handleViewChange("contact");
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleViewChange]);
+
+  const handleThemeToggle = () => {
+    setIsDark((prev) => !prev);
+  };
 
   return (
-    <>
-      <CustomCursor isDarkMode={isDarkMode} />
-      <Shell
-        items={items}
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-        onItemClick={handlePageChange}
-        activeLabel={activeLabel}
-      >
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d10] text-zinc-850 dark:text-zinc-300 font-sans selection:bg-zinc-800/80 dark:selection:bg-zinc-200/80 selection:text-white dark:selection:text-black pb-24 transition-colors duration-500 relative overflow-hidden lowercase">
+      <Navbar 
+        currentView={currentView} 
+        onViewChange={handleViewChange} 
+        isDarkMode={isDark} 
+        onThemeToggle={handleThemeToggle} 
+      />
+
+      {/* Decorative gradient blob */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[350px] bg-radial-gradient from-zinc-300/20 dark:from-zinc-900/40 via-transparent to-transparent pointer-events-none blur-3xl opacity-50 z-0 transition-all duration-550" />
+
+      <div className="max-w-2xl mx-auto px-6 pt-28 relative z-10">
+        <AnimatePresence mode="wait" custom={direction}>
+          {currentView === "about" && (
             <motion.div
-              key="home"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="min-h-full"
+              key="about"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
             >
-              <HomePage isDarkMode={isDarkMode} />
+              <div>
+                <Header />
+              </div>
+
+              <div>
+                <Spotify isDarkMode={isDark} />
+              </div>
             </motion.div>
-          } />
-          <Route path="/work-experience" element={
+          )}
+
+          {currentView === "experience" && (
             <motion.div
-              key="work-experience"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="min-h-full"
+              key="experience"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
             >
-              <WorkExperience isDarkMode={isDarkMode} />
+              <div>
+                <Experience />
+              </div>
             </motion.div>
-          } />
-          <Route path="/projects" element={
+          )}
+
+          {currentView === "projects" && (
             <motion.div
               key="projects"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="min-h-full"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
             >
-              <Projects isDarkMode={isDarkMode} />
+              <div>
+                <Projects />
+              </div>
             </motion.div>
-          } />
-          <Route path="/tech-stack" element={
+          )}
+
+          {currentView === "me" && (
             <motion.div
-              key="tech-stack"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="min-h-full"
+              key="me"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
             >
-              <TechStack isDarkMode={isDarkMode} />
+              <div>
+                <Me isDarkMode={isDark} />
+              </div>
             </motion.div>
-          } />
-          <Route path="/links" element={
+          )}
+
+          {currentView === "contact" && (
             <motion.div
-              key="links"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="min-h-full"
+              key="contact"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
             >
-              <Links isDarkMode={isDarkMode} />
+              <div>
+                <Contact isDarkMode={isDark} />
+              </div>
             </motion.div>
-          } />
-        </Routes>
-      </Suspense>
-    </Shell>
-    </>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
-function App() {
-  return (
-    <Router>
-      <SpeedInsights />
-      <AppContent />
-    </Router>
-  );
-}
-
-export default App;

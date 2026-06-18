@@ -1,8 +1,7 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { useCallback } from "react";
 import { cn } from "../lib/utils";
+import { Sun, Moon } from "lucide-react";
 
 // --- Types ---
 export type AnimationVariant = "circle" | "rectangle" | "gif" | "polygon" | "circle-blur";
@@ -61,38 +60,20 @@ export const ThemeToggle = ({
   }, [isDarkMode, toggleDarkMode, variant, start, blur, updateStyles]);
 
   return (
-    <button
+    <motion.button
       type="button"
+      onClick={handleToggle}
       className={cn(
-        "size-10 cursor-pointer rounded-full p-0 transition-all duration-300 active:scale-95 flex items-center justify-center",
+        "p-2.5 rounded-none border border-zinc-200 dark:border-zinc-900/35 bg-white dark:bg-[#0f1115]/30 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors shadow-sm cursor-pointer flex items-center justify-center",
         className,
       )}
-      onClick={handleToggle}
       aria-label="Toggle theme"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <span className="sr-only">Toggle theme</span>
-      <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <motion.g
-          animate={{ rotate: isDarkMode ? -180 : 0 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-        >
-          <path
-            d="M120 67.5C149.25 67.5 172.5 90.75 172.5 120C172.5 149.25 149.25 172.5 120 172.5"
-            fill="white"
-          />
-          <path
-            d="M120 67.5C90.75 67.5 67.5 90.75 67.5 120C67.5 149.25 90.75 172.5 120 172.5"
-            fill="black"
-          />
-        </motion.g>
-        <motion.path
-          animate={{ rotate: isDarkMode ? 180 : 0 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-          d="M120 3.75C55.5 3.75 3.75 55.5 3.75 120C3.75 184.5 55.5 236.25 120 236.25C184.5 236.25 236.25 184.5 236.25 120C236.25 55.5 184.5 3.75 120 3.75ZM120 214.5V172.5C90.75 172.5 67.5 149.25 67.5 120C67.5 90.75 90.75 67.5 120 67.5V25.5C172.5 25.5 214.5 67.5 214.5 120C214.5 172.5 172.5 214.5 120 214.5Z"
-          fill={isDarkMode ? "white" : "black"} 
-        />
-      </svg>
-    </button>
+      <Sun className="w-4 h-4 hidden dark:block" />
+      <Moon className="w-4 h-4 block dark:hidden" />
+    </motion.button>
   );
 };
 
@@ -106,7 +87,7 @@ const createAnimation = (variant: AnimationVariant, start: AnimationStart, blur:
         ::view-transition-new(root) { animation-name: curtain-reveal; ${blur ? "filter: blur(2px);" : ""} }
         ::view-transition-old(root) { animation: none; z-index: -1; }
         @keyframes curtain-reveal {
-          from { clip-path: inset(100% 0% 0% 0%); ${blur ? "filter: blur(8px);" : ""} }
+          from { clip-path: inset(0% 0% 100% 0%); ${blur ? "filter: blur(8px);" : ""} }
           to { clip-path: inset(0% 0% 0% 0%); ${blur ? "filter: blur(0px);" : ""} }
         }
       `

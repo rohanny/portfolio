@@ -1,0 +1,58 @@
+{
+  "steam": {
+    "username": "rohanny",
+    "profileUrl": "https://steamcommunity.com/id/rohanny/",
+    "status": "currently playing: elden ring",
+    "avatarText": "ry",
+    "recentlyPlayed": [
+      {
+        "name": "elden ring",
+        "hours": "182 hrs",
+        "status": "in-game",
+        "lastPlayed": "active"
+      },
+      {
+        "name": "hollow knight",
+        "hours": "64 hrs",
+        "status": "offline",
+        "lastPlayed": "2 days ago"
+      },
+      {
+        "name": "cyberpunk 2077",
+        "hours": "118 hrs",
+        "status": "offline",
+        "lastPlayed": "1 week ago"
+      }
+    ]
+  },
+  "letterboxd": {
+    "username": "chronicIe",
+    "profileUrl": "https://letterboxd.com/chronicIe/",
+    "recentlyWatched": [
+      {
+        "title": "interstellar",
+        "rating": 5,
+        "year": "2014",
+        "review": "masterpiece of time and gravity."
+      },
+      {
+        "title": "dune: part two",
+        "rating": 4.5,
+        "year": "2024",
+        "review": "spectacular scale and sound design."
+      },
+      {
+        "title": "spider-man: into the spider-verse",
+        "rating": 5,
+        "year": "2018",
+        "review": "the peak of animated storytelling."
+      },
+      {
+        "title": "whiplash",
+        "rating": 5,
+        "year": "2014",
+        "review": "intense, visceral, and perfectly paced."
+      }
+    ]
+  }
+}
