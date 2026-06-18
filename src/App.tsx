@@ -11,6 +11,14 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 type View = 'about' | 'experience' | 'projects' | 'me' | 'contact';
 
+const viewFromPath = (path: string): View => {
+  const clean = path.replace(/^\//, '').toLowerCase();
+  if (['experience', 'projects', 'me', 'contact'].includes(clean)) {
+    return clean as View;
+  }
+  return 'about';
+};
+
 const pageVariants = {
   initial: (direction: number) => ({
     opacity: 0,
@@ -35,20 +43,39 @@ const pageVariants = {
 };
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<View>('about');
+  const [currentView, setCurrentView] = useState<View>(() => {
+    if (typeof window !== 'undefined') {
+      return viewFromPath(window.location.pathname);
+    }
+    return 'about';
+  });
   const [direction, setDirection] = useState(0);
   const currentViewRef = useRef(currentView);
   currentViewRef.current = currentView;
 
-  const handleViewChange = useCallback((newView: View) => {
+  const handleViewChange = useCallback((newView: View, pushState = true) => {
     const views: View[] = ['about', 'experience', 'projects', 'contact', 'me'];
     const curIdx = views.indexOf(currentViewRef.current);
     const newIdx = views.indexOf(newView);
     if (newIdx !== curIdx) {
       setDirection(newIdx > curIdx ? 1 : -1);
       setCurrentView(newView);
+      if (pushState) {
+        const path = newView === 'about' ? '/' : `/${newView}`;
+        window.history.pushState({ view: newView }, '', path);
+      }
     }
   }, []);
+
+  // Handle browser back/forward
+  useEffect(() => {
+    const handlePopState = () => {
+      const view = viewFromPath(window.location.pathname);
+      handleViewChange(view, false);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [handleViewChange]);
 
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== "undefined") {
