@@ -1,33 +1,49 @@
-# React + TypeScript + Vite
+# ry.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+minimal portfolio built with react, typescript, and tailwind.
 
-Currently, two official plugins are available:
+## features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **steam integration** — live gaming status & recently played
+- **letterboxd integration** — latest watched films via rss
+- **spotify/last.fm** — currently playing track
+- **ascii matrix** — interactive pikachu animation
+- **view transitions** — smooth theme switching
 
-## Expanding the ESLint configuration
+## stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- vite + react + typescript
+- tailwind css
+- framer motion
+- vercel serverless functions
 
-- Configure the top-level `parserOptions` property like this:
+## development
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## environment variables
+
+```env
+VITE_LASTFM_USERNAME=
+VITE_LASTFM_API_KEY=
+VITE_STEAM_API_KEY=
+VITE_STEAM_ID=
+VITE_LETTERBOXD_USERNAME=
+
+# serverless functions
+STEAM_API_KEY=
+```
+
+## deployment
+
+deployed on vercel. push to main to deploy.
+
+---
+
+*"despite everything, it's still you."*
 
 ```js
 // eslint.config.js
