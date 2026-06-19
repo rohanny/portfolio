@@ -25,6 +25,34 @@ class LetterboxdService {
     this.isDev = import.meta.env.DEV;
   }
 
+  private getCache<T>(key: string, ttlMs: number): T | null {
+    if (typeof window === 'undefined' || !window.sessionStorage) return null;
+    try {
+      const cached = sessionStorage.getItem(key);
+      if (!cached) return null;
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.timestamp < ttlMs) {
+        return parsed.data as T;
+      }
+      sessionStorage.removeItem(key);
+    } catch (e) {
+      console.error('Failed to read from cache:', e);
+    }
+    return null;
+  }
+
+  private setCache<T>(key: string, data: T): void {
+    if (typeof window === 'undefined' || !window.sessionStorage) return;
+    try {
+      sessionStorage.setItem(key, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      console.error('Failed to write to cache:', e);
+    }
+  }
+
   private parseRating(description: string): number | null {
     // Letterboxd RSS uses star rating like "★★★★" or "★★★½"
     const starMatch = description.match(/★+½?/);
@@ -69,6 +97,10 @@ class LetterboxdService {
       console.warn('Letterboxd username not configured');
       return [];
     }
+
+    const cacheKey = `letterboxd_films_${this.username}_${count}`;
+    const cached = this.getCache<LetterboxdFilm[]>(cacheKey, 21600000); // 6 hours TTL
+    if (cached) return cached;
 
     try {
       let url: string;
@@ -117,6 +149,7 @@ class LetterboxdService {
         });
       });
 
+      this.setCache(cacheKey, films);
       return films;
     } catch (error) {
       console.error('Failed to fetch Letterboxd films:', error);

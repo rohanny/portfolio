@@ -55,7 +55,7 @@ function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
       }
     };
     fetchMusicData();
-    const interval = setInterval(fetchMusicData, 30000);
+    const interval = setInterval(fetchMusicData, 120000); // Refresh every 2 minutes
     return () => clearInterval(interval);
   }, []);
 

@@ -63,6 +63,34 @@ class SteamService {
     this.isDev = import.meta.env.DEV;
   }
 
+  private getCache<T>(key: string, ttlMs: number): T | null {
+    if (typeof window === 'undefined' || !window.sessionStorage) return null;
+    try {
+      const cached = sessionStorage.getItem(key);
+      if (!cached) return null;
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.timestamp < ttlMs) {
+        return parsed.data as T;
+      }
+      sessionStorage.removeItem(key);
+    } catch (e) {
+      console.error('Failed to read from cache:', e);
+    }
+    return null;
+  }
+
+  private setCache<T>(key: string, data: T): void {
+    if (typeof window === 'undefined' || !window.sessionStorage) return;
+    try {
+      sessionStorage.setItem(key, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      console.error('Failed to write to cache:', e);
+    }
+  }
+
   private formatPlaytime(minutes: number): string {
     const hours = Math.floor(minutes / 60);
     if (hours < 1) return `${minutes} mins`;
@@ -89,6 +117,10 @@ class SteamService {
       return null;
     }
 
+    const cacheKey = `steam_profile_${this.steamId}`;
+    const cached = this.getCache<SteamProfile>(cacheKey, 21600000); // 6 hours TTL
+    if (cached) return cached;
+
     try {
       let url: string;
       if (this.isDev) {
@@ -110,7 +142,7 @@ class SteamService {
 
       if (!player) return null;
 
-      return {
+      const profile: SteamProfile = {
         username: player.personaname,
         profileUrl: player.profileurl,
         avatar: player.avatarmedium,
@@ -119,6 +151,9 @@ class SteamService {
         isInGame: !!player.gameextrainfo,
         currentGame: player.gameextrainfo,
       };
+
+      this.setCache(cacheKey, profile);
+      return profile;
     } catch (error) {
       console.error('Failed to fetch Steam profile:', error);
       return null;
@@ -130,6 +165,10 @@ class SteamService {
       console.warn('Steam API key or Steam ID not configured');
       return [];
     }
+
+    const cacheKey = `steam_recent_games_${this.steamId}_${count}`;
+    const cached = this.getCache<SteamGameInfo[]>(cacheKey, 21600000); // 6 hours TTL
+    if (cached) return cached;
 
     try {
       let url: string;
@@ -150,7 +189,7 @@ class SteamService {
       const data: SteamRecentGamesResponse = await response.json();
       const profile = await this.getPlayerSummary();
 
-      return (data.response.games || []).map((game) => ({
+      const games = (data.response.games || []).map((game) => ({
         id: game.appid,
         name: game.name,
         hoursPlayed: this.formatPlaytime(game.playtime_forever),
@@ -162,6 +201,9 @@ class SteamService {
           : `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/capsule_184x69.jpg`,
         isCurrentlyPlaying: profile?.currentGame?.toLowerCase() === game.name.toLowerCase(),
       }));
+
+      this.setCache(cacheKey, games);
+      return games;
     } catch (error) {
       console.error('Failed to fetch Steam games:', error);
       return [];

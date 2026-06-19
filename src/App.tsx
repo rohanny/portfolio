@@ -8,15 +8,16 @@ import { Spotify } from "./components/spotify";
 import { Navbar } from "./components/navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTheme } from "next-themes";
 
-type View = 'about' | 'experience' | 'projects' | 'me' | 'contact';
+type View = 'home' | 'experience' | 'projects' | 'me' | 'contact';
 
 const viewFromPath = (path: string): View => {
   const clean = path.replace(/^\//, '').toLowerCase();
   if (['experience', 'projects', 'me', 'contact'].includes(clean)) {
     return clean as View;
   }
-  return 'about';
+  return 'home';
 };
 
 const pageVariants = {
@@ -47,21 +48,21 @@ export default function App() {
     if (typeof window !== 'undefined') {
       return viewFromPath(window.location.pathname);
     }
-    return 'about';
+    return 'home';
   });
   const [direction, setDirection] = useState(0);
   const currentViewRef = useRef(currentView);
   currentViewRef.current = currentView;
 
   const handleViewChange = useCallback((newView: View, pushState = true) => {
-    const views: View[] = ['about', 'experience', 'projects', 'contact', 'me'];
+    const views: View[] = ['home', 'experience', 'projects', 'contact', 'me'];
     const curIdx = views.indexOf(currentViewRef.current);
     const newIdx = views.indexOf(newView);
     if (newIdx !== curIdx) {
       setDirection(newIdx > curIdx ? 1 : -1);
       setCurrentView(newView);
       if (pushState) {
-        const path = newView === 'about' ? '/' : `/${newView}`;
+        const path = newView === 'home' ? '/' : `/${newView}`;
         window.history.pushState({ view: newView }, '', path);
       }
     }
@@ -77,23 +78,8 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [handleViewChange]);
 
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme");
-      if (stored) return stored === "dark";
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
+  const { setTheme, resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -108,8 +94,8 @@ export default function App() {
       }
 
       switch (e.key.toLowerCase()) {
-        case "a":
-          handleViewChange("about");
+        case "h":
+          handleViewChange("home");
           break;
         case "e":
           handleViewChange("experience");
@@ -133,7 +119,7 @@ export default function App() {
   }, [handleViewChange]);
 
   const handleThemeToggle = () => {
-    setIsDark((prev) => !prev);
+    setTheme(isDark ? "light" : "dark");
   };
 
   return (
@@ -150,9 +136,9 @@ export default function App() {
 
       <div className="max-w-2xl mx-auto px-6 pt-28 relative z-10">
         <AnimatePresence mode="wait" custom={direction}>
-          {currentView === "about" && (
+          {currentView === "home" && (
             <motion.div
-              key="about"
+              key="home"
               custom={direction}
               variants={pageVariants}
               initial="initial"

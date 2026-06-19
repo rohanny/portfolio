@@ -2,8 +2,8 @@ import React from "react";
 import { ThemeToggle } from "./theme";
 
 interface NavbarProps {
-  currentView: 'about' | 'experience' | 'projects' | 'me' | 'contact';
-  onViewChange: (view: 'about' | 'experience' | 'projects' | 'me' | 'contact') => void;
+  currentView: 'home' | 'experience' | 'projects' | 'me' | 'contact';
+  onViewChange: (view: 'home' | 'experience' | 'projects' | 'me' | 'contact') => void;
   isDarkMode: boolean;
   onThemeToggle: () => void;
 }
@@ -14,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onThemeToggle
 }) => {
-  const getLinkClass = (view: 'about' | 'experience' | 'projects' | 'me' | 'contact') => {
+  const getLinkClass = (view: 'home' | 'experience' | 'projects' | 'me' | 'contact') => {
     const isActive = currentView === view;
     return `text-[11px] sm:text-xs font-mono transition-colors cursor-pointer ${
       isActive 
@@ -27,17 +27,17 @@ export const Navbar: React.FC<NavbarProps> = ({
     <nav className="fixed top-0 left-0 w-full z-40 border-b border-zinc-200/50 dark:border-zinc-900/50 bg-zinc-50/70 dark:bg-[#0c0d10]/70 backdrop-blur-md transition-colors duration-300">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         <button 
-          onClick={() => onViewChange("about")}
+          onClick={() => onViewChange("home")}
           className="font-mono text-sm font-semibold text-zinc-900 dark:text-white cursor-pointer hidden min-[380px]:block"
         >
           ry.
         </button>
         <div className="flex items-center gap-3 sm:gap-5 w-full min-[380px]:w-auto justify-between min-[380px]:justify-end">
           <button 
-            onClick={() => onViewChange("about")}
-            className={getLinkClass("about")}
+            onClick={() => onViewChange("home")}
+            className={getLinkClass("home")}
           >
-            [a]bout
+            [h]ome
           </button>
           <button 
             onClick={() => onViewChange("experience")}

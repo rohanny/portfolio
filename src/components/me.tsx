@@ -52,7 +52,7 @@ export const Me: React.FC<MeProps> = ({ isDarkMode }) => {
       }
     };
     fetchSteamData();
-    const interval = setInterval(fetchSteamData, 60000); // Refresh every minute
+    const interval = setInterval(fetchSteamData, 300000); // Refresh every 5 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -230,7 +230,6 @@ export const Me: React.FC<MeProps> = ({ isDarkMode }) => {
         <div className="pt-4">
           <Matrix isDarkMode={isDarkMode} />
         </div>
-
       </div>
     </div>
   );
