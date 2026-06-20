@@ -6,6 +6,7 @@ import { Me } from "./components/me";
 // import { Blog } from "./components/blog";
 import { Spotify } from "./components/spotify";
 import { Navbar } from "./components/navbar";
+import { HomeFeatured } from "./components/featured";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
@@ -134,7 +135,7 @@ export default function App() {
       {/* Decorative gradient blob */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[350px] bg-radial-gradient from-zinc-300/20 dark:from-zinc-900/40 via-transparent to-transparent pointer-events-none blur-3xl opacity-50 z-0 transition-all duration-550" />
 
-      <div className="max-w-2xl mx-auto px-6 pt-28 relative z-10">
+      <div className="max-w-2xl mx-auto px-6 pt-20 sm:pt-28 relative z-10">
         <AnimatePresence mode="wait" custom={direction}>
           {currentView === "home" && (
             <motion.div
@@ -148,6 +149,10 @@ export default function App() {
             >
               <div>
                 <Header />
+              </div>
+
+              <div>
+                <HomeFeatured onViewChange={handleViewChange} />
               </div>
 
               <div>

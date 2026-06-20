@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface ProjectItem {
   name: string;
@@ -85,18 +85,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
 export const Projects: React.FC = () => {
   return (
-    <section className="space-y-6">
-      <div className="flex items-center gap-2 text-zinc-400 select-none">
-        <ExternalLink className="w-4 h-4 text-zinc-500" />
-        <h2 className="text-sm font-semibold uppercase tracking-widest font-mono">
-          Projects Archive
+    <div className="space-y-10">
+      <div className="space-y-3">
+        <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white font-satoshi">
+          projects.
         </h2>
+        <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
+          a collection of things i've built.
+        </p>
       </div>
       <div className="grid grid-cols-1 gap-4">
         {projects.map((project, idx) => (
           <ProjectCard key={idx} project={project} />
         ))}
       </div>
-    </section>
+    </div>
   );
 };

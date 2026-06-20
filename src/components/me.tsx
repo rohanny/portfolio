@@ -3,6 +3,7 @@ import meData from "../data/me.json";
 import { steamService, SteamProfile, SteamGameInfo } from "../lib/steam";
 import { letterboxdService, LetterboxdFilm } from "../lib/letterboxd";
 import { Matrix } from "./matrix";
+import { ChikBoy } from "./chikboy";
 
 interface MeProps {
   isDarkMode: boolean;
@@ -124,8 +125,12 @@ export const Me: React.FC<MeProps> = ({ isDarkMode }) => {
           href={steam.profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group block p-4 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300"
+          className="group block p-4 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300 relative"
         >
+          {/* ChikBoy running on the top border of the card */}
+          <div className="absolute -top-[93px] left-0 right-0 z-20 pointer-events-none h-[90px]">
+            <ChikBoy isDarkMode={isDarkMode} />
+          </div>
           {/* Header with profile */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">

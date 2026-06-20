@@ -1,5 +1,4 @@
 import React from "react";
-import { Briefcase } from "lucide-react";
 
 interface ExperienceItemType {
   company: string;
@@ -88,18 +87,20 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => {
 
 export const Experience: React.FC = () => {
   return (
-    <section className="space-y-6">
-      <div className="flex items-center gap-2 text-zinc-400 select-none">
-        <Briefcase className="w-4 h-4 text-zinc-500" />
-        <h2 className="text-sm font-semibold uppercase tracking-widest font-mono">
-          Work Experience
+    <div className="space-y-10">
+      <div className="space-y-3">
+        <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white font-satoshi">
+          work.
         </h2>
+        <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
+          my professional journey and roles.
+        </p>
       </div>
       <div className="space-y-6">
         {experiences.map((exp, idx) => (
           <ExperienceCard key={idx} exp={exp} />
         ))}
       </div>
-    </section>
+    </div>
   );
 };
