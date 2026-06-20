@@ -22,6 +22,18 @@ export const SkeletonSprite: React.FC<SkeletonSpriteProps> = ({ scale = 1.8 }) =
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [displacement, setDisplacement] = useState({ x: 0, y: 0 });
   const [hasAttackedThisHover, setHasAttackedThisHover] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(pointer: coarse)");
+      setIsTouchDevice(mediaQuery.matches);
+      
+      const handler = (e: MediaQueryListEvent) => setIsTouchDevice(e.matches);
+      mediaQuery.addEventListener("change", handler);
+      return () => mediaQuery.removeEventListener("change", handler);
+    }
+  }, []);
 
   const frameWidth = 256;
   const frameHeight = 256;
@@ -330,13 +342,13 @@ export const SkeletonSprite: React.FC<SkeletonSpriteProps> = ({ scale = 1.8 }) =
         onClick={handleClick}
         className="select-none rounded bg-[#0c0d10] w-full h-full overflow-hidden"
         style={{ 
-          cursor: isHovered && currentState !== "death" && currentState !== "hidden" && smokeFrame === null ? "none" : "pointer" 
+          cursor: !isTouchDevice && isHovered && currentState !== "death" && currentState !== "hidden" && smokeFrame === null ? "none" : "pointer" 
         }}
       >
         <canvas ref={canvasRef} className="block pixelated" />
       </div>
 
-      {isHovered && currentState !== "death" && currentState !== "hidden" && smokeFrame === null && (
+      {!isTouchDevice && isHovered && currentState !== "death" && currentState !== "hidden" && smokeFrame === null && (
         <div 
           className="pointer-events-none absolute z-50 transition-all duration-150 ease-out"
           style={{
