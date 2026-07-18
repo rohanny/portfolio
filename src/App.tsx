@@ -26,8 +26,8 @@ const pageVariants = {
     opacity: 0,
     x: direction > 0 ? 20 : direction < 0 ? -20 : 0,
   }),
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     x: 0,
     transition: {
       duration: 0.2,
@@ -86,10 +86,10 @@ export default function App() {
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeEl = document.activeElement as HTMLElement | null;
       if (
-        activeEl && 
-        (activeEl.tagName === "INPUT" || 
-         activeEl.tagName === "TEXTAREA" || 
-         activeEl.isContentEditable)
+        activeEl &&
+        (activeEl.tagName === "INPUT" ||
+          activeEl.tagName === "TEXTAREA" ||
+          activeEl.isContentEditable)
       ) {
         return;
       }
@@ -125,11 +125,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d10] text-zinc-850 dark:text-zinc-300 font-sans selection:bg-zinc-800/80 dark:selection:bg-zinc-200/80 selection:text-white dark:selection:text-black pb-24 transition-colors duration-500 relative overflow-hidden lowercase">
-      <Navbar 
-        currentView={currentView} 
-        onViewChange={handleViewChange} 
-        isDarkMode={isDark} 
-        onThemeToggle={handleThemeToggle} 
+      <Navbar
+        currentView={currentView}
+        onViewChange={handleViewChange}
+        isDarkMode={isDark}
+        onThemeToggle={handleThemeToggle}
       />
 
       {/* Decorative gradient blob */}
@@ -155,7 +155,7 @@ export default function App() {
                 <HomeFeatured onViewChange={handleViewChange} />
               </div>
 
-              <div>
+              <div className="!mt-8">
                 <Spotify isDarkMode={isDark} />
               </div>
             </motion.div>

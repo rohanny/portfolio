@@ -15,6 +15,22 @@ export interface SteamRecentGamesResponse {
   };
 }
 
+export interface SteamOwnedGame {
+  appid: number;
+  name: string;
+  playtime_forever: number;
+  img_icon_url: string;
+  rtime_last_played?: number;
+}
+
+export interface SteamOwnedGamesResponse {
+  response: {
+    game_count: number;
+    games: SteamOwnedGame[];
+  };
+}
+
+
 export interface SteamPlayerSummary {
   steamid: string;
   personaname: string;
@@ -98,7 +114,7 @@ class SteamService {
   }
 
   private getStatusText(state: number, gameInfo?: string): string {
-    if (gameInfo) return `playing ${gameInfo}`;
+    if (gameInfo && gameInfo.toLowerCase() !== 'wallpaper engine') return `playing ${gameInfo}`;
     switch (state) {
       case 0: return 'offline';
       case 1: return 'online';
@@ -117,7 +133,7 @@ class SteamService {
       return null;
     }
 
-    const cacheKey = `steam_profile_${this.steamId}`;
+    const cacheKey = `steam_profile_v2_${this.steamId}`;
     const cached = this.getCache<SteamProfile>(cacheKey, 21600000); // 6 hours TTL
     if (cached) return cached;
 
@@ -142,14 +158,18 @@ class SteamService {
 
       if (!player) return null;
 
+      const isWallpaperEngine = player.gameextrainfo?.toLowerCase() === 'wallpaper engine' || player.gameid === '431960';
+      const isInGame = !!player.gameextrainfo && !isWallpaperEngine;
+      const currentGame = isInGame ? player.gameextrainfo : undefined;
+
       const profile: SteamProfile = {
         username: player.personaname,
         profileUrl: player.profileurl,
         avatar: player.avatarmedium,
-        status: this.getStatusText(player.personastate, player.gameextrainfo),
+        status: this.getStatusText(player.personastate, currentGame),
         isOnline: player.personastate > 0,
-        isInGame: !!player.gameextrainfo,
-        currentGame: player.gameextrainfo,
+        isInGame: isInGame,
+        currentGame: currentGame,
       };
 
       this.setCache(cacheKey, profile);
@@ -160,13 +180,60 @@ class SteamService {
     }
   }
 
+  async getOwnedGames(): Promise<SteamGameInfo[]> {
+    if (!this.apiKey || !this.steamId) {
+      return [];
+    }
+
+    const cacheKey = `steam_owned_games_v2_${this.steamId}`;
+    const cached = this.getCache<SteamGameInfo[]>(cacheKey, 21600000); // 6 hours TTL
+    if (cached) return cached;
+
+    try {
+      let url: string;
+      if (this.isDev) {
+        url = `/proxy/steam/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${this.steamId}&include_appinfo=true&include_played_free_games=true&format=json`;
+      } else {
+        url = `/api/steam/owned?steamid=${this.steamId}`;
+      }
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Steam API error: ${response.status}`);
+      }
+
+      const data: SteamOwnedGamesResponse = await response.json();
+      const profile = await this.getPlayerSummary();
+
+      const games = (data.response.games || [])
+        .filter((game) => game.appid !== 431960 && game.name.toLowerCase() !== 'wallpaper engine' && game.playtime_forever > 0)
+        .sort((a, b) => (b.rtime_last_played || 0) - (a.rtime_last_played || 0))
+        .map((game) => ({
+          id: game.appid,
+          name: game.name,
+          hoursPlayed: this.formatPlaytime(game.playtime_forever),
+          hoursRecent: undefined,
+          iconUrl: game.img_icon_url
+            ? `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`
+            : `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/capsule_184x69.jpg`,
+          isCurrentlyPlaying: profile?.currentGame?.toLowerCase() === game.name.toLowerCase(),
+        }));
+
+      this.setCache(cacheKey, games);
+      return games;
+    } catch (error) {
+      console.error('Failed to fetch Steam owned games:', error);
+      return [];
+    }
+  }
+
   async getRecentlyPlayedGames(count: number = 5): Promise<SteamGameInfo[]> {
     if (!this.apiKey || !this.steamId) {
       console.warn('Steam API key or Steam ID not configured');
       return [];
     }
 
-    const cacheKey = `steam_recent_games_${this.steamId}_${count}`;
+    const cacheKey = `steam_recent_games_v2_${this.steamId}_${count}`;
     const cached = this.getCache<SteamGameInfo[]>(cacheKey, 21600000); // 6 hours TTL
     if (cached) return cached;
 
@@ -189,18 +256,25 @@ class SteamService {
       const data: SteamRecentGamesResponse = await response.json();
       const profile = await this.getPlayerSummary();
 
-      const games = (data.response.games || []).map((game) => ({
-        id: game.appid,
-        name: game.name,
-        hoursPlayed: this.formatPlaytime(game.playtime_forever),
-        hoursRecent: game.playtime_2weeks 
-          ? this.formatPlaytime(game.playtime_2weeks) 
-          : undefined,
-        iconUrl: game.img_icon_url 
-          ? `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`
-          : `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/capsule_184x69.jpg`,
-        isCurrentlyPlaying: profile?.currentGame?.toLowerCase() === game.name.toLowerCase(),
-      }));
+      let games: SteamGameInfo[] = (data.response.games || [])
+        .filter((game) => game.appid !== 431960 && game.name.toLowerCase() !== 'wallpaper engine')
+        .map((game) => ({
+          id: game.appid,
+          name: game.name,
+          hoursPlayed: this.formatPlaytime(game.playtime_forever),
+          hoursRecent: game.playtime_2weeks
+            ? this.formatPlaytime(game.playtime_2weeks)
+            : undefined,
+          iconUrl: game.img_icon_url
+            ? `https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/${game.appid}/${game.img_icon_url}.jpg`
+            : `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/capsule_184x69.jpg`,
+          isCurrentlyPlaying: profile?.currentGame?.toLowerCase() === game.name.toLowerCase(),
+        }));
+
+      if (games.length === 0) {
+        const owned = await this.getOwnedGames();
+        games = owned.slice(0, count);
+      }
 
       this.setCache(cacheKey, games);
       return games;
