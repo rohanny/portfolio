@@ -222,11 +222,7 @@ export const SkeletonSprite: React.FC<SkeletonSpriteProps> = ({ scale = 1.8 }) =
           x: targetX - dx,
           y: targetY - dy,
         });
-      } else {
-        setDisplacement({ x: 0, y: 0 });
       }
-    } else {
-      setDisplacement({ x: 0, y: 0 });
     }
   }, [currentState, currentFrame, mousePos, isHovered, adjustedScale]);
 
@@ -244,6 +240,7 @@ export const SkeletonSprite: React.FC<SkeletonSpriteProps> = ({ scale = 1.8 }) =
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setDisplacement({ x: 0, y: 0 });
   };
 
   const handleClick = (e: React.MouseEvent) => {
