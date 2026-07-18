@@ -4,9 +4,6 @@ const urlsToCache = [
   '/index.html',
   '/src/main.tsx',
   '/src/index.css',
-  '/placeholder.svg',
-  '/softlink.png',
-  // Removed Google Fonts URLs to avoid CORS errors
 ];
 
 // Install event - cache resources

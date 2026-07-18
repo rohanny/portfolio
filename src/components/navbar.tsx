@@ -2,8 +2,8 @@ import React from "react";
 import { ThemeToggle } from "./theme";
 
 interface NavbarProps {
-  currentView: 'home' | 'experience' | 'projects' | 'me' | 'contact';
-  onViewChange: (view: 'home' | 'experience' | 'projects' | 'me' | 'contact') => void;
+  currentView: 'home' | 'experience' | 'projects' | 'me' | 'contact' | 'blog';
+  onViewChange: (view: 'home' | 'experience' | 'projects' | 'me' | 'contact' | 'blog') => void;
   isDarkMode: boolean;
   onThemeToggle: () => void;
 }
@@ -14,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onThemeToggle
 }) => {
-  const getLinkClass = (view: 'home' | 'experience' | 'projects' | 'me' | 'contact') => {
+  const getLinkClass = (view: 'home' | 'experience' | 'projects' | 'me' | 'contact' | 'blog') => {
     const isActive = currentView === view;
     return `text-[11px] sm:text-xs font-mono transition-colors cursor-pointer ${
       isActive 
@@ -52,6 +52,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <span className="hidden sm:inline">[p]rojects</span>
             <span className="inline sm:hidden">[p]roj</span>
+          </button>
+          <button 
+            onClick={() => onViewChange("blog")}
+            className={getLinkClass("blog")}
+          >
+            [b]log
           </button>
           <button 
             onClick={() => onViewChange("contact")}

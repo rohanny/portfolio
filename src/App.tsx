@@ -3,20 +3,22 @@ import { Experience } from "./components/experience";
 import { Projects } from "./components/projects";
 import { Contact } from "./components/contact";
 import { Me } from "./components/me";
-// import { Blog } from "./components/blog";
+import { Blog } from "./components/blog";
 import { Spotify } from "./components/spotify";
 import { Navbar } from "./components/navbar";
 import { HomeFeatured } from "./components/featured";
+import { Terminal } from "./components/terminal";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 
-type View = 'home' | 'experience' | 'projects' | 'me' | 'contact';
+type View = 'home' | 'experience' | 'projects' | 'me' | 'contact' | 'blog';
 
 const viewFromPath = (path: string): View => {
   const clean = path.replace(/^\//, '').toLowerCase();
-  if (['experience', 'projects', 'me', 'contact'].includes(clean)) {
-    return clean as View;
+  const base = clean.split('/')[0];
+  if (['experience', 'projects', 'me', 'contact', 'blog'].includes(base)) {
+    return base as View;
   }
   return 'home';
 };
@@ -52,11 +54,12 @@ export default function App() {
     return 'home';
   });
   const [direction, setDirection] = useState(0);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const currentViewRef = useRef(currentView);
   currentViewRef.current = currentView;
 
   const handleViewChange = useCallback((newView: View, pushState = true) => {
-    const views: View[] = ['home', 'experience', 'projects', 'contact', 'me'];
+    const views: View[] = ['home', 'experience', 'projects', 'contact', 'me', 'blog'];
     const curIdx = views.indexOf(currentViewRef.current);
     const newIdx = views.indexOf(newView);
     if (newIdx !== curIdx) {
@@ -84,6 +87,11 @@ export default function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore navigation shortcuts if modifier keys are pressed (e.g. Ctrl+C)
+      if (e.ctrlKey || e.metaKey || e.altKey) {
+        return;
+      }
+
       const activeEl = document.activeElement as HTMLElement | null;
       if (
         activeEl &&
@@ -91,6 +99,17 @@ export default function App() {
           activeEl.tagName === "TEXTAREA" ||
           activeEl.isContentEditable)
       ) {
+        // Allow backtick to toggle even when input is active, but only if it's the backtick key
+        if (e.key === "`") {
+          e.preventDefault();
+          setIsTerminalOpen((prev) => !prev);
+        }
+        return;
+      }
+
+      if (e.key === "`") {
+        e.preventDefault();
+        setIsTerminalOpen((prev) => !prev);
         return;
       }
 
@@ -109,6 +128,9 @@ export default function App() {
           break;
         case "c":
           handleViewChange("contact");
+          break;
+        case "b":
+          handleViewChange("blog");
           break;
         default:
           break;
@@ -224,8 +246,32 @@ export default function App() {
               </div>
             </motion.div>
           )}
+
+          {currentView === "blog" && (
+            <motion.div
+              key="blog"
+              custom={direction}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-16"
+            >
+              <div>
+                <Blog />
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
+
+      <Terminal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
+        isDarkMode={isDark}
+        onThemeToggle={handleThemeToggle}
+        onViewChange={handleViewChange}
+      />
     </div>
   );
 }
