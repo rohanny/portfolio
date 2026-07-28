@@ -54,12 +54,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="inline sm:hidden">[p]roj</span>
           </button>
           <button 
-            onClick={() => onViewChange("blog")}
-            className={getLinkClass("blog")}
-          >
-            [b]log
-          </button>
-          <button 
             onClick={() => onViewChange("contact")}
             className={getLinkClass("contact")}
           >

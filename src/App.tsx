@@ -129,9 +129,6 @@ export default function App() {
         case "c":
           handleViewChange("contact");
           break;
-        case "b":
-          handleViewChange("blog");
-          break;
         default:
           break;
       }

@@ -21,7 +21,6 @@ const COMMANDS = [
   "experience",
   "projects",
   "contact",
-  "blog",
   "neofetch",
   "theme",
   "clear",
@@ -154,9 +153,6 @@ export const Terminal: React.FC<TerminalProps> = ({
             </div>
             <div>
               <span className="text-zinc-800 dark:text-zinc-200 font-medium">projects</span> - show portfolio works
-            </div>
-            <div>
-              <span className="text-zinc-800 dark:text-zinc-200 font-medium">blog</span> - show blog articles
             </div>
             <div>
               <span className="text-zinc-800 dark:text-zinc-200 font-medium">contact</span> - show social coordinates

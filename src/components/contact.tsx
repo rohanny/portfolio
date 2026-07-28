@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Twitter, Linkedin, Mail, FileText, Globe, ArrowUpRight } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail, Globe, ArrowUpRight } from "lucide-react";
 
 interface ContactProps {
   isDarkMode: boolean;
@@ -49,12 +49,6 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode: _ }) => {
       value: "rohanny.vercel.app",
       url: "https://rohanny.vercel.app",
       icon: <Globe className="w-4 h-4" />,
-    },
-    {
-      label: "resume",
-      value: "view resume",
-      url: "https://docs.google.com/document/d/1fqed3vpSoKiJa_fRrqk_JIXWDAsHtRwxd0-bDjbDaZ8/edit?tab=t.0",
-      icon: <FileText className="w-4 h-4" />,
     },
     {
       label: "x (twitter)",
