@@ -8,6 +8,7 @@ import { Spotify } from "./components/spotify";
 import { Navbar } from "./components/navbar";
 import { HomeFeatured } from "./components/featured";
 import { Terminal } from "./components/terminal";
+import { PixelGridTrail } from "./components/pixel-grid-trail";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
@@ -144,6 +145,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d10] text-zinc-850 dark:text-zinc-300 font-sans selection:bg-zinc-800/80 dark:selection:bg-zinc-200/80 selection:text-white dark:selection:text-black pb-24 transition-colors duration-500 relative overflow-hidden lowercase">
+      <PixelGridTrail isDarkMode={isDark} />
       <Navbar
         currentView={currentView}
         onViewChange={handleViewChange}

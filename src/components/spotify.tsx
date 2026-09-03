@@ -3,8 +3,18 @@ import { useEffect, useState } from 'react';
 import { lastFmService, MusicTrack } from '../lib/lastfm';
 import React, { Suspense } from 'react';
 
-class SpotifyErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
-  constructor(props: { children: React.ReactNode }) {
+const FALLBACK_TRACK: MusicTrack = {
+  id: 'fallback-borderline',
+  name: 'Borderline',
+  artist: 'Tame Impala',
+  album: 'The Slow Rush',
+  albumArtUrl: 'https://upload.wikimedia.org/wikipedia/en/5/54/Tame_Impala_-_The_Slow_Rush.png',
+  url: 'https://open.spotify.com/search/Borderline%20Tame%20Impala',
+  isPlaying: false,
+};
+
+class SpotifyErrorBoundary extends React.Component<{ children: React.ReactNode; isDarkMode?: boolean }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode; isDarkMode?: boolean }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -14,20 +24,17 @@ class SpotifyErrorBoundary extends React.Component<{ children: React.ReactNode }
   componentDidCatch(_error: any, _info: any) {}
   render() {
     if (this.state.hasError) {
-      return (
-        <div className="flex items-center justify-center p-5 text-xs text-zinc-550 bg-zinc-950/20 border border-zinc-900 rounded-none">
-          Failed to load music status.
-        </div>
-      );
+      return <SpotifyCardContent isDarkMode={this.props.isDarkMode ?? true} fallbackOnly />;
     }
     return this.props.children;
   }
 }
 
-function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
+function SpotifyCardContent({ isDarkMode, fallbackOnly }: { isDarkMode: boolean; fallbackOnly?: boolean }) {
   const [nowPlaying, setNowPlaying] = useState<MusicTrack | null>(null);
   const [recentTracks, setRecentTracks] = useState<MusicTrack[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!fallbackOnly);
+  const [imageError, setImageError] = useState(false);
   
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -41,35 +48,43 @@ function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
   };
 
   useEffect(() => {
+    if (fallbackOnly) return;
+
+    let isMounted = true;
     const fetchMusicData = async () => {
       try {
         setLoading(true);
         const currentTrack = await lastFmService.getNowPlaying();
-        setNowPlaying(currentTrack);
+        if (isMounted) setNowPlaying(currentTrack);
         const recentTracksData = await lastFmService.getRecentTracks(5);
-        setRecentTracks(recentTracksData);
+        if (isMounted) setRecentTracks(recentTracksData);
       } catch (err) {
-        // Stream offline
+        // Stream offline / fallback
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     fetchMusicData();
     const interval = setInterval(fetchMusicData, 120000); // Refresh every 2 minutes
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [fallbackOnly]);
 
-  const displayTrack = nowPlaying || recentTracks[0];
-  const songName = displayTrack?.name || "Offline";
-  const artistName = displayTrack?.artist || "Spotify";
-  const albumName = displayTrack?.album || "";
-  const albumArtUrl = displayTrack?.albumArtUrl;
+  const displayTrack = nowPlaying || (recentTracks.length > 0 ? recentTracks[0] : null) || FALLBACK_TRACK;
+  const songName = displayTrack.name || FALLBACK_TRACK.name;
+  const artistName = displayTrack.artist || FALLBACK_TRACK.artist;
+  const albumName = displayTrack.album || FALLBACK_TRACK.album;
+  const albumArtUrl = displayTrack.albumArtUrl || FALLBACK_TRACK.albumArtUrl;
 
   const createSpotifyUrl = (trackName: string, artistName: string) => {
     const searchQuery = encodeURIComponent(`${trackName} ${artistName}`);
     return `https://open.spotify.com/search/${searchQuery}`;
   };
-  const spotifyUrl = displayTrack ? createSpotifyUrl(songName, artistName) : '#';
+  const spotifyUrl = displayTrack?.url && displayTrack.url.includes('spotify.com') 
+    ? displayTrack.url 
+    : createSpotifyUrl(songName, artistName);
 
   const renderContent = () => {
     if (loading) {
@@ -103,11 +118,12 @@ function SpotifyCardContent({ isDarkMode }: { isDarkMode: boolean }) {
 
         {/* Medium album cover */}
         <div className="w-16 h-16 rounded-none overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-850 flex items-center justify-center ml-4 flex-shrink-0 relative shadow-inner">
-          {albumArtUrl ? (
+          {albumArtUrl && !imageError ? (
             <img 
               src={albumArtUrl} 
               alt={`${albumName || songName} cover art`}
               className="w-full h-full object-cover select-none pointer-events-none"
+              onError={() => setImageError(true)}
             />
           ) : (
             <svg className="w-7 h-7 text-zinc-400 dark:text-zinc-700" viewBox="0 0 24 24" fill="currentColor">
@@ -157,7 +173,7 @@ interface SpotifyProps {
 
 export const Spotify: React.FC<SpotifyProps> = ({ isDarkMode }) => {
   return (
-    <SpotifyErrorBoundary>
+    <SpotifyErrorBoundary isDarkMode={isDarkMode}>
       <Suspense fallback={
         <div className={`flex items-center justify-between p-5 border rounded-none h-[92px] ${
           isDarkMode 
