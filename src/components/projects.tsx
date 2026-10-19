@@ -1,89 +1,133 @@
-import React from "react";
-import { ArrowUpRight } from "lucide-react";
+import React, { useState } from "react";
+import { ItemCard, ItemCardData } from "./item-card";
+import { DetailView, DetailViewData } from "./detail-view";
 
-interface ProjectItem {
-  name: string;
-  description: string;
-  tags: string[];
-  github: string;
-  demo: string | null;
-}
+const projectDetails: Record<string, DetailViewData> = {
+  kronos: {
+    id: "kronos",
+    category: "project",
+    title: "Kronos",
+    subtitle: "Distributed Log-Structured Storage Engine",
+    period: "Personal Systems Project",
+    overview:
+      "Kronos is an append-only commit log and distributed storage engine inspired by the internal architectures of Kafka and Bitcask. Built in C++, it explores write-ahead logging (WAL), memory-mapped segment indexing, sequential disk write performance, and crash-recovery protocols with payload checksum validation.",
+    tags: ["C++", "Distributed Systems", "Write-Ahead Log (WAL)", "Memory-Mapped I/O", "CRC32", "Storage Engines"],
+    links: [
+      { label: "github repository", url: "https://github.com/rohanny/kronos", icon: "github" }
+    ],
+    sections: [
+      {
+        heading: "architectural highlights & storage model",
+        points: [
+          "Append-Only Commit Log: Employs sequential I/O to maximize disk write throughput, avoiding costly random write seek times on disk.",
+          "Memory-Mapped Segment Indexing: Keeps dense offset-to-physical-byte indices memory-mapped (mmap) for constant-time (O(1)) index lookups and low-latency sequential range reads.",
+          "Write-Ahead Logging (WAL): Enforces all writes to persist sequentially to WAL before memory updates, ensuring atomicity and zero state loss upon crashes.",
+          "CRC32 Checksum Integrity: Appends CRC32 checksums to segment record headers; validates integrity on startup to detect and isolate partially written or corrupted log records.",
+          "Segment Compaction & Rolling: Implements segment file rollover at configurable size boundaries to support background cleanup and retain bound log sizes."
+        ]
+      },
+      {
+        heading: "key technical challenges solved",
+        points: [
+          "Eliminating memory bloat during massive append bursts using bounded buffer pooling and flushing semantics.",
+          "Designing deterministic crash recovery that reads segment headers sequentially and safely restores the partition state table on unexpected process termination."
+        ]
+      }
+    ]
+  },
+  uldraw: {
+    id: "uldraw",
+    category: "project",
+    title: "Uldraw",
+    subtitle: "Real-Time Collaborative Canvas Platform",
+    period: "Full-Stack Project",
+    overview:
+      "Uldraw is an interactive, real-time infinite collaborative whiteboard built with Next.js, React, WebSockets, and PostgreSQL. It allows multiple distributed users to simultaneously draw, manipulate vector nodes, and collaborate with minimal synchronization overhead.",
+    tags: ["Next.js", "React", "TypeScript", "WebSockets", "PostgreSQL", "Tailwind CSS"],
+    links: [
+      { label: "live web app", url: "https://rohanny.vercel.app", icon: "external" },
+      { label: "github repository", url: "https://github.com/rohanny", icon: "github" }
+    ],
+    sections: [
+      {
+        heading: "real-time synchronization & engine architecture",
+        points: [
+          "WebSocket Broadcast Hub: Implemented lightweight room-based channels for low-latency transmission of live cursor positions, active drag states, and element modifications.",
+          "Vector Canvas Engine: Custom SVG/Canvas rendering pipeline optimized for smooth rendering and high-frequency coordinate tracking.",
+          "Conflict-Aware History Stack: Implemented a robust local and synchronized undo/redo stack managing concurrent element modifications without canvas corruption.",
+          "Persistent Storage: Backed by PostgreSQL for reliable workspace persistence, user authentication, and project state snapshots."
+        ]
+      }
+    ]
+  },
+  feedback: {
+    id: "feedback",
+    category: "project",
+    title: "Feedback",
+    subtitle: "Workflow Automation & Application Tracking Platform",
+    period: "Full-Stack Project",
+    overview:
+      "Feedback is a full-stack tracking and workflow automation platform built with React, Node.js, Express, and MongoDB. It streamlines applicant evaluation cycles, automated status tracking, and review pipelines with state machine transitions.",
+    tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "REST APIs"],
+    links: [
+      { label: "github repository", url: "https://github.com/VighneshManjrekar/feedback", icon: "github" }
+    ],
+    sections: [
+      {
+        heading: "system features & design",
+        points: [
+          "State Machine Workflow: Designed deterministic multi-stage status workflows to track candidates and applications smoothly across evaluation stages.",
+          "Asynchronous Background Queues: Handled automated event triggers, notifications, and candidate evaluations asynchronously.",
+          "Schema Validation: Structured strict validation rules with Express middleware ensuring complete payload validation and data integrity in MongoDB.",
+          "Role-Based Access: Secure authentication and granular permissions for reviewers, hiring managers, and administrators."
+        ]
+      }
+    ]
+  }
+};
 
-const projects: ProjectItem[] = [
+const projectList: ItemCardData[] = [
   {
-    name: "Fine Dine",
-    description: "A contactless dining website built with jQuery, HTML, and Tailwind CSS. Created during the pandemic to minimize human interaction while dining out, ensuring a safer experience.",
-    tags: ["jQuery", "HTML", "Tailwind CSS"],
-    github: "https://github.com/geek-lords/fine-dine-admin-frontend",
-    demo: "https://abhiraj-kale.github.io/fine-dine-admin-frontend/public/webpages/homepage.html"
+    id: "kronos",
+    title: "Kronos",
+    subtitle: "Distributed Log-Structured Storage Engine",
+    metaBadge: "C++",
+    description:
+      "Append-only commit log engine inspired by Kafka and Bitcask. Implements sequential disk writes, memory-mapped segment indexing, WAL, and CRC32 crash recovery.",
+    tags: ["C++", "Distributed Systems", "WAL", "mmap", "Storage Engine"]
   },
   {
-    name: "Cine Phile",
-    description: "A streaming platform with social features built using React and Tailwind CSS. Offers a diverse library of movies and TV shows with an innovative chat feature powered by Stream Chat.",
-    tags: ["React", "Tailwind CSS", "Stream Chat"],
-    github: "https://github.com/rohannY/Cine-Phile",
-    demo: null
+    id: "uldraw",
+    title: "Uldraw",
+    subtitle: "Real-Time Collaborative Canvas Platform",
+    metaBadge: "Live",
+    description:
+      "Infinite collaborative canvas with Next.js and WebSockets. Features real-time multi-user cursor tracking, concurrent shape editing, and conflict-aware undo/redo stacks.",
+    tags: ["Next.js", "React", "TypeScript", "WebSockets", "PostgreSQL"]
   },
   {
-    name: "Preeti Bhojan",
-    description: "A captivating landing page for a mobile application designed to boost user engagement and drive downloads. Features a visually appealing design that effectively showcases the app's value proposition.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/rohannY/PreetiBhojan",
-    demo: "https://preetibhojan.co.in/"
-  },
-  {
-    name: "Article Summarizer",
-    description: "A web application that uses NLP and machine learning to automatically generate concise summaries of articles. Built with React and Tailwind CSS for enhanced productivity and time-saving.",
-    tags: ["React", "Tailwind CSS", "NLP"],
-    github: "https://github.com/rohannY/summarizer-ui",
-    demo: null
+    id: "feedback",
+    title: "Feedback",
+    subtitle: "Workflow Automation & Tracking Platform",
+    metaBadge: "Full-Stack",
+    description:
+      "Full-stack workflow tracking platform with deterministic state transitions, asynchronous background queues, and structured REST API validations.",
+    tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB"]
   }
 ];
 
-interface ProjectCardProps {
-  project: ProjectItem;
-}
-
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const mainLink = project.demo || project.github;
-
-  return (
-    <a
-      href={mainLink || "#"}
-      target={mainLink ? "_blank" : undefined}
-      rel={mainLink ? "noopener noreferrer" : undefined}
-      className={`group p-4 rounded-none border relative overflow-hidden flex flex-col justify-between h-full ${
-        mainLink ? "cursor-pointer" : "cursor-default"
-      } bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm`}
-    >
-      <div className="space-y-2 relative z-10">
-        <div className="flex items-start justify-between">
-          <h3 className="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors">
-            {project.name}
-          </h3>
-          {mainLink && (
-            <ArrowUpRight className="w-4 h-4 text-zinc-400 dark:text-zinc-650 group-hover:text-zinc-600 dark:group-hover:text-zinc-350 transition-colors" />
-          )}
-        </div>
-        <p className="text-xs text-zinc-600 dark:text-zinc-400 font-light leading-relaxed">
-          {project.description}
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-1.5 pt-3 relative z-10">
-        {project.tags.map((tag, tIdx) => (
-          <span
-            key={tIdx}
-            className="text-[10px] font-mono bg-zinc-100 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400 px-2.5 py-0.5 rounded-none"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </a>
-  );
-};
-
 export const Projects: React.FC = () => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  if (selectedId && projectDetails[selectedId]) {
+    return (
+      <DetailView
+        data={projectDetails[selectedId]}
+        onBack={() => setSelectedId(null)}
+      />
+    );
+  }
+
   return (
     <div className="space-y-10">
       <div className="space-y-3">
@@ -91,12 +135,13 @@ export const Projects: React.FC = () => {
           projects.
         </h2>
         <p className="text-sm font-mono text-zinc-500 dark:text-zinc-400">
-          a collection of things i've built.
+          a collection of distributed systems, developer tools, and web platforms i've built.
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-4">
-        {projects.map((project, idx) => (
-          <ProjectCard key={idx} project={project} />
+
+      <div className="space-y-4">
+        {projectList.map((item) => (
+          <ItemCard key={item.id} item={item} onClick={setSelectedId} />
         ))}
       </div>
     </div>
