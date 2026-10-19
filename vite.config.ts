@@ -16,6 +16,9 @@ export default defineConfig({
     },
   },
   server: {
+    watch: {
+      ignored: ['**/public/audio/**', '**/backup/**']
+    },
     proxy: {
       '/proxy/steam': {
         target: 'https://api.steampowered.com',

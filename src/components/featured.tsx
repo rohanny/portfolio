@@ -31,7 +31,7 @@ export const HomeFeatured: React.FC<HomeFeaturedProps> = ({ onViewChange }) => {
             <span className="text-[10px] text-zinc-400 font-mono">June 2024 - Present</span>
           </div>
           <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-light leading-relaxed">
-            Delivering cloud-native freight forwarding ERP platforms, customs clearance software, and blockchain data systems.
+            Building backend services and data workflows for freight forwarding and customs software.
           </p>
         </div>
 

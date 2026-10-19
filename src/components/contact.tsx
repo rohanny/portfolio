@@ -40,8 +40,8 @@ export const Contact: React.FC<ContactProps> = ({ isDarkMode: _ }) => {
     },
     {
       label: "email",
-      value: "yrohan740@gmail.com",
-      url: "mailto:yrohan740@gmail.com",
+      value: "rohanyadav.tech@gmail.com",
+      url: "mailto:rohanyadav.tech@gmail.com",
       icon: <Mail className="w-4 h-4" />,
     },
     {

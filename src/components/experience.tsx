@@ -11,7 +11,7 @@ const experienceDetails: Record<string, DetailViewData> = {
     location: "Mumbai",
     period: "June 2024 - Present",
     overview:
-      "At Softlink Global, I worked on core platform and backend engineering problems spanning distributed systems, asynchronous data pipelines, cross-database replication, and developer infrastructure. I engineered backend sync daemons, Change Data Capture (CDC) pipelines, and high-performance document tools powering enterprise logistics ERP deployments.",
+      "At Softlink Global, I work on platform and backend engineering across distributed systems, asynchronous data pipelines, cross-database replication, and developer tooling. My work includes synchronization services, Change Data Capture (CDC) pipelines, and document generation tools for logistics software.",
     tags: [
       "C#",
       ".NET Core",
@@ -32,19 +32,19 @@ const experienceDetails: Record<string, DetailViewData> = {
           {
             title: "Incremental Change Data Capture (CDC) Sync Daemon",
             subtitle: ".NET Core • SQL Server • PostgreSQL",
-            desc: "Designed and built background synchronization workers that process SQL Server Change Tracking offsets and perform incremental bulk updates into analytical PostgreSQL instances every 5 minutes, eliminating full-table locks and sync latency.",
+            desc: "Built background synchronization workers that process SQL Server Change Tracking offsets and apply incremental bulk updates to PostgreSQL, avoiding repeated full-table synchronization.",
             stack: ["C#", ".NET Core", "SQL Server Change Tracking", "PostgreSQL", "Background Workers"]
           },
           {
             title: "Cross-Database Replication Pipelines",
             subtitle: "RabbitMQ • Binary Protocols • Connection Pooling",
-            desc: "Architected asynchronous data synchronization pipelines using RabbitMQ and connection pooling to reliably decouple high-volume transactional ERP operational writes into analytical stores across 10+ enterprise client deployments.",
+            desc: "Built asynchronous synchronization pipelines using RabbitMQ and connection pooling to decouple transactional ERP writes from analytical stores.",
             stack: ["RabbitMQ", "SQL Server", "PostgreSQL", ".NET", "Connection Pooling"]
           },
           {
             title: "Automated Schema Comparison & Migration Tooling",
             subtitle: "C# • Information Schema • Schema Drift",
-            desc: "Developed automated comparison tooling to inspect metadata across versions prior to migration, detecting schema divergence (missing columns, altered datatypes) across 50+ production tables to prevent ingestion failures during upgrades.",
+            desc: "Developed schema comparison tooling to inspect metadata across versions and surface missing columns or changed data types before migrations.",
             stack: ["C#", "SQL Server Metadata", "PostgreSQL", "Schema Migration"]
           },
           {
@@ -66,7 +66,6 @@ const experienceDetails: Record<string, DetailViewData> = {
         points: [
           "Developed resilient backend services and REST APIs supporting core freight forwarding and customs clearance modules.",
           "Implemented structured logging and distributed tracing with OpenTelemetry to track end-to-end sync health.",
-          "Maintained 99.9% uptime across asynchronous data pipelines handling continuous production transactions.",
           "Collaborated closely with cross-functional teams, product architects, and database administrators to enforce schema governance and API security."
         ]
       }
@@ -77,6 +76,7 @@ const experienceDetails: Record<string, DetailViewData> = {
 const experienceList: ItemCardData[] = [
   {
     id: "softlink-global",
+    href: "/experience/softlink-global",
     title: "Software Engineer L1",
     subtitle: "Softlink Global",
     location: "Mumbai",
@@ -88,13 +88,40 @@ const experienceList: ItemCardData[] = [
 ];
 
 export const Experience: React.FC = () => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    const id = window.location.pathname.split("/")[2];
+    return id && experienceDetails[id] ? id : null;
+  });
+
+  React.useEffect(() => {
+    const syncSelection = () => {
+      const id = window.location.pathname.split("/")[2];
+      setSelectedId(id && experienceDetails[id] ? id : null);
+    };
+    window.addEventListener("popstate", syncSelection);
+    return () => window.removeEventListener("popstate", syncSelection);
+  }, []);
+
+  const selectExperience = (id: string) => {
+    window.history.pushState({ view: "experience", experienceId: id }, "", `/experience/${id}`);
+    setSelectedId(id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const backToExperience = () => {
+    if (window.history.state?.experienceId === selectedId) {
+      window.history.back();
+      return;
+    }
+    window.history.pushState({ view: "experience" }, "", "/experience");
+    setSelectedId(null);
+  };
 
   if (selectedId && experienceDetails[selectedId]) {
     return (
       <DetailView
         data={experienceDetails[selectedId]}
-        onBack={() => setSelectedId(null)}
+        onBack={backToExperience}
       />
     );
   }
@@ -112,7 +139,7 @@ export const Experience: React.FC = () => {
 
       <div className="space-y-4">
         {experienceList.map((item) => (
-          <ItemCard key={item.id} item={item} onClick={setSelectedId} />
+          <ItemCard key={item.id} item={item} onClick={selectExperience} />
         ))}
       </div>
     </div>

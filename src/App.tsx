@@ -4,12 +4,12 @@ import { Projects } from "./components/projects";
 import { Contact } from "./components/contact";
 import { Me } from "./components/me";
 import { Blog } from "./components/blog";
-import { Spotify } from "./components/spotify";
+import { SpotifyCard } from "./components/spotify-card";
 import { Navbar } from "./components/navbar";
 import { HomeFeatured } from "./components/featured";
 import { Terminal } from "./components/terminal";
 import { PixelGridTrail } from "./components/pixel-grid-trail";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 
@@ -144,7 +144,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d10] text-zinc-850 dark:text-zinc-300 font-sans selection:bg-zinc-800/80 dark:selection:bg-zinc-200/80 selection:text-white dark:selection:text-black pb-24 transition-colors duration-500 relative overflow-hidden lowercase">
+    <MotionConfig reducedMotion="user">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#0c0d10] text-zinc-850 dark:text-zinc-300 font-sans selection:bg-zinc-800/80 dark:selection:bg-zinc-200/80 selection:text-white dark:selection:text-black pb-24 transition-colors duration-150 relative overflow-hidden lowercase">
       <PixelGridTrail isDarkMode={isDark} />
       <Navbar
         currentView={currentView}
@@ -169,7 +170,7 @@ export default function App() {
               className="space-y-16"
             >
               <div>
-                <Header />
+                <Header onViewChange={handleViewChange} />
               </div>
 
               <div>
@@ -177,7 +178,7 @@ export default function App() {
               </div>
 
               <div className="!mt-8">
-                <Spotify isDarkMode={isDark} />
+                <SpotifyCard isDarkMode={isDark} />
               </div>
             </motion.div>
           )}
@@ -272,6 +273,7 @@ export default function App() {
         onViewChange={handleViewChange}
       />
     </div>
+    </MotionConfig>
   );
 }
 

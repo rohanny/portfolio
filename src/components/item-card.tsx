@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export interface ItemCardData {
   id: string;
@@ -10,6 +11,7 @@ export interface ItemCardData {
   description: string;
   tags: string[];
   metaBadge?: string;
+  href?: string;
 }
 
 interface ItemCardProps {
@@ -19,17 +21,19 @@ interface ItemCardProps {
 
 export const ItemCard: React.FC<ItemCardProps> = ({ item, onClick }) => {
   return (
-    <div
-      onClick={() => onClick(item.id)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onClick(item.id);
-        }
+    <motion.a
+      href={item.href ?? `/projects/${item.id}`}
+      onClick={(event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+        event.preventDefault();
+        onClick(item.id);
       }}
-      className="group p-5 rounded-none border bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm w-full space-y-3 cursor-pointer transition-colors duration-200 hover:border-zinc-400 dark:hover:border-zinc-700 text-left select-none"
+      aria-label={`view ${item.title} details`}
+      layout
+      whileHover={{ y: -3 }}
+      whileTap={{ scale: 0.99 }}
+      transition={{ type: "spring", stiffness: 360, damping: 28 }}
+      className="group block p-5 rounded-none border bg-white dark:bg-[#0f1115]/30 border-zinc-200 dark:border-zinc-900/80 shadow-sm w-full space-y-3 cursor-pointer transition-colors duration-200 hover:border-zinc-400 dark:hover:border-zinc-700 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-500"
     >
       <div className="flex justify-between items-start gap-4">
         <div>
@@ -75,6 +79,6 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item, onClick }) => {
           </span>
         ))}
       </div>
-    </div>
+    </motion.a>
   );
 };

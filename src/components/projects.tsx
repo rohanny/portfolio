@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { ItemCard, ItemCardData } from "./item-card";
 import { DetailView, DetailViewData } from "./detail-view";
+import { motion } from "framer-motion";
 
 const projectDetails: Record<string, DetailViewData> = {
   kronos: {
     id: "kronos",
     category: "project",
+    projectArtwork: "kronos",
     title: "Kronos",
     subtitle: "Distributed Log-Structured Storage Engine",
     period: "Personal Systems Project",
@@ -38,6 +40,7 @@ const projectDetails: Record<string, DetailViewData> = {
   uldraw: {
     id: "uldraw",
     category: "project",
+    projectArtwork: "uldraw",
     title: "Uldraw",
     subtitle: "Real-Time Collaborative Canvas Platform",
     period: "Full-Stack Project",
@@ -45,8 +48,7 @@ const projectDetails: Record<string, DetailViewData> = {
       "Uldraw is an interactive, real-time infinite collaborative whiteboard built with Next.js, React, WebSockets, and PostgreSQL. It allows multiple distributed users to simultaneously draw, manipulate vector nodes, and collaborate with minimal synchronization overhead.",
     tags: ["Next.js", "React", "TypeScript", "WebSockets", "PostgreSQL", "Tailwind CSS"],
     links: [
-      { label: "live web app", url: "https://rohanny.vercel.app", icon: "external" },
-      { label: "github repository", url: "https://github.com/rohanny", icon: "github" }
+      { label: "github profile", url: "https://github.com/rohannY", icon: "github" }
     ],
     sections: [
       {
@@ -63,6 +65,7 @@ const projectDetails: Record<string, DetailViewData> = {
   feedback: {
     id: "feedback",
     category: "project",
+    projectArtwork: "feedback",
     title: "Feedback",
     subtitle: "Workflow Automation & Application Tracking Platform",
     period: "Full-Stack Project",
@@ -117,13 +120,65 @@ const projectList: ItemCardData[] = [
 ];
 
 export const Projects: React.FC = () => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    const id = window.location.pathname.split("/")[2];
+    return id && projectDetails[id] ? id : null;
+  });
+
+  React.useEffect(() => {
+    const project = selectedId ? projectDetails[selectedId] : null;
+    const title = project ? `${project.title} — Rohan Yadav` : "Rohan Yadav — Software Engineer";
+    const description = project?.overview ?? "Rohan Yadav is a software engineer building reliable backend systems, distributed services, and thoughtful interfaces.";
+    const url = project ? `https://rohanny.vercel.app/projects/${project.id}` : "https://rohanny.vercel.app/";
+    document.title = title;
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
+    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", description);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", description);
+    return () => {
+      document.title = "Rohan Yadav — Software Engineer";
+      document.querySelector('link[rel="canonical"]')?.setAttribute("href", "https://rohanny.vercel.app/");
+      document.querySelector('meta[property="og:url"]')?.setAttribute("content", "https://rohanny.vercel.app/");
+      document.querySelector('meta[name="description"]')?.setAttribute("content", "Rohan Yadav is a software engineer building reliable backend systems, distributed services, and thoughtful interfaces.");
+      document.querySelector('meta[property="og:title"]')?.setAttribute("content", "Rohan Yadav — Software Engineer");
+      document.querySelector('meta[property="og:description"]')?.setAttribute("content", "Reliable backend systems, distributed services, and thoughtful interfaces.");
+      document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", "Rohan Yadav — Software Engineer");
+      document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", "Reliable backend systems, distributed services, and thoughtful interfaces.");
+    };
+  }, [selectedId]);
+
+  React.useEffect(() => {
+    const syncSelection = () => {
+      const id = window.location.pathname.split("/")[2];
+      setSelectedId(id && projectDetails[id] ? id : null);
+    };
+    window.addEventListener("popstate", syncSelection);
+    return () => window.removeEventListener("popstate", syncSelection);
+  }, []);
+
+  const selectProject = (id: string) => {
+    window.history.pushState({ view: "projects", projectId: id }, "", `/projects/${id}`);
+    setSelectedId(id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const backToProjects = () => {
+    if (window.history.state?.projectId === selectedId) {
+      window.history.back();
+      return;
+    }
+    window.history.pushState({ view: "projects" }, "", "/projects");
+    setSelectedId(null);
+  };
 
   if (selectedId && projectDetails[selectedId]) {
     return (
       <DetailView
         data={projectDetails[selectedId]}
-        onBack={() => setSelectedId(null)}
+        onBack={backToProjects}
       />
     );
   }
@@ -140,8 +195,14 @@ export const Projects: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        {projectList.map((item) => (
-          <ItemCard key={item.id} item={item} onClick={setSelectedId} />
+        {projectList.map((item, index) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: index * 0.045 } }}
+          >
+            <ItemCard item={item} onClick={selectProject} />
+          </motion.div>
         ))}
       </div>
     </div>
