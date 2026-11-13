@@ -11,6 +11,7 @@ import { ProjectDetail } from "@/components/project-detail";
 import { ExperienceDetail } from "@/components/experience-detail";
 import { OffTheClock } from "@/components/off-the-clock";
 import { Button } from "@/components/ui/button";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(
@@ -105,6 +106,7 @@ export default function App() {
           </>
         )}
       </main>
+      <Analytics />
     </>
   );
 }
