@@ -1,35 +1,16 @@
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
-import tailwindcss from "tailwindcss";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 
+const projectRoot = fileURLToPath(new URL(".", import.meta.url));
+
 export default defineConfig({
-  css: {
-    postcss: {
-      plugins: [tailwindcss()],
-    },
-  },
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  server: {
-    watch: {
-      ignored: ['**/public/audio/**', '**/backup/**']
-    },
-    proxy: {
-      '/proxy/steam': {
-        target: 'https://api.steampowered.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/proxy\/steam/, ''),
-      },
-      '/proxy/letterboxd': {
-        target: 'https://letterboxd.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/proxy\/letterboxd/, ''),
-      },
+      "@": path.resolve(projectRoot, "src"),
     },
   },
 });
