@@ -41,12 +41,18 @@ const experience = {
     "Alongside these systems, I built freight and customs APIs, added OpenTelemetry tracing to sync workflows, and worked with product, architecture, and database teams on schema governance and API security.",
 };
 
-export function ExperienceDetail({ onBack }: { onBack: () => void }) {
+export function ExperienceDetail({ onBack }: { onBack: (origin: { x: number; y: number }) => void }) {
   return (
     <article className="mx-auto mt-10 w-full max-w-[640px]" aria-labelledby="experience-detail-heading">
       <button
         type="button"
-        onClick={onBack}
+        onClick={(event) => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          onBack({
+            x: event.clientX || bounds.left + bounds.width / 2,
+            y: event.clientY || bounds.top + bounds.height / 2,
+          });
+        }}
         className="inline-flex items-center gap-2 border-0 bg-transparent p-0 font-sans text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ArrowLeft aria-hidden="true" className="size-4" />

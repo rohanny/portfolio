@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 
-export function Experience({ onSelect }: { onSelect: () => void }) {
+export function Experience({ onSelect }: { onSelect: (origin: { x: number; y: number }) => void }) {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="scroll-mt-16 mt-10">
       <div className="mb-4 flex items-center gap-3">
@@ -18,7 +18,13 @@ export function Experience({ onSelect }: { onSelect: () => void }) {
       <article className="group/experience relative grid cursor-pointer grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 px-3 py-4 transition-[padding,color] duration-200 hover:pl-[18px] hover:text-foreground focus-within:outline-none sm:flex sm:flex-wrap sm:gap-x-4 sm:gap-y-2 sm:py-5">
         <button
           type="button"
-          onClick={onSelect}
+          onClick={(event) => {
+            const bounds = event.currentTarget.getBoundingClientRect();
+            onSelect({
+              x: event.clientX || bounds.left + bounds.width / 2,
+              y: event.clientY || bounds.top + bounds.height / 2,
+            });
+          }}
           aria-label="Read about my work as Software Engineer L1 at Softlink Global"
           className="absolute inset-0 z-0 rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />

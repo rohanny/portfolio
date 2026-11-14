@@ -21,25 +21,46 @@ export default function App() {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const [activeExperience, setActiveExperience] = useState(false);
 
-  const toggleThemeFrom = ({ x, y }: { x: number; y: number }) => {
-    const nextIsDarkMode = !isDarkMode;
+  const transitionView = (
+    { x, y }: { x: number; y: number },
+    update: () => void,
+    type: "theme" | "page" = "theme",
+  ) => {
     const root = document.documentElement;
-    root.style.setProperty("--theme-switch-x", `${x}px`);
-    root.style.setProperty("--theme-switch-y", `${y}px`);
+    if (type === "theme") {
+      root.style.setProperty("--theme-switch-x", `${x}px`);
+      root.style.setProperty("--theme-switch-y", `${y}px`);
+    }
+    const pageContent = type === "page" ? document.getElementById("home") : null;
+    if (pageContent) {
+      root.dataset.viewTransitionType = "page";
+      pageContent.style.viewTransitionName = "page-content";
+    }
+    const clearPageTransition = () => {
+      delete root.dataset.viewTransitionType;
+      pageContent?.style.removeProperty("view-transition-name");
+    };
 
     const transitionDocument = document as Document & {
       startViewTransition?: (update: () => void) => { finished: Promise<void> };
     };
 
     if (transitionDocument.startViewTransition) {
-      transitionDocument.startViewTransition(() => {
-        root.classList.toggle("dark", nextIsDarkMode);
-        localStorage.setItem("portfolio-theme", nextIsDarkMode ? "dark" : "light");
-        flushSync(() => setIsDarkMode(nextIsDarkMode));
-      });
+      const transition = transitionDocument.startViewTransition(() => flushSync(update));
+      if (pageContent) void transition.finished.then(clearPageTransition, clearPageTransition);
     } else {
-      setIsDarkMode(nextIsDarkMode);
+      update();
+      if (pageContent) clearPageTransition();
     }
+  };
+
+  const toggleThemeFrom = ({ x, y }: { x: number; y: number }) => {
+    const nextIsDarkMode = !isDarkMode;
+    transitionView({ x, y }, () => {
+      document.documentElement.classList.toggle("dark", nextIsDarkMode);
+      localStorage.setItem("portfolio-theme", nextIsDarkMode ? "dark" : "light");
+      setIsDarkMode(nextIsDarkMode);
+    });
   };
 
   useEffect(() => {
@@ -72,34 +93,42 @@ export default function App() {
           )}
         </Button>
       </header>
+      {!activeProject && !activeExperience && <SectionRail />}
       <main id="home" className="mx-auto min-h-[calc(100svh-3rem)] w-full max-w-[640px] px-4 pb-8 pt-2">
         {activeProject ? (
           <ProjectDetail
             projectId={activeProject}
-            onBack={() => {
-              setActiveProject(null);
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            onBack={(origin) => {
+              transitionView(origin, () => {
+                setActiveProject(null);
+                window.scrollTo(0, 0);
+              }, "page");
             }}
           />
         ) : activeExperience ? (
           <ExperienceDetail
-            onBack={() => {
-              setActiveExperience(false);
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            onBack={(origin) => {
+              transitionView(origin, () => {
+                setActiveExperience(false);
+                window.scrollTo(0, 0);
+              }, "page");
             }}
           />
         ) : (
           <>
-            <SectionRail />
             <ProfileIntro />
-            <Experience onSelect={() => {
-              setActiveExperience(true);
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            <Experience onSelect={(origin) => {
+              transitionView(origin, () => {
+                setActiveExperience(true);
+                window.scrollTo(0, 0);
+              }, "page");
             }} />
             <GithubActivity />
-            <Projects onSelect={(projectId) => {
-              setActiveProject(projectId);
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            <Projects onSelect={(projectId, origin) => {
+              transitionView(origin, () => {
+                setActiveProject(projectId);
+                window.scrollTo(0, 0);
+              }, "page");
             }} />
             <TechStack />
             <Contact />

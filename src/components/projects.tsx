@@ -21,12 +21,18 @@ const projects = [
 
 function ProjectCard({ project, onSelect }: {
   project: (typeof projects)[number];
-  onSelect: () => void;
+  onSelect: (origin: { x: number; y: number }) => void;
 }) {
   return (
     <button
       type="button"
-      onClick={onSelect}
+      onClick={(event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        onSelect({
+          x: event.clientX || bounds.left + bounds.width / 2,
+          y: event.clientY || bounds.top + bounds.height / 2,
+        });
+      }}
       aria-label={`Read about ${project.name}`}
       className="group/row grid w-full grid-cols-[110px_minmax(0,1fr)_18px] items-start gap-x-5 border-b border-border bg-transparent px-1 py-4 text-left text-muted-foreground transition-[color,padding] duration-200 hover:pl-2.5 hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring max-[580px]:grid-cols-[minmax(0,1fr)_18px] max-[580px]:gap-x-3 max-[580px]:py-3.5 max-[580px]:px-0"
     >
@@ -44,7 +50,9 @@ function ProjectCard({ project, onSelect }: {
   );
 }
 
-export function Projects({ onSelect }: { onSelect: (projectName: string) => void }) {
+export function Projects({ onSelect }: {
+  onSelect: (projectName: string, origin: { x: number; y: number }) => void;
+}) {
   return (
     <section id="projects" aria-labelledby="projects-heading" className="scroll-mt-16 mt-10">
       <div className="mb-3 flex flex-nowrap items-center gap-3">
@@ -59,7 +67,11 @@ export function Projects({ onSelect }: { onSelect: (projectName: string) => void
 
       <div>
         {projects.map((project) => (
-          <ProjectCard key={project.name} project={project} onSelect={() => onSelect(project.name.toLowerCase())} />
+          <ProjectCard
+            key={project.name}
+            project={project}
+            onSelect={(origin) => onSelect(project.name.toLowerCase(), origin)}
+          />
         ))}
       </div>
     </section>
