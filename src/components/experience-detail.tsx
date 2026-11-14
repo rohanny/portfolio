@@ -91,7 +91,7 @@ export function ExperienceDetail({ onBack }: { onBack: () => void }) {
           </div>
           <div className="divide-y divide-dashed divide-border">
             {experience.stories.map((story, index) => (
-              <article key={story.title} className="group/story grid grid-cols-[minmax(0,1fr)_144px] gap-x-4 gap-y-3 py-5 first:pt-4 max-[420px]:grid-cols-1">
+              <article key={story.title} className="group/story grid grid-cols-1 gap-x-4 gap-y-3 py-5 first:pt-4 sm:grid-cols-[minmax(0,1fr)_144px]">
                 <div className="flex min-w-0 items-baseline gap-3 sm:gap-4">
                   <span className="font-logo text-[11px] text-muted-foreground/70">0{index + 1}</span>
                   <div className="min-w-0">
@@ -101,7 +101,7 @@ export function ExperienceDetail({ onBack }: { onBack: () => void }) {
                     <p className="mb-0 mt-3 font-mono text-[10px] leading-5 text-muted-foreground/80">{story.flow}</p>
                   </div>
                 </div>
-                <div className="flex min-w-0 flex-col justify-center border-l border-dashed border-border pl-4 text-left max-[420px]:ml-7 max-[420px]:border-l-0 max-[420px]:border-t max-[420px]:pt-2 max-[420px]:pl-0">
+                <div className="ml-7 flex min-w-0 flex-col justify-center border-t border-dashed border-border pt-2 text-left sm:ml-0 sm:border-l sm:border-t-0 sm:pt-0 sm:pl-4">
                   <strong className="font-heading text-xl font-medium leading-none tracking-tight text-foreground">{story.metric}</strong>
                   <span className="mt-1 font-logo text-[10px] text-muted-foreground">{story.metricLabel}</span>
                 </div>
