@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { Moon, Sun } from "lucide-react";
 import { ProfileIntro } from "@/components/profile-intro";
+import { SectionRail } from "@/components/section-rail";
 import { Projects } from "@/components/projects";
 import { GithubActivity } from "@/components/github-activity";
 import { Experience } from "@/components/experience";
@@ -89,6 +90,7 @@ export default function App() {
           />
         ) : (
           <>
+            <SectionRail />
             <ProfileIntro />
             <Experience onSelect={() => {
               setActiveExperience(true);

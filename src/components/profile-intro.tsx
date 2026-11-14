@@ -4,7 +4,7 @@ export function ProfileIntro() {
   const [avatarAvailable, setAvatarAvailable] = useState(true);
 
   return (
-    <section aria-label="Profile" className="pb-2 pt-14 sm:pb-3 sm:pt-16">
+    <section id="about" aria-label="Profile" className="scroll-mt-16 pb-2 pt-0 sm:pb-3 sm:pt-16">
       <div className="flex items-center gap-3 sm:gap-4">
         <div className="grid size-16 shrink-0 place-items-center rounded-xl bg-muted">
           {avatarAvailable ? (

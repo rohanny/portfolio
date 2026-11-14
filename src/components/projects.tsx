@@ -46,7 +46,7 @@ function ProjectCard({ project, onSelect }: {
 
 export function Projects({ onSelect }: { onSelect: (projectName: string) => void }) {
   return (
-    <section aria-labelledby="projects-heading" className="mt-10">
+    <section id="projects" aria-labelledby="projects-heading" className="scroll-mt-16 mt-10">
       <div className="mb-3 flex flex-nowrap items-center gap-3">
         <h2
           id="projects-heading"

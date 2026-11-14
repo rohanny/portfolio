@@ -29,13 +29,40 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes album-color-bounce {
+  0% {
+    background-position: 0% 0%;
+  }
+  20% {
+    background-position: 100% 35%;
+  }
+  40% {
+    background-position: 55% 100%;
+  }
+  60% {
+    background-position: 0% 65%;
+  }
+  80% {
+    background-position: 80% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@keyframes album-art-rotate {
+  to {
+    rotate: 360deg;
+  }
+}
+
 :root {
   color-scheme: light;
   color: #111;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --background: oklch(0.99 0.006 85);
+  --background: oklch(0.985 0.002 250);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

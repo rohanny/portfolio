@@ -1,25 +1,24 @@
 const technologies = [
-  { name: "C#", icon: "csharp", href: "https://learn.microsoft.com/dotnet/csharp/" },
-  { name: ".NET", icon: "dotnet", href: "https://dotnet.microsoft.com/" },
-  { name: "ASP.NET Core", icon: "dotnet", href: "https://learn.microsoft.com/aspnet/core/" },
-  { name: "PostgreSQL", icon: "postgresql", href: "https://www.postgresql.org/" },
-  { name: "RabbitMQ", icon: "rabbitmq", href: "https://www.rabbitmq.com/" },
-  { name: "TypeScript", icon: "typescript", href: "https://www.typescriptlang.org/" },
-  { name: "React", icon: "react", href: "https://react.dev/" },
-  { name: "Next.js", icon: "nextdotjs", href: "https://nextjs.org/" },
-  { name: "Tailwind CSS", icon: "tailwindcss", href: "https://tailwindcss.com/" },
-  { name: "C++", icon: "cplusplus", href: "https://isocpp.org/" },
-  { name: "Node.js", icon: "nodedotjs", href: "https://nodejs.org/" },
-  { name: "Express", icon: "express", href: "https://expressjs.com/" },
-  { name: "MongoDB", icon: "mongodb", href: "https://www.mongodb.com/" },
-  { name: "Docker", icon: "docker", href: "https://www.docker.com/" },
-  { name: "OpenTelemetry", icon: "opentelemetry", href: "https://opentelemetry.io/" },
-  { name: "Git", icon: "git", href: "https://git-scm.com/" },
+  { name: "C#", icon: "csharp" },
+  { name: "ASP.NET Core", icon: "dotnet" },
+  { name: "PostgreSQL", icon: "postgresql" },
+  { name: "RabbitMQ", icon: "rabbitmq" },
+  { name: "TypeScript", icon: "typescript" },
+  { name: "React", icon: "react" },
+  { name: "Next.js", icon: "nextdotjs" },
+  { name: "Tailwind CSS", icon: "tailwindcss" },
+  { name: "C++", icon: "cplusplus" },
+  { name: "Node.js", icon: "nodedotjs" },
+  { name: "Express", icon: "express" },
+  { name: "MongoDB", icon: "mongodb" },
+  { name: "Docker", icon: "docker" },
+  { name: "OpenTelemetry", icon: "opentelemetry" },
+  { name: "Git", icon: "git" },
 ];
 
 export function TechStack() {
   return (
-    <section aria-labelledby="tech-stack-heading" className="mt-10">
+    <section id="tech-stack" aria-labelledby="tech-stack-heading" className="scroll-mt-16 mt-10">
       <div className="mb-4 flex flex-nowrap items-center gap-3">
         <h2
           id="tech-stack-heading"
@@ -33,12 +32,7 @@ export function TechStack() {
       <ul className="m-0 flex flex-wrap gap-2 p-0">
         {technologies.map((technology) => (
           <li key={technology.name} className="list-none">
-            <a
-              href={technology.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-muted px-2 py-1 font-sans text-xs text-muted-foreground ring-1 ring-border/80 transition-colors hover:bg-muted/80 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
+            <span className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-muted px-2 py-1 font-sans text-xs text-muted-foreground ring-1 ring-border/80 transition-colors duration-200 hover:bg-foreground/[0.04] hover:text-foreground">
               <img
                 src={`/tech-icons/${technology.icon}.svg`}
                 alt=""
@@ -47,7 +41,7 @@ export function TechStack() {
                 className="size-4 shrink-0"
               />
               <span>{technology.name}</span>
-            </a>
+            </span>
           </li>
         ))}
       </ul>

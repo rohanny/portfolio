@@ -7,11 +7,11 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const LEVELS = [0, 1, 2, 3, 4];
 const LEVEL_CLASSES = [
-  "border-zinc-200 bg-zinc-200 dark:border-[#292d32] dark:bg-[#292d32]",
-  "border-zinc-300 bg-zinc-300 dark:border-[#3f454c] dark:bg-[#3f454c]",
-  "border-zinc-400 bg-zinc-400 dark:border-[#58616a] dark:bg-[#58616a]",
-  "border-zinc-500 bg-zinc-500 dark:border-[#76818b] dark:bg-[#76818b]",
-  "border-zinc-600 bg-zinc-600 dark:border-[#a0aab4] dark:bg-[#a0aab4]",
+  "bg-[#e4e4e7] dark:bg-[#161b22]",
+  "bg-[#9be9a8] dark:bg-[#0e4429]",
+  "bg-[#40c463] dark:bg-[#006d32]",
+  "bg-[#30a14e] dark:bg-[#26a641]",
+  "bg-[#216e39] dark:bg-[#39d353]",
 ];
 const snapshotDays = snapshot as Contribution[];
 
@@ -66,7 +66,7 @@ export function GithubActivity() {
   }, [contributions]);
 
   return (
-    <section aria-labelledby="github-activity-heading" className="mt-10">
+    <section id="github" aria-labelledby="github-activity-heading" className="scroll-mt-16 mt-10">
       <div className="mb-4 flex flex-nowrap items-center gap-3">
         <h2
           id="github-activity-heading"
@@ -102,7 +102,7 @@ export function GithubActivity() {
                   title={day.level < 0 ? undefined : `${day.count} contributions on ${day.date}`}
                   data-level={day.level}
                   className={[
-                    "aspect-square min-w-0 rounded-[2px] border",
+                    "aspect-square min-w-0 rounded-[2px]",
                     day.level < 0 && "invisible",
                     LEVEL_CLASSES[day.level] ?? "border-transparent bg-transparent",
                   ].filter(Boolean).join(" ")}

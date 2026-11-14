@@ -36,7 +36,7 @@ function ContactIcon({ name }: { name: (typeof contactLinks)[number]["icon"] }) 
 
 export function Contact() {
   return (
-    <section aria-labelledby="contact-heading" className="mt-10">
+    <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-16 mt-10">
       <div className="mb-4 flex flex-nowrap items-center gap-3">
         <h2
           id="contact-heading"
@@ -69,7 +69,7 @@ export function Contact() {
 
 export function LetsTalk() {
   return (
-    <section aria-labelledby="lets-talk-heading" className="mt-8">
+    <section id="lets-talk" aria-labelledby="lets-talk-heading" className="scroll-mt-16 mt-8">
       <div className="flex flex-col items-center gap-3 border border-dashed border-border px-4 py-5 text-center">
         <h2 id="lets-talk-heading" className="m-0 font-heading text-2xl font-normal tracking-tight text-foreground">
           Let’s talk
